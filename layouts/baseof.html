@@ -19,8 +19,12 @@
       document.documentElement.setAttribute("data-as", a);
     })();
   </script>
-  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
-  <script src="{{ "js/demo.js" | relURL }}" defer></script>
+  {{- with resources.Get "css/site.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+  {{- end }}
+  {{- with resources.Get "js/demo.js" | minify | fingerprint }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+  {{- end }}
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
