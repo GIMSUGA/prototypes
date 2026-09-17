@@ -38,10 +38,15 @@
         <label class="check"><input type="checkbox" name="show_work" id="pf-show-work"> Show to members</label>
       </div>
       <div class="form__row">
-        <label for="pf-business">Business listing <span class="optional">optional</span></label>
+        <label for="pf-business">Business you own or run <span class="optional">optional</span></label>
         <textarea id="pf-business" name="business" rows="3" autocomplete="off"></textarea>
         <label class="check"><input type="checkbox" name="show_business" id="pf-show-business"> List in the business directory</label>
       </div>
+      <fieldset class="form__row form__choice">
+        <legend>Who can see your profile</legend>
+        <label class="check"><input type="radio" name="visibility" value="chapter" id="pf-vis-chapter" checked> Members of my chapter only</label>
+        <label class="check"><input type="radio" name="visibility" value="all" id="pf-vis-all"> All GIMSUGA members, if other chapters join</label>
+      </fieldset>
       <p class="muted">No phone number or email is ever shown in the directory.</p>
       <div class="form__actions">
         <button type="submit" class="button">Save profile</button>

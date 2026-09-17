@@ -112,17 +112,25 @@
       var listId = input.getAttribute("data-filter-list");
       var list = document.getElementById(listId);
       var empty = document.querySelector('[data-filter-empty="' + listId + '"]');
+      var scope = document.querySelector('[data-scope-for="' + listId + '"]');
+      var scopeNote = document.querySelector('[data-scope-note="' + listId + '"]');
       if (!list) return;
-      input.addEventListener("input", function () {
+      function run() {
         var q = input.value.trim().toLowerCase();
+        var where = scope ? scope.value : "all";
         var shown = 0;
         list.querySelectorAll("[data-filter-text]").forEach(function (li) {
-          var match = !q || li.getAttribute("data-filter-text").indexOf(q) >= 0;
+          var inScope = where === "all" || li.getAttribute("data-chapter") === where;
+          var match = inScope && (!q || li.getAttribute("data-filter-text").indexOf(q) >= 0);
           li.hidden = !match;
           if (match) shown++;
         });
         if (empty) empty.hidden = shown > 0;
-      });
+        if (scopeNote) scopeNote.hidden = where !== "all";
+      }
+      input.addEventListener("input", run);
+      if (scope) scope.addEventListener("change", run);
+      run();
     });
   }
 
