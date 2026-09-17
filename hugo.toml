@@ -1,8 +1,7 @@
 baseURL = "https://gimsuga.github.io/prototypes/"
-languageCode = "en-NG"
+locale = "en-NG"
 title = "GIMSUGA website prototypes"
 disableKinds = ["taxonomy", "term", "rss", "sitemap", "robotstxt"]
-enableRobotsTXT = false
 
 [markup.goldmark.renderer]
   unsafe = false
