@@ -18,69 +18,106 @@ officers:
 
 members:
   - name: Adaobi Onwuchekwa
+    chapter: abakaliki
     year: 2009
     department: Accountancy
     town: Abakaliki
     work: Chartered accountant
   - name: Tochukwu Anyanwu
+    chapter: abakaliki
     year: 2012
     department: Civil Engineering
     town: Afikpo
     work: Site engineer
   - name: Chiamaka Ezeanya
+    chapter: abakaliki
     year: 2015
     department: Nursing Science
     town: Abakaliki
     work: Nurse, public hospital
   - name: Emeka Nwachukwu-Ali
+    chapter: abakaliki
     year: 2004
     department: Law
     town: Onueke
     work: Legal practitioner
   - name: Uchenna Okorie
+    chapter: abakaliki
     year: 2018
     department: Computer Science
     town: Abakaliki
     work: Software developer
   - name: Nkechi Mbanefo
+    chapter: abakaliki
     year: 2010
     department: Agricultural Economics
     town: Ikwo
     work: Rice farm manager
   - name: Ikenna Duru-Oha
+    chapter: abakaliki
     year: 2007
     department: Mass Communication
     town: Abakaliki
     work: Radio producer
   - name: Chinwe Igboanugo
+    chapter: abakaliki
     year: 2016
     department: Microbiology
     town: Ezza
     work: Laboratory scientist
+  - name: Oluchi Ogbuagu
+    chapter: example-lagos
+    year: 2011
+    department: Estate Management
+    town: Lagos
+    work: Property valuer
+  - name: Dozie Iwuchukwu
+    chapter: example-port-harcourt
+    year: 2008
+    department: Petroleum Engineering
+    town: Port Harcourt
+    work: Field engineer
+  - name: Ebere Okafor-Nnaji
+    chapter: example-uk
+    year: 2013
+    department: Pharmacy
+    town: Manchester
+    work: Community pharmacist
 
 businesses:
   - name: Ikwo Valley Rice Mill
+    chapter: abakaliki
     owner: Nkechi Mbanefo
     category: Agriculture and food
     town: Ikwo
     offer: Parboiled and destoned local rice, sold in 25 kg and 50 kg bags.
   - name: Onwuchekwa & Partners
+    chapter: abakaliki
     owner: Adaobi Onwuchekwa
     category: Accounting
     town: Abakaliki
     offer: Bookkeeping and annual returns for small businesses.
   - name: Clearline Tech Services
+    chapter: abakaliki
     owner: Uchenna Okorie
     category: Technology
     town: Abakaliki
     offer: Websites and computer repairs for schools and small offices.
   - name: Anyanwu Build & Survey
+    chapter: abakaliki
     owner: Tochukwu Anyanwu
     category: Construction
     town: Afikpo
     offer: Building plans, site supervision and land survey.
   - name: Ezza Diagnostic Lab
+    chapter: abakaliki
     owner: Chinwe Igboanugo
     category: Health
     town: Ezza
     offer: Routine laboratory tests, open Monday to Saturday.
+  - name: Iwuchukwu Field Services
+    chapter: example-port-harcourt
+    owner: Dozie Iwuchukwu
+    category: Engineering
+    town: Port Harcourt
+    offer: Equipment inspection and safety training for small operators.

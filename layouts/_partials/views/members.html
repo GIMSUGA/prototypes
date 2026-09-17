@@ -1,3 +1,5 @@
+{{- $chapters := dict -}}
+{{- range hugo.Data.association.chapters }}{{ $chapters = merge $chapters (dict .id .name) }}{{ end -}}
 {{- $p := hugo.Data.people -}}
 <div class="wrap page">
   {{ partial "member-gate.html" (dict "title" "Member directory") }}
@@ -10,16 +12,18 @@
       <a href="{{ "members/businesses/" | relURL }}">Business directory</a>
       <a href="{{ "members/profile/" | relURL }}">My profile</a>
     </nav>
+    {{ partial "chapter-scope.html" (dict "list" "member-list" "id" "member-scope") }}
     <label class="search" for="member-search">Search by name, department, town or work</label>
     <input class="search__input" id="member-search" type="search" data-filter-list="member-list" autocomplete="off">
     <ul class="cards" id="member-list">
       {{- range $p.members }}
-      <li class="card" data-filter-text="{{ lower (printf "%s %s %s %s" .name .department .town .work) }}">
+      <li class="card" data-chapter="{{ .chapter }}" data-filter-text="{{ lower (printf "%s %s %s %s" .name .department .town .work) }}">
         <div class="card__head">
           <span class="avatar" aria-hidden="true">{{ substr .name 0 1 }}</span>
           <div>
             <p class="card__title">{{ .name }} <span class="fictional">Fictional</span></p>
             <p class="muted">{{ .department }}, class of {{ .year }}</p>
+            <p class="card__chapter">{{ index $chapters .chapter }} chapter</p>
           </div>
         </div>
         <dl class="card__facts">
