@@ -1,5 +1,6 @@
 # One source of truth for association and chapter facts (Phase 3, section 5.1).
-# Everything below is prototype content. Sample text is marked as sample on the page.
+# Chapter names are GIMSUGA's. Every person, business and event in this prototype is fictional (G-012, G-036).
+# The demo bar's "Chapters" switch shows mode: single (Abakaliki only) or multi (all GIMSUGA).
 mode: multi
 name: GIMSUGA
 description: >-
@@ -8,24 +9,24 @@ chapters:
   - id: abakaliki
     name: Abakaliki
     state: Ebonyi State
-    enabled: true
-    example: false
+    page: true
     meets: Quarterly general meetings, usually on a Saturday
-  - id: example-lagos
+  - id: lagos
     name: Lagos
     state: Lagos State
-    enabled: false
-    example: true
-  - id: example-port-harcourt
-    name: Port Harcourt
+    page: false
+  - id: abuja
+    name: Abuja
+    state: Federal Capital Territory
+    page: false
+  - id: enugu
+    name: Enugu
+    state: Enugu State
+    page: false
+  - id: rivers
+    name: Rivers
     state: Rivers State
-    enabled: false
-    example: true
-  - id: example-uk
-    name: United Kingdom
-    state: Diaspora
-    enabled: false
-    example: true
+    page: false
 modules:
   members:
     enabled: false

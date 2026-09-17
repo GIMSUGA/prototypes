@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-NG" data-dir="A" data-as="visitor">
+<html lang="en-NG" data-dir="A" data-as="visitor" data-chapters="multi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,15 +8,18 @@
   <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · GIMSUGA prototype{{ end }}</title>
   <script>
     (function () {
-      var d = "A", a = "visitor";
-      try { var s = JSON.parse(localStorage.getItem("gimsuga-demo") || "{}"); d = s.dir || d; a = s.as || a; } catch (e) {}
+      var d = "A", a = "visitor", c = "multi";
+      try { var s = JSON.parse(localStorage.getItem("gimsuga-demo") || "{}"); d = s.dir || d; a = s.as || a; c = s.chapters || c; } catch (e) {}
       var p = new URLSearchParams(location.search);
       d = String(p.get("dir") || d).toUpperCase();
       a = String(p.get("as") || a).toLowerCase();
+      c = String(p.get("chapters") || c).toLowerCase();
       if (!/^[ABC]$/.test(d)) d = "A";
       if (!/^(visitor|member|officer)$/.test(a)) a = "visitor";
+      if (!/^(single|multi)$/.test(c)) c = "multi";
       document.documentElement.setAttribute("data-dir", d);
       document.documentElement.setAttribute("data-as", a);
+      document.documentElement.setAttribute("data-chapters", c);
     })();
   </script>
   {{- with resources.Get "css/site.css" | minify | fingerprint }}

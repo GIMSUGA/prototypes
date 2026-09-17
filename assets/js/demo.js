@@ -5,6 +5,7 @@
 
   var DIRS = ["A", "B", "C"];
   var VIEWS = ["visitor", "member", "officer"];
+  var SCOPES = ["single", "multi"];
   var KEY = "gimsuga-demo";
   var root = document.documentElement;
 
@@ -19,27 +20,32 @@
   }
 
   function state() {
-    return { dir: root.getAttribute("data-dir") || "A", as: root.getAttribute("data-as") || "visitor" };
+    return { dir: root.getAttribute("data-dir") || "A", as: root.getAttribute("data-as") || "visitor", chapters: root.getAttribute("data-chapters") || "multi" };
   }
 
   function apply(next) {
     var s = state();
     var dir = DIRS.indexOf(next.dir) >= 0 ? next.dir : s.dir;
     var as = VIEWS.indexOf(next.as) >= 0 ? next.as : s.as;
+    var chapters = SCOPES.indexOf(next.chapters) >= 0 ? next.chapters : s.chapters;
     root.setAttribute("data-dir", dir);
     root.setAttribute("data-as", as);
-    save(KEY, { dir: dir, as: as });
+    root.setAttribute("data-chapters", chapters);
+    save(KEY, { dir: dir, as: as, chapters: chapters });
     var url = new URL(location.href);
     url.searchParams.set("dir", dir);
     url.searchParams.set("as", as);
+    url.searchParams.set("chapters", chapters);
     history.replaceState(null, "", url);
     syncControls();
+    document.dispatchEvent(new CustomEvent("demo:change"));
   }
 
   function syncControls() {
     var s = state();
     document.querySelectorAll('[data-demo-controls] input[name="dir"]').forEach(function (i) { i.checked = i.value === s.dir; });
     document.querySelectorAll('[data-demo-controls] input[name="as"]').forEach(function (i) { i.checked = i.value === s.as; });
+    document.querySelectorAll('[data-demo-controls] input[name="chapters"]').forEach(function (i) { i.checked = i.value === s.chapters; });
   }
 
   // Keep the chosen view when following links, even if storage is blocked.
@@ -49,10 +55,11 @@
     var url;
     try { url = new URL(a.getAttribute("href"), location.href); } catch (e) { return; }
     if (url.origin !== location.origin || (url.pathname === location.pathname && url.hash)) return;
-    if (url.searchParams.has("dir") && url.searchParams.has("as")) return;
+    if (url.searchParams.has("dir") && url.searchParams.has("as") && url.searchParams.has("chapters")) return;
     var s = state();
-    url.searchParams.set("dir", s.dir);
-    url.searchParams.set("as", s.as);
+    if (!url.searchParams.has("dir")) url.searchParams.set("dir", s.dir);
+    if (!url.searchParams.has("as")) url.searchParams.set("as", s.as);
+    if (!url.searchParams.has("chapters")) url.searchParams.set("chapters", s.chapters);
     a.setAttribute("href", url.pathname + url.search + url.hash);
   }
 
@@ -117,7 +124,7 @@
       if (!list) return;
       function run() {
         var q = input.value.trim().toLowerCase();
-        var where = scope ? scope.value : "all";
+        var where = root.getAttribute("data-chapters") === "single" ? "abakaliki" : (scope ? scope.value : "all");
         var shown = 0;
         list.querySelectorAll("[data-filter-text]").forEach(function (li) {
           var inScope = where === "all" || li.getAttribute("data-chapter") === where;
@@ -126,10 +133,11 @@
           if (match) shown++;
         });
         if (empty) empty.hidden = shown > 0;
-        if (scopeNote) scopeNote.hidden = where !== "all";
+        if (scopeNote) scopeNote.hidden = where === "abakaliki";
       }
       input.addEventListener("input", run);
       if (scope) scope.addEventListener("change", run);
+      document.addEventListener("demo:change", run);
       run();
     });
   }
@@ -264,7 +272,9 @@
     apply(state());
     document.querySelectorAll("[data-demo-controls] input").forEach(function (input) {
       input.addEventListener("change", function () {
-        apply(input.name === "dir" ? { dir: input.value } : { as: input.value });
+        var change = {};
+        change[input.name] = input.value;
+        apply(change);
       });
     });
     var controls = document.querySelector("[data-demo-controls]");
@@ -272,6 +282,11 @@
     document.addEventListener("click", function (e) {
       var setter = e.target.closest && e.target.closest("[data-set-as]");
       if (setter) apply({ as: setter.getAttribute("data-set-as") });
+      var explain = e.target.closest && e.target.closest("[data-explain]");
+      if (explain) {
+        var out = explain.closest(".contact").querySelector("[data-explain-out]");
+        if (out) { out.textContent = explain.getAttribute("data-explain"); out.hidden = false; }
+      }
       carryState(e);
     });
     sortEvents();
