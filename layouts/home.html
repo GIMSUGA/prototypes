@@ -1,60 +1,97 @@
 {{ define "main" }}
+{{- $u := "gimsuga/" | relURL -}}
 <div class="wrap landing">
   <header class="landing__head">
-    <p class="eyebrow">GIMSUGA Abakaliki chapter · Prototypes for member feedback</p>
-    <h1>Three possible websites. Try each one, then tell us what you think.</h1>
-    <p class="lede">These are working demos, not the real site. Each one shows how the website could look for the Abakaliki chapter, and how it could grow if other GIMSUGA chapters join. Use the bar at the top to switch between directions, and to see the site as a visitor, a member or a chapter officer.</p>
+    <p class="eyebrow">GIMSUGA Abakaliki chapter · For member feedback</p>
+    <h1>What should the chapter website be?</h1>
+    <p class="lede">The chapter executive is considering a website. Before deciding anything, it wants members' views. This takes three steps: read, try, then tell us.</p>
+    <ol class="steps-nav">
+      <li><a href="#read">1. Read</a></li>
+      <li><a href="#try">2. Try the options</a></li>
+      <li><a href="#tell">3. Tell us</a></li>
+    </ol>
   </header>
 
-  <ul class="compare">
-    <li class="compare__card">
-      <p class="compare__tag">Direction A</p>
-      <h2>Lean</h2>
-      <p class="compare__line">A clear, current public site. No member data.</p>
-      <dl>
-        <div><dt>It has</dt><dd>About the chapter, officers and their term, upcoming and past events, a record of the chapter's work, how to join.</dd></div>
-        <div><dt>It does not have</dt><dd>Member logins, profiles, directories or member posts.</dd></div>
-        <div><dt>To keep it running</dt><dd>An officer updates it about monthly. About ₦0–₦7,200 a year.</dd></div>
-        <div><dt>Main risk</dt><dd>Members may want more than it offers.</dd></div>
-      </dl>
-      <a class="button" href="{{ "gimsuga/" | relURL }}?dir=A&amp;as=visitor">Open direction A</a>
-    </li>
-    <li class="compare__card">
-      <p class="compare__tag">Direction B</p>
-      <h2>Members area</h2>
-      <p class="compare__line">A plus a private area for members.</p>
-      <dl>
-        <div><dt>It has</dt><dd>Everything in A, plus member login, your own profile, a member directory and a business directory. Every item is opt-in.</dd></div>
-        <div><dt>It does not have</dt><dd>Member posts, RSVPs or photo galleries.</dd></div>
-        <div><dt>To keep it running</dt><dd>A server in Nigeria and a paid developer. About ₦260,000–₦660,000 a year.</dd></div>
-        <div><dt>Main risk</dt><dd>Directories are often launched and then left empty. The chapter becomes responsible for members' data.</dd></div>
-      </dl>
-      <a class="button" href="{{ "gimsuga/" | relURL }}?dir=B&amp;as=member">Open direction B</a>
-    </li>
-    <li class="compare__card">
-      <p class="compare__tag">Direction C</p>
-      <h2>Community portal</h2>
-      <p class="compare__line">B plus news, RSVPs and galleries from members.</p>
-      <dl>
-        <div><dt>It has</dt><dd>Everything in B, plus event RSVPs, news posted by members and event photo galleries.</dd></div>
-        <div><dt>It does not have</dt><dd>Payments, dues or chat. Those stay in the chapter's existing channels.</dd></div>
-        <div><dt>To keep it running</dt><dd>As B, plus volunteers to check posts and collect photo consent.</dd></div>
-        <div><dt>Main risk</dt><dd>Member posts and galleries need steady volunteer time, and are often the first things left behind.</dd></div>
-      </dl>
-      <a class="button" href="{{ "gimsuga/" | relURL }}?dir=C&amp;as=member">Open direction C</a>
-    </li>
-  </ul>
+  <section id="read" class="landing__section" aria-labelledby="read-heading">
+    <p class="eyebrow">Step 1</p>
+    <h2 id="read-heading">Read: what this is</h2>
+    <p>These are working demos, not the real site. Every person, business and event in them is made up. You can click anything; nothing you type leaves your phone or computer.</p>
+    <div class="grid-2">
+      <div class="panel">
+        <h3>The same in every option</h3>
+        <ul class="ticks">
+          <li>Joining stays offline, through introduction by an existing member.</li>
+          <li>No dues, payments, bank details or donation buttons.</li>
+          <li>No public WhatsApp group links.</li>
+          <li>Officers listed by role and name, without personal phone numbers.</li>
+          <li>Photos of members only with their consent.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>What they cost to run each year</h3>
+        <dl class="costs">
+          <div><dt>A — Lean</dt><dd>About ₦0–₦7,200</dd></div>
+          <div><dt>B — Members area</dt><dd>About ₦260,000–₦660,000</dd></div>
+          <div><dt>C — Community portal</dt><dd>As B, plus volunteer time</dd></div>
+        </dl>
+        <p class="muted">B and C need a server in Nigeria and a paid developer, and make the chapter responsible for members' personal data. Estimates only.</p>
+      </div>
+    </div>
+    <p class="muted">The bar at the top lets you switch the option (A, B, C), see the site as a visitor, member or officer, and see it for Abakaliki alone or with other GIMSUGA chapters.</p>
+  </section>
 
-  <section class="landing__notes" aria-labelledby="same-heading">
-    <h2 id="same-heading">The same in every direction</h2>
-    <ul class="ticks">
-      <li>Joining stays offline, through introduction by an existing member.</li>
-      <li>No dues, payments, bank details or donation buttons.</li>
-      <li>No public WhatsApp group links.</li>
-      <li>Officers listed by role and name, without personal phone numbers.</li>
-      <li>Photos of members only with their consent.</li>
+  <section id="try" class="landing__section" aria-labelledby="try-heading">
+    <p class="eyebrow">Step 2</p>
+    <h2 id="try-heading">Try the options</h2>
+    <p>Each option has a few short stories. Tap one and it opens the demo at the right place, in the right view.</p>
+
+    <ul class="compare">
+      <li class="compare__card">
+        <p class="compare__tag">Option A</p>
+        <h3>Lean</h3>
+        <p class="compare__line">A clear public site for the chapter. No member logins, no member data.</p>
+        <ul class="stories">
+          <li><a href="{{ "abakaliki/" | relURL }}?dir=A&amp;as=visitor&amp;chapters=single">A member wants the date and venue of the next meeting.</a></li>
+          <li><a href="{{ "abakaliki/join/" | relURL }}?dir=A&amp;as=visitor&amp;chapters=single">A new IMSU graduate in Abakaliki asks how to join.</a></li>
+          <li><a href="{{ "officer/" | relURL }}?dir=A&amp;as=officer&amp;chapters=single">The secretary adds an event, and another officer approves it.</a></li>
+        </ul>
+        <a class="button" href="{{ "abakaliki/" | relURL }}?dir=A&amp;as=visitor">Explore option A</a>
+      </li>
+      <li class="compare__card">
+        <p class="compare__tag">Option B</p>
+        <h3>Members area</h3>
+        <p class="compare__line">A, plus a private area where members find each other and members' businesses.</p>
+        <ul class="stories">
+          <li><a href="{{ "members/businesses/" | relURL }}?dir=B&amp;as=member&amp;chapters=single">A member needs an accountant and checks members' businesses first.</a></li>
+          <li><a href="{{ "members/" | relURL }}?dir=B&amp;as=member&amp;chapters=multi">A member moving to Enugu looks for GIMSUGA members there (choose Enugu in "Search in").</a></li>
+          <li><a href="{{ "members/profile/" | relURL }}?dir=B&amp;as=member&amp;chapters=single">A member decides what to show, and how others can reach them.</a></li>
+        </ul>
+        <a class="button" href="{{ "members/" | relURL }}?dir=B&amp;as=member">Explore option B</a>
+      </li>
+      <li class="compare__card">
+        <p class="compare__tag">Option C</p>
+        <h3>Community portal</h3>
+        <p class="compare__line">B, plus news from members, RSVPs and event photo galleries.</p>
+        <ul class="stories">
+          <li><a href="{{ "abakaliki/events/" | relURL }}?dir=C&amp;as=member&amp;chapters=single">A member says they will attend the end-of-year get-together.</a></li>
+          <li><a href="{{ "community/" | relURL }}?dir=C&amp;as=member&amp;chapters=single">A member shares news with the chapter.</a></li>
+          <li><a href="{{ "officer/" | relURL }}?dir=C&amp;as=officer&amp;chapters=single">An officer sees what needs reviewing before it appears.</a></li>
+        </ul>
+        <a class="button" href="{{ "community/" | relURL }}?dir=C&amp;as=member">Explore option C</a>
+      </li>
     </ul>
-    <p class="muted">The questionnaire link will be shared with members alongside these demos.</p>
+
+    <div class="panel panel--wide">
+      <h3>If other GIMSUGA chapters join</h3>
+      <p>Any option can run for Abakaliki alone, or grow to include other chapters without rebuilding. See <a href="{{ $u }}?dir=B&amp;as=visitor&amp;chapters=multi">GIMSUGA with its chapters</a>, or <a href="{{ "members/" | relURL }}?dir=B&amp;as=member&amp;chapters=multi">search members across chapters</a>.</p>
+    </div>
+  </section>
+
+  <section id="tell" class="landing__section" aria-labelledby="tell-heading">
+    <p class="eyebrow">Step 3</p>
+    <h2 id="tell-heading">Tell us what you think</h2>
+    <p>A short questionnaire for chapter members, about 5 minutes. You will be asked to sign in to Google so each member answers once, but your email address is not recorded.</p>
+    <p class="placeholder">The questionnaire link goes here once the chapter executive has approved the questions.</p>
   </section>
 </div>
 {{ end }}

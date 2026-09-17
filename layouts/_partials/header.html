@@ -1,17 +1,18 @@
 {{- $here := .RelPermalink -}}
 {{- $links := slice
-  (dict "href" "abakaliki/" "label" "Chapter" "dirs" "" "views" "")
-  (dict "href" "abakaliki/officers/" "label" "Officers" "dirs" "" "views" "")
-  (dict "href" "abakaliki/events/" "label" "Events" "dirs" "" "views" "")
-  (dict "href" "abakaliki/our-work/" "label" "Our work" "dirs" "" "views" "")
-  (dict "href" "abakaliki/join/" "label" "How to join" "dirs" "" "views" "")
-  (dict "href" "members/" "label" "Members" "dirs" "B C" "views" "")
-  (dict "href" "community/" "label" "Community" "dirs" "C" "views" "")
-  (dict "href" "officer/" "label" "Officer tools" "dirs" "" "views" "officer")
+  (dict "href" "gimsuga/" "label" "GIMSUGA" "dirs" "" "views" "" "scopes" "multi")
+  (dict "href" "abakaliki/" "label" "Chapter" "dirs" "" "views" "" "scopes" "")
+  (dict "href" "abakaliki/officers/" "label" "Officers" "dirs" "" "views" "" "scopes" "")
+  (dict "href" "abakaliki/events/" "label" "Events" "dirs" "" "views" "" "scopes" "")
+  (dict "href" "abakaliki/our-work/" "label" "Our work" "dirs" "" "views" "" "scopes" "")
+  (dict "href" "abakaliki/join/" "label" "How to join" "dirs" "" "views" "" "scopes" "")
+  (dict "href" "members/" "label" "Members" "dirs" "B C" "views" "" "scopes" "")
+  (dict "href" "community/" "label" "Community" "dirs" "C" "views" "" "scopes" "")
+  (dict "href" "officer/" "label" "Officer tools" "dirs" "" "views" "officer" "scopes" "")
 -}}
 <header class="site-header">
   <div class="wrap site-header__inner">
-    <a class="brand" href="{{ "gimsuga/" | relURL }}">
+    <a class="brand" href="{{ "abakaliki/" | relURL }}">
       <span class="brand__mark" aria-hidden="true">G</span>
       <span class="brand__text"><strong>GIMSUGA</strong><small>Abakaliki chapter</small></span>
     </a>
@@ -19,7 +20,7 @@
       <ul>
         {{- range $links }}
         {{- $url := .href | relURL }}
-        <li{{ with .dirs }} data-dirs="{{ . }}"{{ end }}{{ with .views }} data-views="{{ . }}"{{ end }}>
+        <li{{ with .dirs }} data-dirs="{{ . }}"{{ end }}{{ with .views }} data-views="{{ . }}"{{ end }}{{ with .scopes }} data-scopes="{{ . }}"{{ end }}>
           <a href="{{ $url }}"{{ if eq $here $url }} aria-current="page"{{ end }}>{{ .label }}</a>
         </li>
         {{- end }}
