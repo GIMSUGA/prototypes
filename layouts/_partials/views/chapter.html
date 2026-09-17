@@ -1,5 +1,5 @@
-{{- $c := index site.Data.association.chapters 0 -}}
-{{- $events := site.Data.events.events -}}
+{{- $c := index hugo.Data.association.chapters 0 -}}
+{{- $events := hugo.Data.events.events -}}
 <section class="band band--green">
   <div class="wrap band__inner band__inner--split">
     <div>
@@ -40,7 +40,7 @@
   <section aria-labelledby="work-heading">
     <h2 id="work-heading">Our work</h2>
     <ul class="records">
-      {{- range first 2 site.Data.events.work }}
+      {{- range first 2 hugo.Data.events.work }}
       <li class="record">
         <p class="record__date">{{ (time (printf "%s-01" .date)).Format "January 2006" }}</p>
         <h3>{{ .title }}</h3>

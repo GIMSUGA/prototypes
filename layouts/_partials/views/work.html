@@ -3,7 +3,7 @@
   <h1>Our work</h1>
   <p class="lede">A dated record of what the chapter has done: what, where and when, with photographs of the work itself.</p>
   <ul class="records records--full">
-    {{- range site.Data.events.work }}
+    {{- range hugo.Data.events.work }}
     <li class="record">
       <p class="record__date">{{ (time (printf "%s-01" .date)).Format "January 2006" }}</p>
       <h2>{{ .title }}</h2>
