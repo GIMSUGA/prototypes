@@ -45,17 +45,20 @@
       </fieldset>
 
       <h2 class="form__heading">How members can reach you</h2>
-      <p class="muted">All off unless you turn them on. You can change this at any time.</p>
+      <p class="muted">Choose one. You can change it at any time.</p>
       <fieldset class="form__row form__choice">
-        <legend class="visually-hidden">Contact options</legend>
-        <label class="check check--block"><input type="checkbox" name="contact_connect" id="pf-contact-connect"> <span><strong>Ask to connect.</strong> Members can send you a request. You get an email with their name and how to reach them, and you decide whether to reply. Your details are not shown.</span></label>
-        <label class="check check--block"><input type="checkbox" name="contact_whatsapp" id="pf-contact-whatsapp"> <span><strong>WhatsApp button.</strong> Members can open a WhatsApp chat with you. Your number is not printed on the page, but someone determined could find it in the page code.</span></label>
-        <label class="check check--block"><input type="checkbox" name="contact_email" id="pf-contact-email"> <span><strong>Show my email</strong> to signed-in members.</span></label>
+        <legend class="visually-hidden">Contact choice</legend>
+        <label class="check check--block"><input type="radio" name="contact_mode" value="none" id="pf-mode-none" checked> <span><strong>Not through the directory.</strong> No contact buttons on your card.</span></label>
+        <label class="check check--block"><input type="radio" name="contact_mode" value="connect" id="pf-mode-connect"> <span><strong>Ask to connect.</strong> Members send a request. You get an email with their name and how to reach them, and decide whether to reply. Your details are never shown.</span></label>
+        <label class="check check--block"><input type="radio" name="contact_mode" value="direct" id="pf-mode-direct"> <span><strong>Direct.</strong> Members can reach you straight away, by the methods you pick below.</span></label>
       </fieldset>
-      <div class="form__row">
-        <label for="pf-phone">WhatsApp number <span class="optional">only if you turned on the WhatsApp button</span></label>
+      <fieldset class="form__row form__choice form__sub" data-contact-direct hidden>
+        <legend>Direct contact methods</legend>
+        <label class="check check--block"><input type="checkbox" name="contact_whatsapp" id="pf-contact-whatsapp"> <span><strong>WhatsApp button.</strong> Your number is not printed on the page, but someone determined could find it in the page code.</span></label>
+        <label class="check check--block"><input type="checkbox" name="contact_email" id="pf-contact-email"> <span><strong>Show my email</strong> to signed-in members.</span></label>
+        <label for="pf-phone">WhatsApp number</label>
         <input id="pf-phone" name="phone" type="text" inputmode="tel" autocomplete="off">
-      </div>
+      </fieldset>
 
       <h2 class="form__heading">Your business <span class="optional">optional</span></h2>
       <p class="muted">A business listing has its own contact details, separate from you. People can reach the business without being able to reach you personally.</p>

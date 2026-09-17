@@ -149,6 +149,12 @@
   function setupProfile() {
     var form = document.querySelector("[data-profile-form]");
     if (!form) return;
+    var direct = form.querySelector("[data-contact-direct]");
+    function syncMode() {
+      var mode = form.querySelector('input[name="contact_mode"]:checked');
+      if (direct) direct.hidden = !mode || mode.value !== "direct";
+    }
+    form.addEventListener("change", syncMode);
     var status = document.querySelector("[data-profile-status]");
     var KEYP = "gimsuga-demo-profile";
     var data = load(KEYP, null);
@@ -156,14 +162,17 @@
       Array.prototype.forEach.call(form.elements, function (el) {
         if (!el.name || !(el.name in data)) return;
         if (el.type === "checkbox") el.checked = !!data[el.name];
+        else if (el.type === "radio") el.checked = el.value === data[el.name];
         else el.value = data[el.name];
       });
     }
+    syncMode();
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var out = {};
       Array.prototype.forEach.call(form.elements, function (el) {
         if (!el.name) return;
+        if (el.type === "radio") { if (el.checked) out[el.name] = el.value; return; }
         out[el.name] = el.type === "checkbox" ? el.checked : el.value;
       });
       status.textContent = save(KEYP, out) ? "Saved in this browser only." : "Your browser blocked saving. Nothing was stored.";
@@ -184,6 +193,7 @@
     if (del) del.addEventListener("click", function () {
       remove(KEYP);
       form.reset();
+      syncMode();
       status.textContent = "Profile deleted. In the real site this deletes it from the chapter's server too.";
     });
   }
@@ -242,7 +252,7 @@
         title.firstChild.textContent = d.title;
         var meta = document.createElement("p");
         meta.className = "muted";
-        meta.textContent = [d.date, d.venue].filter(Boolean).join(" · ");
+        meta.textContent = [d.date, d.venue, d.photo].filter(Boolean).join(" · ");
         li.append(badge, title, meta);
         if (!d.published) {
           var btn = document.createElement("button");
@@ -261,12 +271,37 @@
       empty.hidden = drafts.length > 0;
     }
     render();
+    var photo = form.querySelector("[data-draft-photo]");
+    var preview = form.querySelector("[data-photo-preview]");
+    var consent = form.querySelector("[data-photo-consent]");
+    if (photo) photo.addEventListener("change", function () {
+      var file = photo.files && photo.files[0];
+      preview.innerHTML = "";
+      preview.hidden = !file;
+      consent.hidden = !file;
+      if (!file) return;
+      var img = document.createElement("img");
+      img.alt = "Preview of the photo you chose";
+      img.src = URL.createObjectURL(file);
+      img.onload = function () { URL.revokeObjectURL(img.src); };
+      var note = document.createElement("span");
+      note.className = "muted";
+      note.textContent = "Shown from your own device. Nothing is uploaded in this demo.";
+      preview.append(img, note);
+    });
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (photo && photo.files && photo.files[0] && !form.querySelector('input[name="consent"]:checked')) {
+        status.textContent = "Choose one of the photo statements before saving.";
+        return;
+      }
       var drafts = load(KEYD, []);
-      drafts.unshift({ title: form.elements.title.value, date: form.elements.date.value, venue: form.elements.venue.value, published: false });
+      var chosen = form.querySelector('input[name="consent"]:checked');
+      drafts.unshift({ title: form.elements.title.value, date: form.elements.date.value, venue: form.elements.venue.value, photo: photo && photo.files && photo.files[0] ? (chosen && chosen.value === "agreed" ? "photo, consent recorded" : "photo, no people in it") : "", published: false });
       save(KEYD, drafts);
       form.reset();
+      if (preview) { preview.innerHTML = ""; preview.hidden = true; }
+      if (consent) consent.hidden = true;
       status.textContent = "Draft saved. The approver sees it on the right.";
       render();
     });
@@ -303,6 +338,10 @@
       if (explain) {
         var out = explain.closest(".contact").querySelector("[data-explain-out]");
         if (out) { out.textContent = explain.getAttribute("data-explain"); out.hidden = false; }
+        if (explain.hasAttribute("data-connect")) {
+          explain.textContent = "Request sent";
+          explain.disabled = true;
+        }
       }
       carryState(e);
     });

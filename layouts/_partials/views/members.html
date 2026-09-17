@@ -36,11 +36,11 @@
           <p class="muted contact__none">Not taking contact through the directory</p>
           {{- else }}
           <div class="button-row">
-            {{- if in .contact "connect" }}
-            <button type="button" class="button button--small" data-explain="{{ printf "Demo: %s would receive an email with your name and how to reach you. They decide whether to reply. Their own details stay private." $name }}">Ask to connect</button>
+            {{- if and (in .contact "connect") (not (in .contact "whatsapp")) (not (in .contact "email")) }}
+            <button type="button" class="button button--small" data-connect data-explain="{{ printf "Request sent. %s has been emailed your name and how to reach you, and can choose whether to reply. Their details stay private. (Demo: nothing was actually sent.)" $name }}">Ask to connect</button>
             {{- end }}
             {{- if in .contact "whatsapp" }}
-            <button type="button" class="button button--small button--quiet" data-explain="{{ printf "Demo: this would open a WhatsApp chat with %s. The number is not printed on the page, but it can be found in the page code, so only members who choose it get this button." $name }}">WhatsApp</button>
+            <button type="button" class="button button--small" data-explain="{{ printf "Demo: this would open a WhatsApp chat with %s. The number is not printed on the page, but it can be found in the page code, so only members who choose it get this button." $name }}">WhatsApp</button>
             {{- end }}
             {{- if in .contact "email" }}
             <button type="button" class="button button--small button--quiet" data-explain="{{ printf "Demo: %s chose to show an email address to signed-in members. It is hidden in this demo." $name }}">Email</button>

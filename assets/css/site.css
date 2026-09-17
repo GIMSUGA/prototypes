@@ -244,7 +244,12 @@ main:focus { outline: none; }
 .search { display: block; font-weight: 600; margin-top: 6px; }
 .search__input { display: block; font: inherit; width: 100%; max-width: 480px; padding: 9px 12px; border: 1px solid var(--muted); border-radius: 4px; background: var(--paper); color: var(--ink); }
 .cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
-.card { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius); padding: 16px; display: grid; gap: 10px; align-content: start; }
+.card { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius); padding: 16px; display: flex; flex-direction: column; gap: 10px; height: 100%; }
+.card .contact { margin-top: auto; }
+.button:disabled { opacity: 0.75; cursor: default; filter: none; }
+.form__sub { padding-left: 26px; border-left: 2px solid var(--rule); }
+.photo-preview { display: grid; gap: 6px; }
+.photo-preview img { max-width: 220px; border-radius: 4px; border: 1px solid var(--rule); }
 .card__head { display: flex; gap: 12px; align-items: center; }
 .card__title { font-weight: 600; }
 .card__kicker { font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); font-weight: 600; }

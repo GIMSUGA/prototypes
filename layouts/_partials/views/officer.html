@@ -28,6 +28,17 @@
             <label for="dr-venue">Venue</label>
             <input id="dr-venue" name="venue" type="text" autocomplete="off">
           </div>
+          <div class="form__row">
+            <label for="dr-photo">Photo <span class="optional">optional</span></label>
+            <input id="dr-photo" name="photo" type="file" accept="image/*" data-draft-photo>
+            <p class="photo-preview" data-photo-preview hidden></p>
+          </div>
+          <fieldset class="form__row form__choice" data-photo-consent hidden>
+            <legend>Before this photo can be used</legend>
+            <label class="check check--block"><input type="radio" name="consent" value="no-people" id="dr-consent-none"> <span>This photo shows <strong>no identifiable people</strong> (the work done, a venue, an item).</span></label>
+            <label class="check check--block"><input type="radio" name="consent" value="agreed" id="dr-consent-agreed"> <span>Everyone identifiable in it has <strong>agreed to appear</strong> on the site, and the agreement is recorded.</span></label>
+            <p class="muted">A photo can be taken down from the site on request, but copies elsewhere online may remain. Photos of people are kept where they can be deleted, never inside the site's own history.</p>
+          </fieldset>
           <div class="form__actions">
             <button type="submit" class="button">Save draft</button>
             <p class="form__status" role="status" data-draft-status></p>

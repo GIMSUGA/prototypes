@@ -1,5 +1,6 @@
 # Every person and business here is FICTIONAL (G-012). Any resemblance to a real person is accidental.
-# contact: how each member chose to be reached (G-035): connect, whatsapp, email. Empty means not contactable.
+# contact: how each member chose to be reached (G-035, G-040). One mode: [] (not through the directory),
+# [connect] (ask to connect, details private), or direct: [whatsapp], [email] or [whatsapp, email].
 term:
   label: "2025–2027"
   ends: "2027-06-30"
@@ -24,14 +25,14 @@ members:
     department: Accountancy
     town: Abakaliki
     work: Chartered accountant
-    contact: [connect, email]
+    contact: [email]
   - name: Tochukwu Anyanwu
     chapter: abakaliki
     year: 2012
     department: Civil Engineering
     town: Afikpo
     work: Site engineer
-    contact: [connect, whatsapp]
+    contact: [whatsapp]
   - name: Chiamaka Ezeanya
     chapter: abakaliki
     year: 2015
@@ -52,7 +53,7 @@ members:
     department: Computer Science
     town: Abakaliki
     work: Software developer
-    contact: [connect, whatsapp, email]
+    contact: [whatsapp, email]
   - name: Nkechi Mbanefo
     chapter: abakaliki
     year: 2010
@@ -73,7 +74,7 @@ members:
     department: Microbiology
     town: Ezza
     work: Laboratory scientist
-    contact: [connect, email]
+    contact: [email]
   - name: Oluchi Ogbuagu
     chapter: lagos
     year: 2011
@@ -87,7 +88,7 @@ members:
     department: Economics
     town: Ikeja
     work: Bank analyst
-    contact: [connect, email]
+    contact: [email]
   - name: Adanna Okoro-Uba
     chapter: abuja
     year: 2006
@@ -101,14 +102,14 @@ members:
     department: Architecture
     town: Gwarinpa
     work: Architect
-    contact: [connect, whatsapp]
+    contact: [whatsapp]
   - name: Nnamdi Ugwu-Oke
     chapter: enugu
     year: 2009
     department: Marketing
     town: Independence Layout
     work: Sales manager
-    contact: [connect, whatsapp]
+    contact: [whatsapp]
   - name: Ifeyinwa Agbo
     chapter: enugu
     year: 2012
@@ -122,7 +123,7 @@ members:
     department: Petroleum Engineering
     town: Port Harcourt
     work: Field engineer
-    contact: [connect, email]
+    contact: [email]
   - name: Ebere Amadi-Wokoma
     chapter: rivers
     year: 2013
