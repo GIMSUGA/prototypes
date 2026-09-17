@@ -326,6 +326,21 @@
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
       toggle.textContent = open ? "Done" : "Change";
     });
+    var lastDir = load("gimsuga-demo-seen-dir", null);
+    function showOptionIntro(dir) {
+      document.querySelectorAll("[data-option-intro]").forEach(function (el) {
+        el.hidden = el.getAttribute("data-option-intro") !== dir;
+      });
+      save("gimsuga-demo-seen-dir", dir);
+    }
+    if (lastDir !== state().dir) showOptionIntro(state().dir);
+    document.addEventListener("demo:change", function () {
+      if (load("gimsuga-demo-seen-dir", null) !== state().dir) showOptionIntro(state().dir);
+    });
+    document.addEventListener("click", function (e) {
+      var dismiss = e.target.closest && e.target.closest("[data-option-dismiss]");
+      if (dismiss) dismiss.closest("[data-option-intro]").hidden = true;
+    });
     var storyId = new URLSearchParams(location.search).get("story");
     if (storyId && /^[a-z0-9-]+$/.test(storyId)) {
       var guide = document.querySelector('[data-story-id="' + storyId + '"]');

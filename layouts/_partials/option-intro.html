@@ -1,0 +1,9 @@
+{{- /* Shown when a reviewer switches option (G-041). One strip per option; the script reveals the current one. */ -}}
+{{- range hugo.Data.options }}
+<aside class="option-intro" data-option-intro="{{ .id }}" hidden aria-label="About this option">
+  <div class="wrap option-intro__inner">
+    <p class="option-intro__text"><strong>Now showing option {{ .id }} — {{ .name }}.</strong> {{ .adds }}</p>
+    <button type="button" class="option-intro__close" data-option-dismiss aria-label="Hide this explanation">Got it</button>
+  </div>
+</aside>
+{{- end }}
