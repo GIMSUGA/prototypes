@@ -32,7 +32,7 @@
 <body>
   <a class="skip" href="#main">Skip to content</a>
   {{ partial "demobar.html" . }}
-  {{ if not .IsHome }}{{ partial "header.html" . }}{{ end }}
+  {{ if not .IsHome }}{{ partial "story-guide.html" . }}{{ partial "header.html" . }}{{ end }}
   <main id="main" tabindex="-1">
     {{ if and (not .IsHome) (not .Params.memberpage) }}
     <div class="wrap">

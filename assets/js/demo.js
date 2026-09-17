@@ -41,8 +41,12 @@
     document.dispatchEvent(new CustomEvent("demo:change"));
   }
 
+  var LABELS = { A: "Option A · Lean", B: "Option B · Members area", C: "Option C · Community portal", visitor: "Visitor", member: "Member", officer: "Officer", single: "Chapter site", multi: "Multi-chapter site" };
+
   function syncControls() {
     var s = state();
+    var summary = document.querySelector("[data-demo-summary]");
+    if (summary) summary.textContent = [LABELS[s.dir], LABELS[s.as], LABELS[s.chapters]].join(" · ");
     document.querySelectorAll('[data-demo-controls] input[name="dir"]').forEach(function (i) { i.checked = i.value === s.dir; });
     document.querySelectorAll('[data-demo-controls] input[name="as"]').forEach(function (i) { i.checked = i.value === s.as; });
     document.querySelectorAll('[data-demo-controls] input[name="chapters"]').forEach(function (i) { i.checked = i.value === s.chapters; });
@@ -279,6 +283,19 @@
     });
     var controls = document.querySelector("[data-demo-controls]");
     if (controls) controls.addEventListener("submit", function (e) { e.preventDefault(); });
+    var toggle = document.querySelector("[data-demo-toggle]");
+    var bar = document.querySelector(".demobar");
+    if (toggle && bar) toggle.addEventListener("click", function () {
+      var open = bar.getAttribute("data-collapsed") === "true";
+      bar.setAttribute("data-collapsed", open ? "false" : "true");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.textContent = open ? "Done" : "Change";
+    });
+    var storyId = new URLSearchParams(location.search).get("story");
+    if (storyId && /^[a-z0-9-]+$/.test(storyId)) {
+      var guide = document.querySelector('[data-story-id="' + storyId + '"]');
+      if (guide) guide.hidden = false;
+    }
     document.addEventListener("click", function (e) {
       var setter = e.target.closest && e.target.closest("[data-set-as]");
       if (setter) apply({ as: setter.getAttribute("data-set-as") });

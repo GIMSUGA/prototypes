@@ -44,6 +44,7 @@ jobs:
             test -f "public/$page/index.html" || { echo "Missing page: $page"; exit 1; }
           done
           if grep -rIl --include='*.html' -E 'wa\.me/|chat\.whatsapp\.com' public; then echo "WhatsApp link found"; exit 1; fi
+          grep -qE 'data-story-id="?c3' public/officer/index.html || { echo "Story guide missing"; exit 1; }
           missing=$(grep -rL --include='*.html' 'noindex' public || true)
           if [ -n "$missing" ]; then echo "Pages without noindex:"; echo "$missing"; exit 1; fi
 
