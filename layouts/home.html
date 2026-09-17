@@ -1,0 +1,60 @@
+{{ define "main" }}
+<div class="wrap landing">
+  <header class="landing__head">
+    <p class="eyebrow">GIMSUGA Abakaliki chapter · Prototypes for member feedback</p>
+    <h1>Three possible websites. Try each one, then tell us what you think.</h1>
+    <p class="lede">These are working demos, not the real site. Each one shows how the website could look for the Abakaliki chapter, and how it could grow if other GIMSUGA chapters join. Use the bar at the top to switch between directions, and to see the site as a visitor, a member or a chapter officer.</p>
+  </header>
+
+  <ul class="compare">
+    <li class="compare__card">
+      <p class="compare__tag">Direction A</p>
+      <h2>Lean</h2>
+      <p class="compare__line">A clear, current public site. No member data.</p>
+      <dl>
+        <div><dt>It has</dt><dd>About the chapter, officers and their term, upcoming and past events, a record of the chapter's work, how to join.</dd></div>
+        <div><dt>It does not have</dt><dd>Member logins, profiles, directories or member posts.</dd></div>
+        <div><dt>To keep it running</dt><dd>An officer updates it about monthly. About ₦0–₦7,200 a year.</dd></div>
+        <div><dt>Main risk</dt><dd>Members may want more than it offers.</dd></div>
+      </dl>
+      <a class="button" href="{{ "gimsuga/" | relURL }}?dir=A&amp;as=visitor">Open direction A</a>
+    </li>
+    <li class="compare__card">
+      <p class="compare__tag">Direction B</p>
+      <h2>Members area</h2>
+      <p class="compare__line">A plus a private area for members.</p>
+      <dl>
+        <div><dt>It has</dt><dd>Everything in A, plus member login, your own profile, a member directory and a business directory. Every item is opt-in.</dd></div>
+        <div><dt>It does not have</dt><dd>Member posts, RSVPs or photo galleries.</dd></div>
+        <div><dt>To keep it running</dt><dd>A server in Nigeria and a paid developer. About ₦260,000–₦660,000 a year.</dd></div>
+        <div><dt>Main risk</dt><dd>Directories are often launched and then left empty. The chapter becomes responsible for members' data.</dd></div>
+      </dl>
+      <a class="button" href="{{ "gimsuga/" | relURL }}?dir=B&amp;as=member">Open direction B</a>
+    </li>
+    <li class="compare__card">
+      <p class="compare__tag">Direction C</p>
+      <h2>Community portal</h2>
+      <p class="compare__line">B plus news, RSVPs and galleries from members.</p>
+      <dl>
+        <div><dt>It has</dt><dd>Everything in B, plus event RSVPs, news posted by members and event photo galleries.</dd></div>
+        <div><dt>It does not have</dt><dd>Payments, dues or chat. Those stay in the chapter's existing channels.</dd></div>
+        <div><dt>To keep it running</dt><dd>As B, plus volunteers to check posts and collect photo consent.</dd></div>
+        <div><dt>Main risk</dt><dd>Member posts and galleries need steady volunteer time, and are often the first things left behind.</dd></div>
+      </dl>
+      <a class="button" href="{{ "gimsuga/" | relURL }}?dir=C&amp;as=member">Open direction C</a>
+    </li>
+  </ul>
+
+  <section class="landing__notes" aria-labelledby="same-heading">
+    <h2 id="same-heading">The same in every direction</h2>
+    <ul class="ticks">
+      <li>Joining stays offline, through introduction by an existing member.</li>
+      <li>No dues, payments, bank details or donation buttons.</li>
+      <li>No public WhatsApp group links.</li>
+      <li>Officers listed by role and name, without personal phone numbers.</li>
+      <li>Photos of members only with their consent.</li>
+    </ul>
+    <p class="muted">The questionnaire link will be shared with members alongside these demos.</p>
+  </section>
+</div>
+{{ end }}

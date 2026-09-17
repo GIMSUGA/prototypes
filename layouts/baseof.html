@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-NG" data-dir="A" data-as="visitor">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="color-scheme" content="light dark">
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · GIMSUGA prototype{{ end }}</title>
+  <script>
+    (function () {
+      var d = "A", a = "visitor";
+      try { var s = JSON.parse(localStorage.getItem("gimsuga-demo") || "{}"); d = s.dir || d; a = s.as || a; } catch (e) {}
+      var p = new URLSearchParams(location.search);
+      d = String(p.get("dir") || d).toUpperCase();
+      a = String(p.get("as") || a).toLowerCase();
+      if (!/^[ABC]$/.test(d)) d = "A";
+      if (!/^(visitor|member|officer)$/.test(a)) a = "visitor";
+      document.documentElement.setAttribute("data-dir", d);
+      document.documentElement.setAttribute("data-as", a);
+    })();
+  </script>
+  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+  <script src="{{ "js/demo.js" | relURL }}" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  {{ partial "demobar.html" . }}
+  {{ if not .IsHome }}{{ partial "header.html" . }}{{ end }}
+  <main id="main" tabindex="-1">
+    {{ if and (not .IsHome) (not .Params.memberpage) }}
+    <div class="wrap">
+      <p class="callout callout--demo" data-dirs="A" data-views="member">
+        <strong>No member area in this direction.</strong> Direction A stores no member data, so there is nothing to sign in to. Switch to direction B or C in the bar above to see a member area.
+      </p>
+    </div>
+    {{ end }}
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+</body>
+</html>

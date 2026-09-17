@@ -1,0 +1,67 @@
+<div class="wrap page">
+  <section class="gate" data-dirs="A B" aria-label="Community">
+    <p class="eyebrow">Direction A and B</p>
+    <h1>Community</h1>
+    <p class="lede">Member news, RSVPs and galleries are only in direction C.</p>
+    <p>Switch to direction C in the bar at the top to see this page.</p>
+  </section>
+  <section class="gate" data-dirs="C" data-views="visitor" aria-label="Community">
+    <p class="eyebrow">Members only</p>
+    <h1>Community</h1>
+    <p class="lede">News and photo galleries shared by members, for signed-in members.</p>
+    <button type="button" class="button" data-set-as="member">View as a member</button>
+  </section>
+
+  <div data-dirs="C" data-views="member officer">
+    <p class="eyebrow">Members only</p>
+    <h1>Community</h1>
+    <p class="lede">News from members, and photo galleries from chapter events. Every post is checked by an officer before it appears.</p>
+
+    <div class="grid-2 grid-2--wide">
+      <section aria-labelledby="news-heading">
+        <h2 id="news-heading">Member news</h2>
+        <ul class="posts" data-posts>
+          <li class="post">
+            <p class="post__meta">Uchenna Okorie <span class="fictional">Fictional</span> · 2 September 2026</p>
+            <h3>Free computer basics class for secondary school leavers</h3>
+            <p>Our office is running a four-week evening class in October. Members with children or relatives who have just finished school are welcome to send them.</p>
+          </li>
+          <li class="post">
+            <p class="post__meta">Chiamaka Ezeanya <span class="fictional">Fictional</span> · 21 August 2026</p>
+            <h3>Congratulations to our newly qualified nurses</h3>
+            <p>Three members' children passed their nursing licensing exams this month. Well done to them and their families.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="share-heading" class="panel">
+        <h2 id="share-heading">Share news with members</h2>
+        <form class="form" data-post-form>
+          <div class="form__row">
+            <label for="post-title">Headline</label>
+            <input id="post-title" name="title" type="text" required autocomplete="off">
+          </div>
+          <div class="form__row">
+            <label for="post-body">Your news</label>
+            <textarea id="post-body" name="body" rows="4" required></textarea>
+          </div>
+          <p class="muted">No photos of people without their consent. No requests for money.</p>
+          <div class="form__actions">
+            <button type="submit" class="button">Send for review</button>
+            <p class="form__status" role="status" data-post-status></p>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <section aria-labelledby="gallery-heading">
+      <h2 id="gallery-heading">Galleries</h2>
+      <p class="muted">Real galleries show only people who agreed to be photographed. Photos can be removed on request, but copies elsewhere online may remain.</p>
+      <ul class="gallery">
+        <li><div class="gallery__tile gallery__tile--1" role="img" aria-label="Photo placeholder"></div><p>Mid-year general meeting, July 2026</p></li>
+        <li><div class="gallery__tile gallery__tile--2" role="img" aria-label="Photo placeholder"></div><p>Annual general meeting, March 2026</p></li>
+        <li><div class="gallery__tile gallery__tile--3" role="img" aria-label="Photo placeholder"></div><p>End-of-year get-together, December 2025</p></li>
+      </ul>
+    </section>
+  </div>
+</div>

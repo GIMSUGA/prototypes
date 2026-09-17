@@ -1,0 +1,86 @@
+# Every person and business here is FICTIONAL (G-012). Any resemblance to a real person is accidental.
+term:
+  label: "2025–2027"
+  ends: "2027-06-30"
+officers:
+  - role: Chairman
+    name: Obinna Ekwueme-Ude
+  - role: Vice Chairman
+    name: Ngozi Aniagolu-Ibe
+  - role: Secretary
+    name: Chukwuemeka Ofoma
+  - role: Treasurer
+    name: Ifeoma Uzodike
+  - role: Public Relations Officer
+    name: Amarachi Nwosu-Kalu
+  - role: Technical Officer
+    name: Kelechi Obiorah
+
+members:
+  - name: Adaobi Onwuchekwa
+    year: 2009
+    department: Accountancy
+    town: Abakaliki
+    work: Chartered accountant
+  - name: Tochukwu Anyanwu
+    year: 2012
+    department: Civil Engineering
+    town: Afikpo
+    work: Site engineer
+  - name: Chiamaka Ezeanya
+    year: 2015
+    department: Nursing Science
+    town: Abakaliki
+    work: Nurse, public hospital
+  - name: Emeka Nwachukwu-Ali
+    year: 2004
+    department: Law
+    town: Onueke
+    work: Legal practitioner
+  - name: Uchenna Okorie
+    year: 2018
+    department: Computer Science
+    town: Abakaliki
+    work: Software developer
+  - name: Nkechi Mbanefo
+    year: 2010
+    department: Agricultural Economics
+    town: Ikwo
+    work: Rice farm manager
+  - name: Ikenna Duru-Oha
+    year: 2007
+    department: Mass Communication
+    town: Abakaliki
+    work: Radio producer
+  - name: Chinwe Igboanugo
+    year: 2016
+    department: Microbiology
+    town: Ezza
+    work: Laboratory scientist
+
+businesses:
+  - name: Ikwo Valley Rice Mill
+    owner: Nkechi Mbanefo
+    category: Agriculture and food
+    town: Ikwo
+    offer: Parboiled and destoned local rice, sold in 25 kg and 50 kg bags.
+  - name: Onwuchekwa & Partners
+    owner: Adaobi Onwuchekwa
+    category: Accounting
+    town: Abakaliki
+    offer: Bookkeeping and annual returns for small businesses.
+  - name: Clearline Tech Services
+    owner: Uchenna Okorie
+    category: Technology
+    town: Abakaliki
+    offer: Websites and computer repairs for schools and small offices.
+  - name: Anyanwu Build & Survey
+    owner: Tochukwu Anyanwu
+    category: Construction
+    town: Afikpo
+    offer: Building plans, site supervision and land survey.
+  - name: Ezza Diagnostic Lab
+    owner: Chinwe Igboanugo
+    category: Health
+    town: Ezza
+    offer: Routine laboratory tests, open Monday to Saturday.

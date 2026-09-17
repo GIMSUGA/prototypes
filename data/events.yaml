@@ -1,0 +1,34 @@
+# Sample events. The page sorts them into upcoming and past in the visitor's browser (Phase 3, 5.4).
+events:
+  - date: "2026-12-12"
+    title: End-of-year get-together
+    time: "2:00 pm"
+    venue: Chapter meeting venue, Abakaliki (to be confirmed)
+    summary: A social afternoon for members and their families.
+  - date: "2026-10-10"
+    title: Quarterly general meeting
+    time: "11:00 am"
+    venue: Chapter meeting venue, Abakaliki
+    summary: Reports from the executive, planning for the end-of-year get-together.
+  - date: "2026-07-11"
+    title: Mid-year general meeting
+    time: "11:00 am"
+    venue: Chapter meeting venue, Abakaliki
+    summary: Members agreed the chapter's plans for the second half of the year.
+    report: Sample report. The executive presented the half-year report and members agreed to hold the end-of-year get-together in December.
+  - date: "2026-03-14"
+    title: Annual general meeting
+    time: "11:00 am"
+    venue: Chapter meeting venue, Abakaliki
+    summary: Annual reports and the chapter's plans for the year.
+    report: Sample report. The executive presented the annual report. Members discussed a proposal for a chapter website.
+
+work:
+  - date: "2025-11"
+    title: Sample record — reading chairs repaired
+    where: A community library in Abakaliki
+    detail: Illustrates the format only. A real record would say what was done, where and when, with dated photographs of the work itself.
+  - date: "2025-04"
+    title: Sample record — textbooks donated
+    where: A secondary school in Ebonyi State
+    detail: Illustrates the format only. A real record would include a written acknowledgement from the recipient where one exists.
