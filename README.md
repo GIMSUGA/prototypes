@@ -24,7 +24,8 @@ This repository is public, and git history is permanent. Everything here must be
 
 ## Status
 
-Not built yet. No remote yet: the repository goes on GitHub once the association's GitHub organisation
-exists. The licence is to be chosen then.
+Not built yet. It will live in the `gimsuga` GitHub organisation (G-028) as the `prototypes`
+repository, published at `gimsuga.github.io/prototypes`, so the address never clashes with the real
+site at `gimsuga.github.io`. The licence is to be chosen then.
 
 Built with AI-assisted development (Claude Code).
