@@ -37,13 +37,13 @@
         <p class="muted">B and C need a server in Nigeria and a paid developer, and make the chapter responsible for members' personal data. Estimates only.</p>
       </div>
     </div>
-    <p class="muted">The bar at the top lets you switch the option (A, B, C), see the site as a visitor, member or officer, and see it for Abakaliki alone or with other GIMSUGA chapters.</p>
+    <p class="muted">The easiest way in is the stories below. The bar at the top also lets you switch the option (A, B, C), see the site as a visitor, member or officer, and see it as a chapter site or a multi-chapter site.</p>
   </section>
 
   <section id="try" class="landing__section" aria-labelledby="try-heading">
     <p class="eyebrow">Step 2</p>
     <h2 id="try-heading">Try the options</h2>
-    <p>Each option has a few short stories. Tap one and it opens the demo at the right place, in the right view.</p>
+    <p>Each option has three short stories. Tap one: the demo opens at the right place, tells you what to look at, and takes you to the next story.</p>
 
     <ul class="compare">
       <li class="compare__card">
@@ -51,9 +51,9 @@
         <h3>Lean</h3>
         <p class="compare__line">A clear public site for the chapter. No member logins, no member data.</p>
         <ul class="stories">
-          <li><a href="{{ "abakaliki/" | relURL }}?dir=A&amp;as=visitor&amp;chapters=single">A member wants the date and venue of the next meeting.</a></li>
-          <li><a href="{{ "abakaliki/join/" | relURL }}?dir=A&amp;as=visitor&amp;chapters=single">A new IMSU graduate in Abakaliki asks how to join.</a></li>
-          <li><a href="{{ "officer/" | relURL }}?dir=A&amp;as=officer&amp;chapters=single">The secretary adds an event, and another officer approves it.</a></li>
+          {{- range where hugo.Data.stories "option" "A" }}
+          <li><a href="{{ partial "story-url.html" . }}">{{ .title }}</a></li>
+          {{- end }}
         </ul>
         <a class="button" href="{{ "abakaliki/" | relURL }}?dir=A&amp;as=visitor">Explore option A</a>
       </li>
@@ -62,9 +62,9 @@
         <h3>Members area</h3>
         <p class="compare__line">A, plus a private area where members find each other and members' businesses.</p>
         <ul class="stories">
-          <li><a href="{{ "members/businesses/" | relURL }}?dir=B&amp;as=member&amp;chapters=single">A member needs an accountant and checks members' businesses first.</a></li>
-          <li><a href="{{ "members/" | relURL }}?dir=B&amp;as=member&amp;chapters=multi">A member moving to Enugu looks for GIMSUGA members there (choose Enugu in "Search in").</a></li>
-          <li><a href="{{ "members/profile/" | relURL }}?dir=B&amp;as=member&amp;chapters=single">A member decides what to show, and how others can reach them.</a></li>
+          {{- range where hugo.Data.stories "option" "B" }}
+          <li><a href="{{ partial "story-url.html" . }}">{{ .title }}</a></li>
+          {{- end }}
         </ul>
         <a class="button" href="{{ "members/" | relURL }}?dir=B&amp;as=member">Explore option B</a>
       </li>
@@ -73,9 +73,9 @@
         <h3>Community portal</h3>
         <p class="compare__line">B, plus news from members, RSVPs and event photo galleries.</p>
         <ul class="stories">
-          <li><a href="{{ "abakaliki/events/" | relURL }}?dir=C&amp;as=member&amp;chapters=single">A member says they will attend the end-of-year get-together.</a></li>
-          <li><a href="{{ "community/" | relURL }}?dir=C&amp;as=member&amp;chapters=single">A member shares news with the chapter.</a></li>
-          <li><a href="{{ "officer/" | relURL }}?dir=C&amp;as=officer&amp;chapters=single">An officer sees what needs reviewing before it appears.</a></li>
+          {{- range where hugo.Data.stories "option" "C" }}
+          <li><a href="{{ partial "story-url.html" . }}">{{ .title }}</a></li>
+          {{- end }}
         </ul>
         <a class="button" href="{{ "community/" | relURL }}?dir=C&amp;as=member">Explore option C</a>
       </li>

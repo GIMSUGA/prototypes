@@ -1,0 +1,26 @@
+{{- /* On-page guide for the story named in ?story= (G-038). All guides render hidden; the script shows one. */ -}}
+{{- $stories := hugo.Data.stories -}}
+{{- range $i, $s := $stories }}
+{{- $same := where $stories "option" $s.option }}
+{{- $pos := 0 }}
+{{- range $j, $t := $same }}{{ if eq $t.id $s.id }}{{ $pos = add $j 1 }}{{ end }}{{ end }}
+{{- $next := "" }}
+{{- if lt (add $i 1) (len $stories) }}{{ $next = index $stories (add $i 1) }}{{ end }}
+<aside class="story-guide" data-story-id="{{ $s.id }}" hidden aria-label="Story guide">
+  <div class="wrap story-guide__inner">
+    <div class="story-guide__text">
+      <p class="story-guide__meta">Option {{ $s.option }} · Story {{ $pos }} of {{ len $same }}</p>
+      <p class="story-guide__title">{{ $s.title }}</p>
+      <p class="story-guide__look"><strong>Look at:</strong> {{ $s.look }}</p>
+    </div>
+    <div class="story-guide__nav">
+      {{- with $next }}
+      <a class="button button--small" href="{{ partial "story-url.html" . }}">Next story</a>
+      {{- else }}
+      <a class="button button--small" href="{{ "" | relURL }}#tell">Tell us what you think</a>
+      {{- end }}
+      <a class="story-guide__all" href="{{ "" | relURL }}#try">All stories</a>
+    </div>
+  </div>
+</aside>
+{{- end }}

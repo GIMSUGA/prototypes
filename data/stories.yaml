@@ -1,0 +1,64 @@
+# Guided stories for reviewers (G-036, G-038). The start page and the on-page guide both read this file.
+- id: a1
+  option: A
+  title: A member wants the date and venue of the next meeting.
+  look: The "Next meeting" card at the top. It moves on by itself once a meeting has passed.
+  path: abakaliki/
+  as: visitor
+  chapters: single
+- id: a2
+  option: A
+  title: A new IMSU graduate in Abakaliki asks how to join.
+  look: The two buttons reach a chapter WhatsApp number and a chapter email, never an officer's personal phone.
+  path: abakaliki/join/
+  as: visitor
+  chapters: single
+- id: a3
+  option: A
+  title: The secretary adds an event, and another officer approves it.
+  look: Save a draft on the left, then approve it on the right. Nothing goes live without that second look.
+  path: officer/
+  as: officer
+  chapters: single
+- id: b1
+  option: B
+  title: A member needs an accountant and checks members' businesses first.
+  look: Each business has its own contact buttons, separate from the person who runs it.
+  path: members/businesses/
+  as: member
+  chapters: single
+- id: b2
+  option: B
+  title: A member moving to Enugu looks for GIMSUGA members there.
+  look: Change "Search in" to Enugu, then press "Ask to connect" on someone.
+  path: members/
+  as: member
+  chapters: multi
+- id: b3
+  option: B
+  title: A member decides what to show, and how others can reach them.
+  look: "\"How members can reach you\": every option starts switched off."
+  path: members/profile/
+  as: member
+  chapters: single
+- id: c1
+  option: C
+  title: A member says they will attend the end-of-year get-together.
+  look: Press "I plan to attend" on an upcoming event.
+  path: abakaliki/events/
+  as: member
+  chapters: single
+- id: c2
+  option: C
+  title: A member shares news with the chapter.
+  look: Send some news for review. Only you see it until an officer approves it.
+  path: community/
+  as: member
+  chapters: single
+- id: c3
+  option: C
+  title: An officer sees what needs reviewing before it appears.
+  look: '"What else officers handle": posts waiting for review, and photo consent.'
+  path: officer/
+  as: officer
+  chapters: single
