@@ -1,0 +1,23 @@
+<div class="demobar" role="region" aria-label="Prototype controls">
+  <div class="demobar__inner">
+    <p class="demobar__notice">
+      <strong>Prototype — not a real site.</strong>
+      Everyone shown is fictional. Nothing you do here leaves your browser.
+    </p>
+    <form class="demobar__controls" data-demo-controls>
+      <fieldset class="seg">
+        <legend>Direction</legend>
+        <label><input type="radio" name="dir" value="A" id="dir-a"><span>A <small>Lean</small></span></label>
+        <label><input type="radio" name="dir" value="B" id="dir-b"><span>B <small>Members</small></span></label>
+        <label><input type="radio" name="dir" value="C" id="dir-c"><span>C <small>Community</small></span></label>
+      </fieldset>
+      <fieldset class="seg">
+        <legend>View as</legend>
+        <label><input type="radio" name="as" value="visitor" id="as-visitor"><span>Visitor</span></label>
+        <label><input type="radio" name="as" value="member" id="as-member"><span>Member</span></label>
+        <label><input type="radio" name="as" value="officer" id="as-officer"><span>Officer</span></label>
+      </fieldset>
+      <a class="demobar__compare" href="{{ "" | relURL }}">Compare directions</a>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<div class="wrap page">
+  {{ partial "member-gate.html" (dict "title" "My profile") }}
+  <div data-dirs="B C" data-views="member officer">
+    <p class="eyebrow">Members only</p>
+    <h1>My profile</h1>
+    <p class="lede">You decide what is in your profile and who can see each item. Nothing is required except your name.</p>
+    <nav class="subnav" aria-label="Member area">
+      <a href="{{ "members/" | relURL }}">Directory</a>
+      <a href="{{ "members/businesses/" | relURL }}">Business directory</a>
+      <a href="{{ "members/profile/" | relURL }}" aria-current="page">My profile</a>
+    </nav>
+
+    <p class="callout callout--demo"><strong>Demo:</strong> anything you type is saved in this browser only. Try made-up details rather than your own.</p>
+
+    <form class="form" data-profile-form>
+      <div class="form__row">
+        <label for="pf-name">Name</label>
+        <input id="pf-name" name="name" type="text" required autocomplete="off">
+      </div>
+      <div class="form__row">
+        <label for="pf-year">Year of graduation <span class="optional">optional</span></label>
+        <input id="pf-year" name="year" type="text" inputmode="numeric" autocomplete="off">
+        <label class="check"><input type="checkbox" name="show_year" id="pf-show-year"> Show to members</label>
+      </div>
+      <div class="form__row">
+        <label for="pf-dept">Department <span class="optional">optional</span></label>
+        <input id="pf-dept" name="department" type="text" autocomplete="off">
+        <label class="check"><input type="checkbox" name="show_department" id="pf-show-dept"> Show to members</label>
+      </div>
+      <div class="form__row">
+        <label for="pf-town">Town <span class="optional">optional</span></label>
+        <input id="pf-town" name="town" type="text" autocomplete="off">
+        <label class="check"><input type="checkbox" name="show_town" id="pf-show-town"> Show to members</label>
+      </div>
+      <div class="form__row">
+        <label for="pf-work">Work <span class="optional">optional</span></label>
+        <input id="pf-work" name="work" type="text" autocomplete="off">
+        <label class="check"><input type="checkbox" name="show_work" id="pf-show-work"> Show to members</label>
+      </div>
+      <div class="form__row">
+        <label for="pf-business">Business listing <span class="optional">optional</span></label>
+        <textarea id="pf-business" name="business" rows="3" autocomplete="off"></textarea>
+        <label class="check"><input type="checkbox" name="show_business" id="pf-show-business"> List in the business directory</label>
+      </div>
+      <p class="muted">No phone number or email is ever shown in the directory.</p>
+      <div class="form__actions">
+        <button type="submit" class="button">Save profile</button>
+        <p class="form__status" role="status" data-profile-status></p>
+      </div>
+    </form>
+
+    <section class="panel" aria-labelledby="rights-heading">
+      <h2 id="rights-heading">Your data</h2>
+      <p>You can see, download or delete everything the chapter holds about you, at any time and without asking anyone.</p>
+      <div class="button-row">
+        <button type="button" class="button button--quiet" data-profile-export>Download my data</button>
+        <button type="button" class="button button--danger" data-profile-delete>Delete my profile</button>
+      </div>
+    </section>
+  </div>
+</div>

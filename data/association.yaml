@@ -1,0 +1,31 @@
+# One source of truth for association and chapter facts (Phase 3, section 5.1).
+# Everything below is prototype content. Sample text is marked as sample on the page.
+mode: multi
+name: GIMSUGA
+description: >-
+  The global alumni association of Imo State University graduates, organised in chapters.
+chapters:
+  - id: abakaliki
+    name: Abakaliki
+    state: Ebonyi State
+    enabled: true
+    example: false
+    meets: Quarterly general meetings, usually on a Saturday
+  - id: example-lagos
+    name: Lagos
+    state: Lagos State
+    enabled: false
+    example: true
+  - id: example-port-harcourt
+    name: Port Harcourt
+    state: Rivers State
+    enabled: false
+    example: true
+  - id: example-uk
+    name: United Kingdom
+    state: Diaspora
+    enabled: false
+    example: true
+modules:
+  members:
+    enabled: false

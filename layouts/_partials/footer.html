@@ -1,0 +1,6 @@
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p>© {{ now.Format "2006" }} GIMSUGA Abakaliki chapter</p>
+    {{ if not .IsHome }}<p><a href="{{ "privacy/" | relURL }}">Privacy</a></p>{{ end }}
+  </div>
+</footer>

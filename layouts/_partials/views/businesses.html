@@ -1,0 +1,31 @@
+{{- $p := site.Data.people -}}
+<div class="wrap page">
+  {{ partial "member-gate.html" (dict "title" "Business directory") }}
+  <div data-dirs="B C" data-views="member officer">
+    <p class="eyebrow">Members only</p>
+    <h1>Business directory</h1>
+    <p class="lede">Businesses and services run by members, listed by the members themselves. Listing is free and voluntary.</p>
+    <nav class="subnav" aria-label="Member area">
+      <a href="{{ "members/" | relURL }}">Directory</a>
+      <a href="{{ "members/businesses/" | relURL }}" aria-current="page">Business directory</a>
+      <a href="{{ "members/profile/" | relURL }}">My profile</a>
+    </nav>
+    <label class="search" for="business-search">Search by business, category or town</label>
+    <input class="search__input" id="business-search" type="search" data-filter-list="business-list" autocomplete="off">
+    <ul class="cards" id="business-list">
+      {{- range $p.businesses }}
+      <li class="card" data-filter-text="{{ lower (printf "%s %s %s %s" .name .category .town .offer) }}">
+        <p class="card__kicker">{{ .category }}</p>
+        <p class="card__title">{{ .name }} <span class="fictional">Fictional</span></p>
+        <p>{{ .offer }}</p>
+        <dl class="card__facts">
+          <div><dt>Town</dt><dd>{{ .town }}</dd></div>
+          <div><dt>Member</dt><dd>{{ .owner }}</dd></div>
+        </dl>
+      </li>
+      {{- end }}
+    </ul>
+    <p class="muted" data-filter-empty="business-list" hidden>No businesses match that search.</p>
+    <p class="note">Listings are not endorsements by the chapter. There are no paid listings or adverts.</p>
+  </div>
+</div>

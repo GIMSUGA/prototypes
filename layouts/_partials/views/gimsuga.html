@@ -1,0 +1,35 @@
+{{- $a := site.Data.association -}}
+<section class="band band--green">
+  <div class="wrap band__inner">
+    <p class="eyebrow eyebrow--light">{{ $a.name }}</p>
+    <h1 class="display">Imo State University graduates, wherever they are.</h1>
+    <p class="lede lede--light">{{ $a.description }} <span class="sample">Sample text</span></p>
+  </div>
+</section>
+
+<div class="wrap page">
+  <section aria-labelledby="chapters-heading">
+    <h2 id="chapters-heading">Chapters</h2>
+    <p class="muted">Membership of GIMSUGA comes through a chapter. Each chapter keeps its own page, officers and events.</p>
+    <ul class="chapters">
+      {{- range $a.chapters }}
+      <li class="chapter-card{{ if .example }} chapter-card--example{{ end }}">
+        {{- if .enabled }}
+        <a href="{{ "abakaliki/" | relURL }}">
+          <span class="chapter-card__name">{{ .name }}</span>
+          <span class="chapter-card__state">{{ .state }}</span>
+          <span class="chapter-card__status">Chapter page live</span>
+        </a>
+        {{- else }}
+        <div>
+          <span class="chapter-card__name">{{ .name }}</span>
+          <span class="chapter-card__state">{{ .state }}</span>
+          <span class="chapter-card__status">Example only — shows how another chapter would appear</span>
+        </div>
+        {{- end }}
+      </li>
+      {{- end }}
+    </ul>
+    <p class="note">The example chapters are an illustration, not a list of GIMSUGA's chapters. A chapter appears only when it has its own editor and approver.</p>
+  </section>
+</div>

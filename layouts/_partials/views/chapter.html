@@ -1,0 +1,53 @@
+{{- $c := index site.Data.association.chapters 0 -}}
+{{- $events := site.Data.events.events -}}
+<section class="band band--green">
+  <div class="wrap band__inner band__inner--split">
+    <div>
+      <p class="eyebrow eyebrow--light">GIMSUGA · {{ $c.state }}</p>
+      <h1 class="display">{{ $c.name }} chapter</h1>
+      <p class="lede lede--light">Graduates of Imo State University living and working in and around Abakaliki. <span class="sample">Sample text</span></p>
+    </div>
+    <aside class="next-card" aria-labelledby="next-heading" data-next-event>
+      <h2 id="next-heading" class="eyebrow">Next meeting</h2>
+      {{- range sort $events "date" "asc" }}
+      <div class="next-card__item" data-event-date="{{ .date }}" hidden>
+        <p class="next-card__title">{{ .title }}</p>
+        <p class="next-card__when"><time datetime="{{ .date }}">{{ (time .date).Format "Monday 2 January 2006" }}</time>, {{ .time }}</p>
+        <p class="next-card__where">{{ .venue }}</p>
+      </div>
+      {{- end }}
+      <p class="next-card__none" hidden>No meeting scheduled yet. Check back soon.</p>
+      <a class="text-link" href="{{ "abakaliki/events/" | relURL }}">All events</a>
+    </aside>
+  </div>
+</section>
+
+<div class="wrap page grid-2">
+  <section aria-labelledby="about-heading">
+    <h2 id="about-heading">About the chapter</h2>
+    <p>{{ $c.meets }}. <span class="sample">Sample text</span></p>
+    <p class="placeholder">The chapter's own description goes here: when it was formed, what it does, and how it connects members with GIMSUGA and with each other.</p>
+    <p><a class="text-link" href="{{ "abakaliki/officers/" | relURL }}">Meet the officers</a></p>
+  </section>
+  <section aria-labelledby="join-heading" class="panel">
+    <h2 id="join-heading">Are you an IMSU graduate in Abakaliki?</h2>
+    <p>New members join through introduction by an existing member. If you don't know a member yet, contact the chapter executive.</p>
+    <a class="button" href="{{ "abakaliki/join/" | relURL }}">How to join</a>
+  </section>
+</div>
+
+<div class="wrap page">
+  <section aria-labelledby="work-heading">
+    <h2 id="work-heading">Our work</h2>
+    <ul class="records">
+      {{- range first 2 site.Data.events.work }}
+      <li class="record">
+        <p class="record__date">{{ (time (printf "%s-01" .date)).Format "January 2006" }}</p>
+        <h3>{{ .title }}</h3>
+        <p class="muted">{{ .where }}</p>
+      </li>
+      {{- end }}
+    </ul>
+    <p><a class="text-link" href="{{ "abakaliki/our-work/" | relURL }}">See the full record</a></p>
+  </section>
+</div>

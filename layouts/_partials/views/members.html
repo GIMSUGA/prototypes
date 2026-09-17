@@ -1,0 +1,35 @@
+{{- $p := site.Data.people -}}
+<div class="wrap page">
+  {{ partial "member-gate.html" (dict "title" "Member directory") }}
+  <div data-dirs="B C" data-views="member officer">
+    <p class="eyebrow">Members only</p>
+    <h1>Member directory</h1>
+    <p class="lede">Members who chose to appear. Each person decides which details are shown, and can remove themselves at any time.</p>
+    <nav class="subnav" aria-label="Member area">
+      <a href="{{ "members/" | relURL }}" aria-current="page">Directory</a>
+      <a href="{{ "members/businesses/" | relURL }}">Business directory</a>
+      <a href="{{ "members/profile/" | relURL }}">My profile</a>
+    </nav>
+    <label class="search" for="member-search">Search by name, department, town or work</label>
+    <input class="search__input" id="member-search" type="search" data-filter-list="member-list" autocomplete="off">
+    <ul class="cards" id="member-list">
+      {{- range $p.members }}
+      <li class="card" data-filter-text="{{ lower (printf "%s %s %s %s" .name .department .town .work) }}">
+        <div class="card__head">
+          <span class="avatar" aria-hidden="true">{{ substr .name 0 1 }}</span>
+          <div>
+            <p class="card__title">{{ .name }} <span class="fictional">Fictional</span></p>
+            <p class="muted">{{ .department }}, class of {{ .year }}</p>
+          </div>
+        </div>
+        <dl class="card__facts">
+          <div><dt>Town</dt><dd>{{ .town }}</dd></div>
+          <div><dt>Work</dt><dd>{{ .work }}</dd></div>
+        </dl>
+      </li>
+      {{- end }}
+    </ul>
+    <p class="muted" data-filter-empty="member-list" hidden>No members match that search.</p>
+    <p class="note">The directory shows no phone numbers or email addresses. It is never visible to search engines or to anyone who is not signed in.</p>
+  </div>
+</div>

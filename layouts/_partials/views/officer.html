@@ -1,0 +1,54 @@
+<div class="wrap page">
+  <section class="gate" data-views="visitor member" aria-label="Officer tools">
+    <p class="eyebrow">Chapter officers only</p>
+    <h1>Officer tools</h1>
+    <p class="lede">This is where chapter officers update the site. See how it works from the officer's side.</p>
+    <button type="button" class="button" data-set-as="officer">View as a chapter officer</button>
+  </section>
+
+  <div data-views="officer">
+    <p class="eyebrow">Chapter officers only</p>
+    <h1>Officer tools</h1>
+    <p class="lede">Updating the site takes a simple form. The editor saves a draft; the approving officer checks it and publishes it. Nothing goes live without that second look.</p>
+    <p class="callout callout--demo"><strong>Demo:</strong> drafts are saved in this browser only and never published.</p>
+
+    <div class="grid-2 grid-2--wide">
+      <section class="panel" aria-labelledby="draft-heading">
+        <h2 id="draft-heading">1. Editor: add an event</h2>
+        <form class="form" data-draft-form>
+          <div class="form__row">
+            <label for="dr-title">Event name</label>
+            <input id="dr-title" name="title" type="text" required autocomplete="off">
+          </div>
+          <div class="form__row">
+            <label for="dr-date">Date</label>
+            <input id="dr-date" name="date" type="date" required>
+          </div>
+          <div class="form__row">
+            <label for="dr-venue">Venue</label>
+            <input id="dr-venue" name="venue" type="text" autocomplete="off">
+          </div>
+          <div class="form__actions">
+            <button type="submit" class="button">Save draft</button>
+            <p class="form__status" role="status" data-draft-status></p>
+          </div>
+        </form>
+      </section>
+
+      <section aria-labelledby="approve-heading">
+        <h2 id="approve-heading">2. Approver: check and publish</h2>
+        <ul class="queue" data-draft-list></ul>
+        <p class="muted" data-draft-empty>No drafts waiting. Save one on the left to see it here.</p>
+      </section>
+    </div>
+
+    <section aria-labelledby="work-heading" class="workload">
+      <h2 id="work-heading">What else officers handle in this direction</h2>
+      <ul class="workload__list">
+        <li data-dirs="A B C"><strong>Every direction:</strong> events, reports, the officer list after each election, and the record of the chapter's work.</li>
+        <li data-dirs="B C"><strong>Members area:</strong> members see, download and delete their own data themselves; officers handle the questions and complaints that remain, with the contracted developer. In this demo: <em>1 question waiting</em>.</li>
+        <li data-dirs="C"><strong>Community:</strong> checking members' posts before they appear, and collecting consent for every photo of a person. In this demo: <em>2 posts waiting for review</em>.</li>
+      </ul>
+    </section>
+  </div>
+</div>
