@@ -19,6 +19,8 @@ This repository is public, and git history is permanent. Everything here must be
   Member / Chapter officer, settable by link, e.g. `?dir=B&as=member`) and `noindex`.
 - **No tracking, cookies or embeds.** The questionnaire is linked, not embedded.
 - **Photos** are props or licensed stock, with the licence recorded.
+- **Footer** on every page: "© <year> GIMSUGA Abakaliki chapter · Designed and built by Studio23"
+  (year from the build; plain text until Studio23's website exists, never a link to `github.com/studio23`).
 - **Nothing from the planning workspace comes in:** no research notes, questionnaire responses, phone-call
   notes, contact details, secrets, `.env` files or machine paths.
 
