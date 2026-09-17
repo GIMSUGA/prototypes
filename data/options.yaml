@@ -1,0 +1,10 @@
+# Short explanation shown when a reviewer switches option, and on the start page.
+- id: A
+  name: Lean
+  adds: "A public site only: chapter information, officers, events, the chapter's work and how to join. No member logins and no member data."
+- id: B
+  name: Members area
+  adds: "Everything in A, plus a members-only area: sign in, your own profile, a member directory and a business directory. You choose what is shown and how members can reach you."
+- id: C
+  name: Community portal
+  adds: "Everything in B, plus news posted by members, saying which events you will attend, and event photo galleries. Officers check what members post before it appears."
