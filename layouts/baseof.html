@@ -1,48 +1,44 @@
 <!doctype html>
-<html lang="en-NG" data-dir="A" data-as="visitor" data-chapters="multi">
+<html lang="en-NG" data-auth="guest">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
   <meta name="color-scheme" content="light dark">
-  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · GIMSUGA prototype{{ end }}</title>
+  <meta name="theme-color" content="#1d4a3c">
+  <title>{{ if .IsHome }}GIMSUGA {{ hugo.Data.association.chapter }}{{ else }}{{ .Title }} · GIMSUGA {{ hugo.Data.association.chapter }}{{ end }}</title>
   <script>
     (function () {
-      var d = "A", a = "visitor", c = "multi";
-      try { var s = JSON.parse(localStorage.getItem("gimsuga-demo") || "{}"); d = s.dir || d; a = s.as || a; c = s.chapters || c; } catch (e) {}
-      var p = new URLSearchParams(location.search);
-      d = String(p.get("dir") || d).toUpperCase();
-      a = String(p.get("as") || a).toLowerCase();
-      c = String(p.get("chapters") || c).toLowerCase();
-      if (!/^[ABC]$/.test(d)) d = "A";
-      if (!/^(visitor|member|officer)$/.test(a)) a = "visitor";
-      if (!/^(single|multi)$/.test(c)) c = "multi";
-      document.documentElement.setAttribute("data-dir", d);
-      document.documentElement.setAttribute("data-as", a);
-      document.documentElement.setAttribute("data-chapters", c);
+      var a = "guest";
+      try { a = localStorage.getItem("gimsuga-auth") || "guest"; } catch (e) {}
+      if (!/^(guest|member|admin)$/.test(a)) a = "guest";
+      document.documentElement.setAttribute("data-auth", a);
     })();
   </script>
   {{- with resources.Get "css/site.css" | minify | fingerprint }}
   <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
   {{- end }}
-  {{- with resources.Get "js/demo.js" | minify | fingerprint }}
+  {{- if .IsHome }}
+  {{- with resources.Get "vendor/driver/driver.css" | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+  {{- end }}
+  {{- with resources.Get "vendor/driver/driver.js" | fingerprint }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+  {{- end }}
+  {{- end }}
+  {{- with resources.Get "js/site.js" | minify | fingerprint }}
   <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
   {{- end }}
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  {{ partial "demobar.html" . }}
-  {{ if not .IsHome }}{{ partial "option-intro.html" . }}{{ partial "story-guide.html" . }}{{ partial "header.html" . }}{{ end }}
+  {{ partial "header.html" . }}
   <main id="main" tabindex="-1">
-    {{ if and (not .IsHome) (not .Params.memberpage) }}
-    <div class="wrap">
-      <p class="callout callout--demo" data-dirs="A" data-views="member">
-        <strong>No member area in this direction.</strong> Direction A stores no member data, so there is nothing to sign in to. Switch to direction B or C in the bar above to see a member area.
-      </p>
-    </div>
-    {{ end }}
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}
+  {{ partial "bottom-nav.html" . }}
+  {{ partial "dialogs.html" . }}
+  <p class="toast" role="status" aria-live="polite" data-toast hidden></p>
 </body>
 </html>

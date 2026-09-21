@@ -1,0 +1,14 @@
+{{- /* Shown to guests on member pages, and to members on admin pages. Context: dict "who" ("members"|"admins") "title". */ -}}
+{{- if eq .who "admins" }}
+<section class="gate card" data-show="guest member">
+  <h1>{{ .title }}</h1>
+  <p>This page is for chapter admins.</p>
+  <button type="button" class="btn" data-show="guest" data-open="signin">Sign in</button>
+</section>
+{{- else }}
+<section class="gate card" data-show="guest">
+  <h1>{{ .title }}</h1>
+  <p>This page is for members of the chapter. Sign in to see it.</p>
+  <button type="button" class="btn" data-open="signin">Sign in</button>
+</section>
+{{- end }}

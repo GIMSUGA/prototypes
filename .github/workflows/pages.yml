@@ -40,11 +40,11 @@ jobs:
       - name: Check the build
         run: |
           test -f public/index.html
-          for page in gimsuga abakaliki abakaliki/officers abakaliki/events abakaliki/our-work abakaliki/join members members/businesses members/profile community officer privacy; do
+          for page in events our-work officers join privacy members members/businesses members/profile manage; do
             test -f "public/$page/index.html" || { echo "Missing page: $page"; exit 1; }
           done
           if grep -rIl --include='*.html' -E 'wa\.me/|chat\.whatsapp\.com' public; then echo "WhatsApp link found"; exit 1; fi
-          grep -qE 'data-story-id="?c3' public/officer/index.html || { echo "Story guide missing"; exit 1; }
+          grep -q 'driver' public/index.html || { echo "Tour script missing from the home page"; exit 1; }
           missing=$(grep -rL --include='*.html' 'noindex' public || true)
           if [ -n "$missing" ]; then echo "Pages without noindex:"; echo "$missing"; exit 1; fi
 

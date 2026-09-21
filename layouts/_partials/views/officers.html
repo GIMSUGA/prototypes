@@ -1,20 +1,18 @@
 {{- $p := hugo.Data.people -}}
 <div class="wrap page">
-  <p class="eyebrow">Abakaliki chapter</p>
   <h1>Officers</h1>
-  <p class="lede">Chapter executive for the {{ $p.term.label }} term, ending <time datetime="{{ $p.term.ends }}">{{ (time $p.term.ends).Format "2 January 2006" }}</time>.</p>
-  <p class="callout" data-term-ends="{{ $p.term.ends }}" hidden><strong>This term has ended.</strong> The list below will be updated after the chapter's election.</p>
-
+  <p class="lede">The chapter executive for the {{ $p.term.label }} term, ending <time datetime="{{ $p.term.ends }}">{{ (time $p.term.ends).Format "2 January 2006" }}</time>.</p>
+  <p class="callout" data-term-ends="{{ $p.term.ends }}" hidden><strong>This term has ended.</strong> The list will be updated after the chapter's election.</p>
   <ul class="people">
     {{- range $p.officers }}
-    <li class="person">
+    <li class="person card">
       <span class="avatar" aria-hidden="true">{{ substr .name 0 1 }}</span>
       <div>
         <p class="person__role">{{ .role }}</p>
-        <p class="person__name">{{ .name }} <span class="fictional">Fictional</span></p>
+        <p class="card__title">{{ .name }}</p>
       </div>
     </li>
     {{- end }}
   </ul>
-  <p class="note">Officers are listed by role and name only. To reach the executive, use the chapter contact on the <a href="{{ "abakaliki/join/" | relURL }}">How to join</a> page.</p>
+  <p class="muted">To reach the executive, use the chapter's contacts on the <a href="{{ "join/" | relURL }}">Join</a> page.</p>
 </div>

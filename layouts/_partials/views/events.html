@@ -1,29 +1,25 @@
 {{- $events := sort hugo.Data.events.events "date" "asc" -}}
 <div class="wrap page">
-  <p class="eyebrow">Abakaliki chapter</p>
   <h1>Events</h1>
   <p class="lede">Chapter meetings and get-togethers. Past events keep a short report.</p>
 
-  <section aria-labelledby="upcoming-heading">
+  <section aria-labelledby="upcoming-heading" class="stack stack--tight">
     <h2 id="upcoming-heading">Upcoming</h2>
     <ul class="events" data-events-upcoming>
       {{- range $events }}
-      <li class="event" data-event-date="{{ .date }}">
+      <li class="event card" data-event-date="{{ .date }}">
         <div class="event__date" aria-hidden="true">
           <span class="event__day">{{ (time .date).Format "2" }}</span>
-          <span class="event__month">{{ (time .date).Format "Jan 2006" }}</span>
+          <span class="event__month">{{ (time .date).Format "Jan" }}</span>
         </div>
         <div class="event__body">
-          <h3>{{ .title }}</h3>
-          <p class="event__when"><time datetime="{{ .date }}">{{ (time .date).Format "Monday 2 January 2006" }}</time>, {{ .time }} · {{ .venue }}</p>
+          <p class="card__title">{{ .title }}</p>
+          <p class="muted"><time datetime="{{ .date }}">{{ (time .date).Format "Mon 2 Jan 2006" }}</time> · {{ .time }}</p>
+          <p class="muted">{{ .venue }}</p>
           <p>{{ .summary }}</p>
           {{- with .report }}
           <details class="event__report"><summary>Report</summary><p>{{ . }}</p></details>
           {{- end }}
-          <div class="rsvp" data-dirs="C" data-views="member officer" data-upcoming-only>
-            <button type="button" class="button button--small" data-rsvp="{{ .date }}" aria-pressed="false">I plan to attend</button>
-            <span class="rsvp__note" data-rsvp-note="{{ .date }}">Saved in this browser only.</span>
-          </div>
         </div>
       </li>
       {{- end }}
@@ -31,7 +27,7 @@
     <p class="muted" data-events-none hidden>No upcoming events yet.</p>
   </section>
 
-  <section aria-labelledby="past-heading">
+  <section aria-labelledby="past-heading" class="stack stack--tight">
     <h2 id="past-heading">Past</h2>
     <ul class="events events--past" data-events-past></ul>
   </section>

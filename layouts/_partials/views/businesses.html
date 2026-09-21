@@ -1,44 +1,30 @@
-{{- $chapters := dict -}}
-{{- range hugo.Data.association.chapters }}{{ $chapters = merge $chapters (dict .id .name) }}{{ end -}}
 {{- $p := hugo.Data.people -}}
 {{- $labels := dict "phone" "Call" "whatsapp" "WhatsApp" "email" "Email" "website" "Website" -}}
 <div class="wrap page">
-  {{ partial "member-gate.html" (dict "title" "Business directory") }}
-  <div data-dirs="B C" data-views="member officer">
-    <p class="eyebrow">Members only</p>
-    <h1>Business directory</h1>
-    <p class="lede">Businesses and services owned or run by members. Each listing has its own business contact, separate from the person, so an owner can be open for business without being open to every connection request.</p>
-    <nav class="subnav" aria-label="Member area">
-      <a href="{{ "members/" | relURL }}">Directory</a>
-      <a href="{{ "members/businesses/" | relURL }}" aria-current="page">Business directory</a>
-      <a href="{{ "members/profile/" | relURL }}">My profile</a>
-    </nav>
-    {{ partial "chapter-scope.html" (dict "list" "business-list" "id" "business-scope") }}
-    <label class="search" for="business-search">Search by business, category or town</label>
-    <input class="search__input" id="business-search" type="search" data-filter-list="business-list" autocomplete="off">
+  {{ partial "members-gate.html" (dict "who" "members" "title" "Members' businesses") }}
+  <div class="stack" data-show="member admin">
+    <h1>Members</h1>
+    {{ partial "members-tabs.html" "businesses" }}
+    <p class="muted">Businesses owned or run by members. Each has its own business contact, separate from the person.</p>
+    <label class="label" for="business-search">Search by business, category or town</label>
+    <input class="input" id="business-search" type="search" data-filter-list="business-list" autocomplete="off">
     <ul class="cards" id="business-list">
       {{- range $p.businesses }}
       {{- $biz := .name }}
-      <li class="card" data-chapter="{{ .chapter }}" data-filter-text="{{ lower (printf "%s %s %s %s" .name .category .town .offer) }}">
+      <li class="card" data-filter-text="{{ lower (printf "%s %s %s %s" .name .category .town .offer) }}">
         <p class="card__kicker">{{ .category }}</p>
-        <p class="card__title">{{ .name }} <span class="fictional">Fictional</span></p>
+        <p class="card__title">{{ .name }}</p>
         <p>{{ .offer }}</p>
-        <dl class="card__facts">
-          <div><dt>Town</dt><dd>{{ .town }}</dd></div>
-          <div><dt>Run by</dt><dd>{{ if .owner_shown }}{{ .owner }}{{ else }}A GIMSUGA member{{ end }}<span data-scopes="multi">, {{ index $chapters .chapter }} chapter</span></dd></div>
-        </dl>
-        <div class="contact">
-          <div class="button-row">
-            {{- range .reach }}
-            <button type="button" class="button button--small{{ if ne . "phone" }} button--quiet{{ end }}" data-explain="{{ printf "Demo: this is %s's own business contact (%s), not the owner's personal details. Hidden in this demo." $biz (lower (index $labels .)) }}">{{ index $labels . }}</button>
-            {{- end }}
-          </div>
-          <p class="contact__explain" role="status" data-explain-out hidden></p>
+        <p class="muted small">{{ .town }} · Run by {{ if .owner_shown }}{{ .owner }}{{ else }}a chapter member{{ end }}</p>
+        <div class="card__actions">
+          {{- range .reach }}
+          <button type="button" class="btn btn--small{{ if ne . "phone" }} btn--quiet{{ end }}" data-toast-text="{{ printf "This contacts %s through its business %s." $biz (lower (index $labels .)) }}">{{ index $labels . }}</button>
+          {{- end }}
         </div>
       </li>
       {{- end }}
     </ul>
     <p class="muted" data-filter-empty="business-list" hidden>No businesses match that search.</p>
-    <p class="note">Only businesses owned or run by GIMSUGA members can be listed. Listings are not endorsements by the chapter. There are no paid listings or adverts.</p>
+    <p class="muted small">Only businesses owned or run by members can be listed. Listings are free and are not endorsements by the chapter.</p>
   </div>
 </div>

@@ -1,0 +1,18 @@
+{{- $here := .RelPermalink -}}
+<nav class="bottomnav" aria-label="Main" id="bottom-nav">
+  <ul>
+    {{- range hugo.Data.nav }}
+    {{- $who := .bottom }}
+    {{- if eq (printf "%v" $who) "true" }}{{ $who = .show }}{{ end }}
+    {{- if $who }}
+    {{- $url := .href | relURL }}
+    <li data-show="{{ $who }}">
+      <a href="{{ $url }}"{{ if eq $here $url }} aria-current="page"{{ end }}>
+        {{ partial "icon.html" .icon }}
+        <span>{{ .label }}</span>
+      </a>
+    </li>
+    {{- end }}
+    {{- end }}
+  </ul>
+</nav>

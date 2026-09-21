@@ -1,94 +1,62 @@
 <div class="wrap page">
-  {{ partial "member-gate.html" (dict "title" "My profile") }}
-  <div data-dirs="B C" data-views="member officer">
-    <p class="eyebrow">Members only</p>
-    <h1>My profile</h1>
-    <p class="lede">You decide what is in your profile, who can see it, and how other members can reach you. Nothing is required except your name.</p>
-    <nav class="subnav" aria-label="Member area">
-      <a href="{{ "members/" | relURL }}">Directory</a>
-      <a href="{{ "members/businesses/" | relURL }}">Business directory</a>
-      <a href="{{ "members/profile/" | relURL }}" aria-current="page">My profile</a>
-    </nav>
-
-    <p class="callout callout--demo"><strong>Demo:</strong> anything you type is saved in this browser only. Try made-up details rather than your own.</p>
+  {{ partial "members-gate.html" (dict "who" "members" "title" "My profile") }}
+  <div class="stack" data-show="member admin">
+    <h1>Members</h1>
+    {{ partial "members-tabs.html" "profile" }}
+    <p class="muted">You decide what is in your profile and how other members can reach you. Only your name is required.</p>
 
     <form class="form" data-profile-form>
-      <h2 class="form__heading">About you</h2>
-      <div class="form__row">
-        <label for="pf-name">Name</label>
-        <input id="pf-name" name="name" type="text" required autocomplete="off">
-      </div>
-      <div class="form__row">
-        <label for="pf-year">Year of graduation <span class="optional">optional</span></label>
-        <input id="pf-year" name="year" type="text" inputmode="numeric" autocomplete="off">
-        <label class="check"><input type="checkbox" name="show_year" id="pf-show-year"> Show to members</label>
-      </div>
-      <div class="form__row">
-        <label for="pf-dept">Department <span class="optional">optional</span></label>
-        <input id="pf-dept" name="department" type="text" autocomplete="off">
-        <label class="check"><input type="checkbox" name="show_department" id="pf-show-dept"> Show to members</label>
-      </div>
-      <div class="form__row">
-        <label for="pf-town">Town <span class="optional">optional</span></label>
-        <input id="pf-town" name="town" type="text" autocomplete="off">
-        <label class="check"><input type="checkbox" name="show_town" id="pf-show-town"> Show to members</label>
-      </div>
-      <div class="form__row">
-        <label for="pf-work">Work <span class="optional">optional</span></label>
-        <input id="pf-work" name="work" type="text" autocomplete="off">
-        <label class="check"><input type="checkbox" name="show_work" id="pf-show-work"> Show to members</label>
-      </div>
-      <fieldset class="form__row form__choice" data-scopes="multi">
-        <legend>Who can see your profile</legend>
-        <label class="check"><input type="radio" name="visibility" value="chapter" id="pf-vis-chapter" checked> Members of my chapter only</label>
-        <label class="check"><input type="radio" name="visibility" value="all" id="pf-vis-all"> All GIMSUGA members</label>
+      <fieldset class="form__group">
+        <legend>About you</legend>
+        <label class="label" for="pf-name">Name</label>
+        <input class="input" id="pf-name" name="name" type="text" required autocomplete="name">
+        <label class="label" for="pf-year">Year of graduation <span class="optional">optional</span></label>
+        <input class="input" id="pf-year" name="year" type="text" inputmode="numeric" autocomplete="off">
+        <label class="label" for="pf-dept">Department <span class="optional">optional</span></label>
+        <input class="input" id="pf-dept" name="department" type="text" autocomplete="off">
+        <label class="label" for="pf-town">Town <span class="optional">optional</span></label>
+        <input class="input" id="pf-town" name="town" type="text" autocomplete="address-level2">
+        <label class="label" for="pf-work">Work <span class="optional">optional</span></label>
+        <input class="input" id="pf-work" name="work" type="text" autocomplete="organization-title">
+        <label class="check"><input type="checkbox" name="listed" id="pf-listed" checked> Show me in the member directory</label>
       </fieldset>
 
-      <h2 class="form__heading">How members can reach you</h2>
-      <p class="muted">Choose one. You can change it at any time.</p>
-      <fieldset class="form__row form__choice">
-        <legend class="visually-hidden">Contact choice</legend>
-        <label class="check check--block"><input type="radio" name="contact_mode" value="none" id="pf-mode-none" checked> <span><strong>Not through the directory.</strong> No contact buttons on your card.</span></label>
-        <label class="check check--block"><input type="radio" name="contact_mode" value="connect" id="pf-mode-connect"> <span><strong>Ask to connect.</strong> Members send a request. You get an email with their name and how to reach them, and decide whether to reply. Your details are never shown.</span></label>
-        <label class="check check--block"><input type="radio" name="contact_mode" value="direct" id="pf-mode-direct"> <span><strong>Direct.</strong> Members can reach you straight away, by the methods you pick below.</span></label>
-      </fieldset>
-      <fieldset class="form__row form__choice form__sub" data-contact-direct hidden>
-        <legend>Direct contact methods</legend>
-        <label class="check check--block"><input type="checkbox" name="contact_whatsapp" id="pf-contact-whatsapp"> <span><strong>WhatsApp button.</strong> Your number is not printed on the page, but someone determined could find it in the page code.</span></label>
-        <label class="check check--block"><input type="checkbox" name="contact_email" id="pf-contact-email"> <span><strong>Show my email</strong> to signed-in members.</span></label>
-        <label for="pf-phone">WhatsApp number</label>
-        <input id="pf-phone" name="phone" type="text" inputmode="tel" autocomplete="off">
+      <fieldset class="form__group">
+        <legend>How members can reach you</legend>
+        <label class="check check--block"><input type="radio" name="contact_mode" value="none" id="pf-mode-none" checked> <span><strong>Not through the directory</strong></span></label>
+        <label class="check check--block"><input type="radio" name="contact_mode" value="connect" id="pf-mode-connect"> <span><strong>Ask to connect.</strong> Members send a request. You get an email with their details and decide whether to reply. Your details are never shown.</span></label>
+        <label class="check check--block"><input type="radio" name="contact_mode" value="direct" id="pf-mode-direct"> <span><strong>Direct.</strong> Members can reach you straight away.</span></label>
+        <div class="form__sub" data-contact-direct hidden>
+          <label class="check"><input type="checkbox" name="contact_whatsapp" id="pf-contact-whatsapp"> WhatsApp button (your number is not shown on the page)</label>
+          <label class="label" for="pf-phone">WhatsApp number</label>
+          <input class="input" id="pf-phone" name="phone" type="tel" autocomplete="tel">
+          <label class="check"><input type="checkbox" name="contact_email" id="pf-contact-email"> Show my email to signed-in members</label>
+        </div>
       </fieldset>
 
-      <h2 class="form__heading">Your business <span class="optional">optional</span></h2>
-      <p class="muted">A business listing has its own contact details, separate from you. People can reach the business without being able to reach you personally.</p>
-      <div class="form__row">
-        <label for="pf-biz-name">Business name</label>
-        <input id="pf-biz-name" name="business_name" type="text" autocomplete="off">
-      </div>
-      <div class="form__row">
-        <label for="pf-biz-offer">What it offers</label>
-        <textarea id="pf-biz-offer" name="business_offer" rows="2" autocomplete="off"></textarea>
-      </div>
-      <div class="form__row">
-        <label for="pf-biz-contact">Business phone, email or website</label>
-        <input id="pf-biz-contact" name="business_contact" type="text" autocomplete="off">
-      </div>
-      <label class="check"><input type="checkbox" name="business_owner_shown" id="pf-biz-owner"> Show my name on the listing</label>
-      <label class="check"><input type="checkbox" name="show_business" id="pf-show-business"> List in the business directory</label>
+      <fieldset class="form__group">
+        <legend>Your business <span class="optional">optional</span></legend>
+        <p class="muted small">A business listing has its own contact details, separate from you.</p>
+        <label class="label" for="pf-biz-name">Business name</label>
+        <input class="input" id="pf-biz-name" name="business_name" type="text" autocomplete="organization">
+        <label class="label" for="pf-biz-offer">What it offers</label>
+        <textarea class="input" id="pf-biz-offer" name="business_offer" rows="2"></textarea>
+        <label class="label" for="pf-biz-contact">Business phone, email or website</label>
+        <input class="input" id="pf-biz-contact" name="business_contact" type="text" autocomplete="off">
+        <label class="check"><input type="checkbox" name="business_owner_shown" id="pf-biz-owner"> Show my name on the listing</label>
+      </fieldset>
 
       <div class="form__actions">
-        <button type="submit" class="button">Save profile</button>
-        <p class="form__status" role="status" data-profile-status></p>
+        <button type="submit" class="btn">Save profile</button>
       </div>
     </form>
 
-    <section class="panel" aria-labelledby="rights-heading">
+    <section class="card stack stack--tight" aria-labelledby="rights-heading">
       <h2 id="rights-heading">Your data</h2>
-      <p>You can see, download or delete everything the chapter holds about you, at any time and without asking anyone.</p>
-      <div class="button-row">
-        <button type="button" class="button button--quiet" data-profile-export>Download my data</button>
-        <button type="button" class="button button--danger" data-profile-delete>Delete my profile</button>
+      <p class="muted">See, download or delete everything the chapter holds about you, at any time.</p>
+      <div class="btn-row">
+        <button type="button" class="btn btn--quiet" data-profile-export>Download my data</button>
+        <button type="button" class="btn btn--danger" data-profile-delete>Delete my profile</button>
       </div>
     </section>
   </div>

@@ -1,0 +1,51 @@
+<div class="wrap page">
+  {{ partial "members-gate.html" (dict "who" "admins" "title" "Manage") }}
+  <div class="stack" data-show="admin">
+    <h1>Manage</h1>
+    <p class="muted">Changes are saved as drafts. A second admin checks and publishes them, so nothing goes live on one person's say-so.</p>
+
+    <section class="card stack stack--tight" aria-labelledby="queue-heading">
+      <h2 id="queue-heading">Waiting for approval</h2>
+      <ul class="queue" data-draft-list></ul>
+      <p class="muted" data-draft-empty>Nothing waiting.</p>
+    </section>
+
+    <section class="card stack stack--tight" aria-labelledby="draft-heading">
+      <h2 id="draft-heading">Add an event</h2>
+      <form class="form" data-draft-form>
+        <label class="label" for="dr-title">Event name</label>
+        <input class="input" id="dr-title" name="title" type="text" required autocomplete="off">
+        <label class="label" for="dr-date">Date</label>
+        <input class="input" id="dr-date" name="date" type="date" required>
+        <label class="label" for="dr-venue">Venue</label>
+        <input class="input" id="dr-venue" name="venue" type="text" autocomplete="off">
+        <label class="label" for="dr-photo">Photo <span class="optional">optional</span></label>
+        <input class="input" id="dr-photo" name="photo" type="file" accept="image/*" data-draft-photo>
+        <p class="photo-preview" data-photo-preview hidden></p>
+        <fieldset class="form__group" data-photo-consent hidden>
+          <legend>Before this photo can be used</legend>
+          <label class="check check--block"><input type="radio" name="consent" value="no-people" id="dr-consent-none"> <span>It shows <strong>no identifiable people</strong> (the work done, a venue, an item).</span></label>
+          <label class="check check--block"><input type="radio" name="consent" value="agreed" id="dr-consent-agreed"> <span>Everyone identifiable in it has <strong>agreed to appear</strong>, and that is recorded.</span></label>
+          <p class="muted small">A photo can be taken down on request, but copies elsewhere online may remain.</p>
+        </fieldset>
+        <div class="form__actions">
+          <button type="submit" class="btn">Save draft</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card stack stack--tight" aria-labelledby="invite-heading">
+      <h2 id="invite-heading">Add a member</h2>
+      <p class="muted">After a new member has been introduced and welcomed by the executive, invite them to sign in.</p>
+      <form class="form" data-invite-form>
+        <label class="label" for="inv-name">Name</label>
+        <input class="input" id="inv-name" name="name" type="text" required autocomplete="off">
+        <label class="label" for="inv-email">Email</label>
+        <input class="input" id="inv-email" name="email" type="email" required autocomplete="off">
+        <div class="form__actions">
+          <button type="submit" class="btn">Send invitation</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>

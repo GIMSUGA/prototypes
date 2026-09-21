@@ -1,4 +1,4 @@
-# Every person and business here is FICTIONAL (G-012). Any resemblance to a real person is accidental.
+# Every person and business here is made up. Any resemblance to a real person is accidental.
 # contact: how each member chose to be reached (G-035, G-040). One mode: [] (not through the directory),
 # [connect] (ask to connect, details private), or direct: [whatsapp], [email] or [whatsapp, email].
 term:
@@ -20,123 +20,70 @@ officers:
 
 members:
   - name: Adaobi Onwuchekwa
-    chapter: abakaliki
     year: 2009
     department: Accountancy
     town: Abakaliki
     work: Chartered accountant
     contact: [email]
   - name: Tochukwu Anyanwu
-    chapter: abakaliki
     year: 2012
     department: Civil Engineering
     town: Afikpo
     work: Site engineer
     contact: [whatsapp]
   - name: Chiamaka Ezeanya
-    chapter: abakaliki
     year: 2015
     department: Nursing Science
     town: Abakaliki
     work: Nurse, public hospital
     contact: [connect]
   - name: Emeka Nwachukwu-Ali
-    chapter: abakaliki
     year: 2004
     department: Law
     town: Onueke
     work: Legal practitioner
     contact: []
   - name: Uchenna Okorie
-    chapter: abakaliki
     year: 2018
     department: Computer Science
     town: Abakaliki
     work: Software developer
     contact: [whatsapp, email]
   - name: Nkechi Mbanefo
-    chapter: abakaliki
     year: 2010
     department: Agricultural Economics
     town: Ikwo
     work: Rice farm manager
     contact: [whatsapp]
   - name: Ikenna Duru-Oha
-    chapter: abakaliki
     year: 2007
     department: Mass Communication
     town: Abakaliki
     work: Radio producer
     contact: [connect]
   - name: Chinwe Igboanugo
-    chapter: abakaliki
     year: 2016
     department: Microbiology
     town: Ezza
     work: Laboratory scientist
     contact: [email]
-  - name: Oluchi Ogbuagu
-    chapter: lagos
-    year: 2011
-    department: Estate Management
-    town: Lekki
-    work: Property valuer
-    contact: [connect]
-  - name: Somtochukwu Eke
-    chapter: lagos
-    year: 2014
-    department: Economics
-    town: Ikeja
-    work: Bank analyst
-    contact: [email]
-  - name: Adanna Okoro-Uba
-    chapter: abuja
-    year: 2006
-    department: Political Science
-    town: Garki
-    work: Civil servant
-    contact: [connect]
-  - name: Chibuzor Nnadozie
-    chapter: abuja
-    year: 2017
-    department: Architecture
-    town: Gwarinpa
-    work: Architect
-    contact: [whatsapp]
-  - name: Nnamdi Ugwu-Oke
-    chapter: enugu
-    year: 2009
-    department: Marketing
-    town: Independence Layout
-    work: Sales manager
-    contact: [whatsapp]
   - name: Ifeyinwa Agbo
-    chapter: enugu
     year: 2012
     department: Education
-    town: New Haven
+    town: Afikpo
     work: Secondary school teacher
-    contact: []
-  - name: Dozie Iwuchukwu
-    chapter: rivers
-    year: 2008
-    department: Petroleum Engineering
-    town: Port Harcourt
-    work: Field engineer
-    contact: [email]
-  - name: Ebere Amadi-Wokoma
-    chapter: rivers
-    year: 2013
-    department: Pharmacy
-    town: Port Harcourt
-    work: Community pharmacist
     contact: [connect]
+  - name: Nnamdi Ugwu-Oke
+    year: 2009
+    department: Marketing
+    town: Abakaliki
+    work: Sales manager
+    contact: [whatsapp]
 
 # Business listings are detached from the person (G-035): the business carries its own contact,
 # and the owner's name appears only if owner_shown is true.
 businesses:
   - name: Ikwo Valley Rice Mill
-    chapter: abakaliki
     owner: Nkechi Mbanefo
     owner_shown: true
     category: Agriculture and food
@@ -144,7 +91,6 @@ businesses:
     offer: Parboiled and destoned local rice, sold in 25 kg and 50 kg bags.
     reach: [phone, whatsapp]
   - name: Onwuchekwa & Partners
-    chapter: abakaliki
     owner: Adaobi Onwuchekwa
     owner_shown: true
     category: Accounting
@@ -152,7 +98,6 @@ businesses:
     offer: Bookkeeping and annual returns for small businesses.
     reach: [email, website]
   - name: Clearline Tech Services
-    chapter: abakaliki
     owner: Uchenna Okorie
     owner_shown: false
     category: Technology
@@ -160,7 +105,6 @@ businesses:
     offer: Websites and computer repairs for schools and small offices.
     reach: [phone, email, website]
   - name: Anyanwu Build & Survey
-    chapter: abakaliki
     owner: Tochukwu Anyanwu
     owner_shown: false
     category: Construction
@@ -168,42 +112,16 @@ businesses:
     offer: Building plans, site supervision and land survey.
     reach: [phone]
   - name: Ezza Diagnostic Lab
-    chapter: abakaliki
     owner: Chinwe Igboanugo
     owner_shown: true
     category: Health
     town: Ezza
     offer: Routine laboratory tests, open Monday to Saturday.
     reach: [phone, whatsapp]
-  - name: Lekki Valuation Consult
-    chapter: lagos
-    owner: Oluchi Ogbuagu
-    owner_shown: false
-    category: Property
-    town: Lekki
-    offer: Property valuation and inspection reports.
-    reach: [email, website]
-  - name: Nnadozie Design Studio
-    chapter: abuja
-    owner: Chibuzor Nnadozie
-    owner_shown: true
-    category: Architecture
-    town: Gwarinpa
-    offer: House plans and approval drawings.
-    reach: [whatsapp, email]
-  - name: Coal City Sales Training
-    chapter: enugu
+  - name: Ugwu-Oke Sales Training
     owner: Nnamdi Ugwu-Oke
     owner_shown: false
     category: Training
-    town: Enugu
+    town: Abakaliki
     offer: Sales and customer-service training for small teams.
     reach: [phone]
-  - name: Iwuchukwu Field Services
-    chapter: rivers
-    owner: Dozie Iwuchukwu
-    owner_shown: true
-    category: Engineering
-    town: Port Harcourt
-    offer: Equipment inspection and safety training for small operators.
-    reach: [phone, email]
