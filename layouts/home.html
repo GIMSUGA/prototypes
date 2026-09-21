@@ -48,7 +48,7 @@
     <ul class="list-cards">
       {{- range first 2 hugo.Data.events.work }}
       <li class="card">
-        <p class="card__kicker">{{ (time (printf "%s-01" .date)).Format "January 2006" }}</p>
+        <p class="card__kicker">{{ with .date }}{{ (time (printf "%s-01" .)).Format "January 2006" }}{{ else }}Date to be confirmed{{ end }}</p>
         <p class="card__title">{{ .title }}</p>
         <p class="muted">{{ .where }}</p>
       </li>

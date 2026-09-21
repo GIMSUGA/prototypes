@@ -4,10 +4,10 @@
   <ul class="list-cards">
     {{- range hugo.Data.events.work }}
     <li class="card">
-      <p class="card__kicker">{{ (time (printf "%s-01" .date)).Format "January 2006" }}</p>
+      <p class="card__kicker">{{ with .date }}{{ (time (printf "%s-01" .)).Format "January 2006" }}{{ else }}Date to be confirmed{{ end }}</p>
       <h2 class="card__title">{{ .title }}</h2>
       <p class="muted">{{ .where }}</p>
-      <div class="photo-slot" role="img" aria-label="Photograph of the completed work">Photo of the work</div>
+      <div class="photo-slot" role="img" aria-label="Photograph of the work">Photo of the work</div>
       <p>{{ .detail }}</p>
     </li>
     {{- end }}
