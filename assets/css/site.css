@@ -150,6 +150,10 @@ main:focus { outline: none; }
 .avatar { flex: none; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--green-soft); color: var(--green-2); font-family: var(--serif); font-weight: 600; font-size: 1.1rem; }
 .avatar--small { width: 32px; height: 32px; font-size: 0.95rem; }
 .photo-slot { aspect-ratio: 16 / 9; max-width: 100%; display: grid; place-items: center; border-radius: 6px; font-size: var(--step--1); color: var(--muted); background: repeating-linear-gradient(135deg, var(--green-soft) 0 10px, transparent 10px 20px); border: 1px solid var(--rule); }
+.work-photo { margin: 0; display: grid; gap: 4px; }
+.work-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; background: var(--green-soft); }
+.work-photo figcaption { font-size: 0.75rem; color: var(--muted); }
+.work-photo figcaption a { color: inherit; }
 .callout { background: var(--gold-soft); border-left: 4px solid var(--gold); padding: 12px 14px; border-radius: 0 var(--radius) var(--radius) 0; }
 
 /* Welcome and quick links */

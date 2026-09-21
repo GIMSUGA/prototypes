@@ -28,7 +28,21 @@ work:
     title: Toilet facilities repaired
     where: Imo State University, Owerri
     detail: The chapter repaired toilet facilities at the university.
+    photo: toilet-block.jpg
+    photo_size: [960, 638]
+    photo_alt: A single-storey brick toilet block with a covered walkway
+    credit: SuSanA Secretariat
+    licence: CC BY 2.0
+    licence_url: https://creativecommons.org/licenses/by/2.0/
+    source_url: https://commons.wikimedia.org/wiki/File:Toilet_block_at_the_Lyc%C3%A9e_Regina_Pacis_(6908563907).jpg
   - date: ""
     title: Computers donated
     where: Imo State University, Owerri
     detail: The chapter donated computers to the university.
+    photo: computer-lab.jpg
+    photo_size: [960, 720]
+    photo_alt: Rows of desktop computers on wooden desks in a computer room
+    credit: Kiruthikapalani
+    licence: CC BY-SA 4.0
+    licence_url: https://creativecommons.org/licenses/by-sa/4.0/
+    source_url: https://commons.wikimedia.org/wiki/File:Computer_Laboratory.jpg
