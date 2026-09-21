@@ -34,4 +34,14 @@
     <button class="btn btn--plain" value="close">Close</button>
   </form>
 </dialog>
+<dialog class="sheet" id="confirm-delete" aria-labelledby="confirm-delete-title">
+  <form method="dialog" class="sheet__body">
+    <h2 id="confirm-delete-title">Delete your profile?</h2>
+    <p class="muted">Your details will be removed from the member directory and from the chapter's records. This cannot be undone.</p>
+    <div class="btn-row">
+      <button type="button" class="btn btn--danger" data-confirm-delete>Delete my profile</button>
+      <button class="btn btn--quiet" value="cancel">Keep it</button>
+    </div>
+  </form>
+</dialog>
 <script type="application/json" id="accounts-data">{{ $acc | jsonify | safeJS }}</script>

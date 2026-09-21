@@ -30,11 +30,6 @@
   icon: people
   show: member admin
   bottom: member admin
-- href: members/profile/
-  label: Profile
-  icon: user
-  show: member admin
-  bottom: member admin
 - href: manage/
   label: Manage
   icon: manage
