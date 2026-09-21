@@ -314,8 +314,11 @@
       doneBtnText: "Done",
       steps: steps,
       onDestroyed: function () {
-        var start = document.querySelector("[data-tour]");
-        if (start) start.focus();
+        // Driver.js restores focus itself after this runs, so return it on the next tick
+        setTimeout(function () {
+          var start = document.querySelector("[data-tour]");
+          if (start) start.focus();
+        }, 0);
       }
     });
     tour.drive();
