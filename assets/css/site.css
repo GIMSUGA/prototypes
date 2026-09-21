@@ -15,6 +15,7 @@
   --on-green: #f4f7f2;
   --on-green-muted: #c9d9cf;
   --focus: #c98a12;
+  --on-accent: #ffffff;
   --shadow: 0 1px 2px rgba(23, 33, 28, 0.06), 0 4px 14px rgba(23, 33, 28, 0.06);
 
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
@@ -46,9 +47,9 @@
     --on-green: #eef3ef;
     --on-green-muted: #b5c9bd;
     --shadow: none;
+    --on-accent: #0d1a14;
   }
   .brand__mark { background: #2f6b56; color: #ffffff; }
-  .driver-popover.gimsuga-tour .driver-popover-next-btn { color: #0d1a14; }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -238,7 +239,7 @@ textarea.input { min-height: 72px; }
 .driver-popover.gimsuga-tour .driver-popover-arrow { border-color: var(--paper); }
 .driver-popover.gimsuga-tour .driver-popover-navigation-btns button { font-family: var(--sans); font-size: var(--step--1); text-shadow: none; border-radius: 999px; padding: 8px 18px; min-height: 44px; }
 .driver-popover.gimsuga-tour .driver-popover-close-btn { width: 44px; height: 44px; font-size: 22px; }
-.driver-popover.gimsuga-tour .driver-popover-next-btn { background: var(--green-2); color: #fff; border-color: var(--green-2); }
+.driver-popover.gimsuga-tour .driver-popover-next-btn { background: var(--green-2); color: var(--on-accent); border-color: var(--green-2); }
 
 /* Wider screens */
 @media (min-width: 640px) {
