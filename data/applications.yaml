@@ -1,0 +1,13 @@
+# Made-up membership applications with made-up receipts (G-042). Emails use example.com, which is reserved.
+- id: app-1
+  name: Kosisochukwu Nwafor
+  email: kosi.nwafor@example.com
+  introduced_by: Chiamaka Ezeanya
+  submitted: "2026-09-18"
+  receipt: receipt-1.svg
+- id: app-2
+  name: Obiora Mgbada
+  email: obiora.m@example.com
+  introduced_by: Ikenna Duru-Oha
+  submitted: "2026-09-15"
+  receipt: receipt-2.svg

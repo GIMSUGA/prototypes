@@ -15,5 +15,24 @@
       <button type="button" class="btn btn--quiet" data-toast-text="This will open your email app, addressed to the chapter's membership address.">{{ $a.contact.email_label }}</button>
     </div>
   </section>
-  <p class="muted">The chapter never asks for dues or payment through this website. If anyone sends you a payment link claiming to be from the chapter, check with the executive first.</p>
+  <section class="card stack stack--tight" aria-labelledby="apply-heading" id="apply">
+    <h2 id="apply-heading">Already introduced? Apply for membership</h2>
+    <p class="muted">After your introduction, the executive will tell you how to pay your dues. Then send your application here with a photo or screenshot of your payment receipt.</p>
+    <form class="form" data-apply-form>
+      <label class="label" for="ap-name">Full name</label>
+      <input class="input" id="ap-name" name="name" type="text" required autocomplete="name">
+      <label class="label" for="ap-email">Email</label>
+      <input class="input" id="ap-email" name="email" type="email" required autocomplete="email">
+      <label class="label" for="ap-intro">Who introduced you?</label>
+      <input class="input" id="ap-intro" name="introduced_by" type="text" required autocomplete="off">
+      <label class="label" for="ap-receipt">Payment receipt</label>
+      <input class="input" id="ap-receipt" name="receipt" type="file" accept="image/*" required data-apply-receipt>
+      <p class="photo-preview" data-apply-preview hidden></p>
+      <label class="check check--block"><input type="checkbox" name="consent" id="ap-consent" required> <span>I agree that the chapter's admins can see these details and my receipt to check my application. The receipt is deleted once it has been checked.</span></label>
+      <div class="form__actions">
+        <button type="submit" class="btn">Send application</button>
+      </div>
+    </form>
+  </section>
+  <p class="muted">This website never shows payment details and never takes payments. If anyone sends you a payment link claiming to be from the chapter, check with the executive first.</p>
 </div>

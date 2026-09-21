@@ -211,6 +211,15 @@ textarea.input { min-height: 72px; }
 .queue__status { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; justify-self: start; padding: 2px 8px; border-radius: 999px; background: var(--gold-soft); color: var(--gold); }
 .queue__status--published { background: var(--green-soft); color: var(--green-2); }
 .queue__item .btn { justify-self: start; margin-top: 4px; }
+.detail { display: grid; gap: 10px; }
+.detail dl { margin: 0; display: grid; gap: 6px; }
+.detail dl div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 8px; }
+.detail dt { color: var(--muted); font-size: var(--step--1); }
+.detail dd { margin: 0; overflow-wrap: anywhere; }
+.receipt { display: block; width: 100%; max-width: 300px; max-height: 50vh; object-fit: contain; border-radius: 8px; border: 1px solid var(--rule); background: #fff; }
+.sheet { max-height: 92vh; overflow-y: auto; }
+.queue__row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.queue__status--declined { background: transparent; color: var(--muted); border: 1px solid var(--rule); }
 .you-badge { display: inline-block; font-family: var(--sans); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: var(--green-soft); color: var(--green-2); vertical-align: middle; }
 
 /* Sheets (dialogs) */

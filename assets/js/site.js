@@ -35,7 +35,8 @@
     markYou(who);
     var count = document.querySelector("[data-pending-count]");
     if (count) {
-      var n = drafts().filter(function (d) { return !d.published && d.by !== "me"; }).length;
+      var n = drafts().filter(function (d) { return !d.published && d.by !== "me"; }).length +
+        applications().filter(function (a) { return !a.status; }).length;
       count.textContent = n ? "· " + n + " waiting" : "";
     }
   }
@@ -185,10 +186,45 @@
   // Drafts and approvals. Drafts from another admin can be approved; your own wait for someone else.
   var KEYD = "gimsuga-drafts";
   var SEED = [
-    { title: "Report: mid-year general meeting", meta: "Added by Amarachi Nwosu-Kalu, PRO", by: "other", published: false },
-    { title: "Officers list for the 2025–2027 term", meta: "Added by Obinna Ekwueme-Ude, Chairman", by: "other", published: false }
+    { title: "Report: mid-year general meeting", meta: "Added by Amarachi Nwosu-Kalu, PRO", by: "other", published: false,
+      body: "The executive presented the half-year report. Members agreed to hold the end-of-year get-together in December. Thanks to everyone who attended." },
+    { title: "Officers list for the 2025–2027 term", meta: "Added by Obinna Ekwueme-Ude, Chairman", by: "other", published: false,
+      body: "Chairman, Vice Chairman, Secretary, Treasurer, Public Relations Officer and Technical Officer for the 2025–2027 term, as elected at the annual general meeting." }
   ];
   function drafts() { return load(KEYD, SEED); }
+
+  function showDetail(title, rows, extra, actions) {
+    var sheet = document.getElementById("detail");
+    if (!sheet) return;
+    sheet.querySelector("[data-detail-title]").textContent = title;
+    var body = sheet.querySelector("[data-detail-body]");
+    body.innerHTML = "";
+    if (rows && rows.length) {
+      var dl = document.createElement("dl");
+      rows.forEach(function (r) {
+        if (!r[1]) return;
+        var div = document.createElement("div");
+        var dt = document.createElement("dt"); dt.textContent = r[0];
+        var dd = document.createElement("dd"); dd.textContent = r[1];
+        div.append(dt, dd);
+        dl.append(div);
+      });
+      body.append(dl);
+    }
+    if (extra) body.append(extra);
+    var act = sheet.querySelector("[data-detail-actions]");
+    act.innerHTML = "";
+    (actions || []).forEach(function (a) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "btn" + (a.kind ? " btn--" + a.kind : "");
+      b.textContent = a.label;
+      b.addEventListener("click", function () { sheet.close(); a.run(); });
+      act.append(b);
+    });
+    closeSheets();
+    sheet.showModal();
+  }
 
   function niceDate(iso) {
     if (!iso) return "";
@@ -226,20 +262,35 @@
           return;
         }
         waiting++;
+        function approve() {
+          all[i].published = true;
+          save(KEYD, all);
+          render();
+          renderAccount();
+          toast("Published.");
+        }
+        var row = document.createElement("div");
+        row.className = "queue__row";
+        var view = document.createElement("button");
+        view.type = "button";
+        view.className = "btn btn--small btn--quiet";
+        view.textContent = "View";
+        view.addEventListener("click", function () {
+          var text = document.createElement("p");
+          text.textContent = d.body || "An event draft: " + d.title + (d.meta ? " (" + d.meta + ")." : ".");
+          showDetail(d.title, [["Status", d.by === "me" ? "Waiting for another admin" : "Waiting for you"], ["Details", d.meta]], text,
+            d.by === "me" ? [] : [{ label: "Approve and publish", run: approve }]);
+        });
+        row.append(view);
         if (d.by !== "me") {
           var btn = document.createElement("button");
           btn.type = "button";
           btn.className = "btn btn--small";
           btn.textContent = "Approve and publish";
-          btn.addEventListener("click", function () {
-            all[i].published = true;
-            save(KEYD, all);
-            render();
-            renderAccount();
-            toast("Published.");
-          });
-          li.append(btn);
+          btn.addEventListener("click", approve);
+          row.append(btn);
         }
+        li.append(row);
         list.append(li);
       });
       empty.hidden = waiting > 0;
@@ -272,7 +323,8 @@
       var parts = [niceDate(form.elements.date.value), form.elements.venue.value];
       if (hasPhoto) parts.push(chosen.value === "agreed" ? "photo, consent recorded" : "photo, no people in it");
       var all = drafts();
-      all.unshift({ title: form.elements.title.value, meta: parts.filter(Boolean).join(" · "), by: "me", published: false });
+      all.unshift({ title: form.elements.title.value, meta: parts.filter(Boolean).join(" · "), by: "me", published: false,
+        body: "Event: " + form.elements.title.value + ". " + parts.filter(Boolean).join(", ") + "." });
       save(KEYD, all);
       form.reset();
       preview.hidden = true;
@@ -288,6 +340,137 @@
       invite.reset();
       toast("Invitation sent. " + name + " will get an email to sign in.");
     });
+  }
+
+  // Membership applications with a receipt (G-042). Seeded ones come from the page; new ones from Join.
+  var KEYA = "gimsuga-applications";
+  function seededApplications() {
+    var el = document.getElementById("applications-data");
+    try { return el ? JSON.parse(el.textContent) : []; } catch (e) { return []; }
+  }
+  function applications() {
+    var state = load(KEYA, {});
+    var mine = load("gimsuga-my-applications", []);
+    return seededApplications().concat(mine).map(function (a) {
+      var s = state[a.id] || {};
+      return Object.assign({}, a, { status: s.status || "" });
+    });
+  }
+  function setStatus(id, status) {
+    var state = load(KEYA, {});
+    state[id] = { status: status };
+    save(KEYA, state);
+  }
+
+  function setupApply() {
+    var form = document.querySelector("[data-apply-form]");
+    if (!form) return;
+    var file = form.querySelector("[data-apply-receipt]");
+    var preview = form.querySelector("[data-apply-preview]");
+    var dataUrl = "";
+    file.addEventListener("change", function () {
+      var f = file.files && file.files[0];
+      preview.innerHTML = "";
+      preview.hidden = !f;
+      dataUrl = "";
+      if (!f) return;
+      var img = new Image();
+      img.onload = function () {
+        // Shrink the image so it fits in the browser's storage
+        var scale = Math.min(1, 900 / Math.max(img.width, img.height));
+        var c = document.createElement("canvas");
+        c.width = Math.round(img.width * scale);
+        c.height = Math.round(img.height * scale);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        dataUrl = c.toDataURL("image/jpeg", 0.8);
+        var shown = document.createElement("img");
+        shown.alt = "Your receipt";
+        shown.src = dataUrl;
+        preview.append(shown);
+        URL.revokeObjectURL(img.src);
+      };
+      img.src = URL.createObjectURL(f);
+    });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var mine = load("gimsuga-my-applications", []);
+      mine.push({
+        id: "mine-" + Date.now(),
+        name: form.elements.name.value,
+        email: form.elements.email.value,
+        introduced_by: form.elements.introduced_by.value,
+        submitted: new Date().toISOString().slice(0, 10),
+        receipt_data: dataUrl
+      });
+      if (!save("gimsuga-my-applications", mine)) {
+        toast("Your browser blocked saving the application.");
+        return;
+      }
+      form.reset();
+      preview.hidden = true;
+      toast("Application sent. An admin will check it and contact you by email.");
+    });
+  }
+
+  function setupApplications() {
+    var list = document.querySelector("[data-app-list]");
+    if (!list) return;
+    var base = list.getAttribute("data-receipt-base");
+    var empty = document.querySelector("[data-app-empty]");
+    function render() {
+      var all = applications();
+      list.innerHTML = "";
+      all.forEach(function (a) {
+        var li = document.createElement("li");
+        li.className = "queue__item";
+        var badge = document.createElement("span");
+        badge.className = "queue__status" + (a.status === "approved" ? " queue__status--published" : a.status === "declined" ? " queue__status--declined" : "");
+        badge.textContent = a.status === "approved" ? "Approved · invitation sent" : a.status === "declined" ? "Declined" : "Receipt to check";
+        var title = document.createElement("p");
+        title.className = "card__title";
+        title.textContent = a.name;
+        var meta = document.createElement("p");
+        meta.className = "muted small";
+        meta.textContent = "Introduced by " + a.introduced_by + " · sent " + niceDate(a.submitted);
+        var row = document.createElement("div");
+        row.className = "queue__row";
+        var view = document.createElement("button");
+        view.type = "button";
+        view.className = "btn btn--small" + (a.status ? " btn--quiet" : "");
+        view.textContent = a.status ? "View" : "View and check";
+        view.addEventListener("click", function () {
+          var extra = null;
+          if (!a.status) {
+            var src = a.receipt_data || (a.receipt ? base + a.receipt : "");
+            if (src) {
+              extra = document.createElement("img");
+              extra.className = "receipt";
+              extra.alt = "Payment receipt sent by " + a.name;
+              extra.src = src;
+            }
+          } else {
+            extra = document.createElement("p");
+            extra.className = "muted";
+            extra.textContent = a.status === "approved"
+              ? "Approved. An invitation to sign in was sent, and the receipt has been deleted."
+              : "Declined. The applicant was told, and their details have been deleted.";
+          }
+          showDetail(a.name, [
+            ["Email", a.email],
+            ["Introduced by", a.introduced_by],
+            ["Sent", niceDate(a.submitted)]
+          ], extra, a.status ? [] : [
+            { label: "Approve", run: function () { setStatus(a.id, "approved"); render(); renderAccount(); toast("Approved. " + a.name.split(" ")[0] + " will get an email to sign in."); } },
+            { label: "Decline", kind: "danger", run: function () { setStatus(a.id, "declined"); render(); renderAccount(); toast("Declined. " + a.name.split(" ")[0] + " will be told by email."); } }
+          ]);
+        });
+        row.append(view);
+        li.append(badge, title, meta, row);
+        list.append(li);
+      });
+      empty.hidden = all.length > 0;
+    }
+    render();
   }
 
   // Guided tour (Driver.js, home page only)
@@ -363,5 +546,8 @@
     setupFilters();
     setupProfile();
     setupDrafts();
+    setupApply();
+    setupApplications();
+    renderAccount();
   });
 })();

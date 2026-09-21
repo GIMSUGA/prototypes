@@ -4,6 +4,13 @@
     <h1>Manage</h1>
     <p class="muted">Changes are saved as drafts. A second admin checks and publishes them, so nothing goes live on one person's say-so.</p>
 
+    <section class="card stack stack--tight" aria-labelledby="apps-heading">
+      <h2 id="apps-heading">Membership applications</h2>
+      <p class="muted small">Check each receipt against the chapter's account before approving. Receipts are deleted once checked.</p>
+      <ul class="queue" data-app-list data-receipt-base="{{ "images/receipts/" | relURL }}"></ul>
+      <p class="muted" data-app-empty hidden>No applications waiting.</p>
+    </section>
+
     <section class="card stack stack--tight" aria-labelledby="queue-heading">
       <h2 id="queue-heading">Waiting for approval</h2>
       <ul class="queue" data-draft-list></ul>

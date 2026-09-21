@@ -34,6 +34,15 @@
     <button class="btn btn--plain" value="close">Close</button>
   </form>
 </dialog>
+<dialog class="sheet" id="detail" aria-labelledby="detail-title">
+  <form method="dialog" class="sheet__body">
+    <h2 id="detail-title" data-detail-title></h2>
+    <div class="detail" data-detail-body></div>
+    <div class="btn-row" data-detail-actions></div>
+    <button class="btn btn--plain" value="close">Close</button>
+  </form>
+</dialog>
+
 <dialog class="sheet" id="confirm-delete" aria-labelledby="confirm-delete-title">
   <form method="dialog" class="sheet__body">
     <h2 id="confirm-delete-title">Delete your profile?</h2>
@@ -45,3 +54,4 @@
   </form>
 </dialog>
 <script type="application/json" id="accounts-data">{{ $acc | jsonify | safeJS }}</script>
+<script type="application/json" id="applications-data">{{ hugo.Data.applications | jsonify | safeJS }}</script>
