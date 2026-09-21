@@ -1,30 +1,25 @@
 {{- $here := .RelPermalink -}}
-{{- $links := slice
-  (dict "href" "gimsuga/" "label" "GIMSUGA" "dirs" "" "views" "" "scopes" "multi")
-  (dict "href" "abakaliki/" "label" "Chapter" "dirs" "" "views" "" "scopes" "")
-  (dict "href" "abakaliki/officers/" "label" "Officers" "dirs" "" "views" "" "scopes" "")
-  (dict "href" "abakaliki/events/" "label" "Events" "dirs" "" "views" "" "scopes" "")
-  (dict "href" "abakaliki/our-work/" "label" "Our work" "dirs" "" "views" "" "scopes" "")
-  (dict "href" "abakaliki/join/" "label" "How to join" "dirs" "" "views" "" "scopes" "")
-  (dict "href" "members/" "label" "Members" "dirs" "B C" "views" "" "scopes" "")
-  (dict "href" "community/" "label" "Community" "dirs" "C" "views" "" "scopes" "")
-  (dict "href" "officer/" "label" "Officer tools" "dirs" "" "views" "officer" "scopes" "")
--}}
-<header class="site-header">
-  <div class="wrap site-header__inner">
-    <a class="brand" href="{{ "abakaliki/" | relURL }}">
+{{- $a := hugo.Data.association -}}
+<header class="topbar">
+  <div class="wrap topbar__inner">
+    <a class="brand" href="{{ "" | relURL }}">
       <span class="brand__mark" aria-hidden="true">G</span>
-      <span class="brand__text"><strong>GIMSUGA</strong><small>Abakaliki chapter</small></span>
+      <span class="brand__text"><strong>{{ $a.name }}</strong><small>{{ $a.chapter }}</small></span>
     </a>
-    <nav class="site-nav" aria-label="Main">
+    <nav class="topnav" aria-label="Main">
       <ul>
-        {{- range $links }}
+        {{- range hugo.Data.nav }}
         {{- $url := .href | relURL }}
-        <li{{ with .dirs }} data-dirs="{{ . }}"{{ end }}{{ with .views }} data-views="{{ . }}"{{ end }}{{ with .scopes }} data-scopes="{{ . }}"{{ end }}>
-          <a href="{{ $url }}"{{ if eq $here $url }} aria-current="page"{{ end }}>{{ .label }}</a>
-        </li>
+        <li data-show="{{ .show }}"><a href="{{ $url }}"{{ if eq $here $url }} aria-current="page"{{ end }}>{{ .label }}</a></li>
         {{- end }}
       </ul>
     </nav>
+    <div class="topbar__account">
+      <button type="button" class="btn btn--small" data-show="guest" data-open="signin" id="signin-button">Sign in</button>
+      <button type="button" class="account-btn" data-show="member admin" data-open="account" id="account-button" aria-haspopup="dialog">
+        <span class="avatar avatar--small" aria-hidden="true" data-account-initial></span>
+        <span class="account-btn__name" data-account-name></span>
+      </button>
+    </div>
   </div>
 </header>

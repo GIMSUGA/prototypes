@@ -1,3 +1,3 @@
 ---
-title: GIMSUGA website prototypes
+title: Home
 ---

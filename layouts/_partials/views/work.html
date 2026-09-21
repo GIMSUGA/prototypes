@@ -1,17 +1,15 @@
 <div class="wrap page">
-  <p class="eyebrow">Abakaliki chapter</p>
   <h1>Our work</h1>
   <p class="lede">A dated record of what the chapter has done: what, where and when, with photographs of the work itself.</p>
-  <ul class="records records--full">
+  <ul class="list-cards">
     {{- range hugo.Data.events.work }}
-    <li class="record">
-      <p class="record__date">{{ (time (printf "%s-01" .date)).Format "January 2006" }}</p>
-      <h2>{{ .title }}</h2>
+    <li class="card">
+      <p class="card__kicker">{{ (time (printf "%s-01" .date)).Format "January 2006" }}</p>
+      <h2 class="card__title">{{ .title }}</h2>
       <p class="muted">{{ .where }}</p>
-      <div class="photo-slot" role="img" aria-label="Placeholder for a photograph of the completed work">Photo of the work, not of people</div>
+      <div class="photo-slot" role="img" aria-label="Photograph of the completed work">Photo of the work</div>
       <p>{{ .detail }}</p>
     </li>
     {{- end }}
   </ul>
-  <p class="note">No amounts of money are shown, and there are no appeals for funds.</p>
 </div>

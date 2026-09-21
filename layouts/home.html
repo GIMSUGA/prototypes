@@ -1,98 +1,66 @@
 {{ define "main" }}
-{{- $u := "gimsuga/" | relURL -}}
-<div class="wrap landing">
-  <header class="landing__head">
-    <p class="eyebrow">GIMSUGA Abakaliki chapter · For member feedback</p>
-    <h1>What should the chapter website be?</h1>
-    <p class="lede">The chapter executive is considering a website. Before deciding anything, it wants members' views. This takes three steps: read, try, then tell us.</p>
-    <ol class="steps-nav">
-      <li><a href="#read">1. Read</a></li>
-      <li><a href="#try">2. Try the options</a></li>
-      <li><a href="#tell">3. Tell us</a></li>
-    </ol>
-  </header>
-
-  <section id="read" class="landing__section" aria-labelledby="read-heading">
-    <p class="eyebrow">Step 1</p>
-    <h2 id="read-heading">Read: what this is</h2>
-    <p>These are working demos, not the real site. Every person, business and event in them is made up. You can click anything; nothing you type leaves your phone or computer.</p>
-    <div class="grid-2">
-      <div class="panel">
-        <h3>The same in every option</h3>
-        <ul class="ticks">
-          <li>Joining stays offline, through introduction by an existing member.</li>
-          <li>No dues, payments, bank details or donation buttons.</li>
-          <li>No public WhatsApp group links.</li>
-          <li>Officers listed by role and name, without personal phone numbers.</li>
-          <li>Photos of members only with their consent.</li>
-        </ul>
-      </div>
-      <div class="panel">
-        <h3>What they cost to run each year</h3>
-        <dl class="costs">
-          <div><dt>A — Lean</dt><dd>About ₦0–₦7,200</dd></div>
-          <div><dt>B — Members area</dt><dd>About ₦260,000–₦660,000</dd></div>
-          <div><dt>C — Community portal</dt><dd>As B, plus volunteer time</dd></div>
-        </dl>
-        <p class="muted">B and C need a server in Nigeria and a paid developer, and make the chapter responsible for members' personal data. Estimates only.</p>
-      </div>
+{{- $a := hugo.Data.association -}}
+{{- $events := sort hugo.Data.events.events "date" "asc" -}}
+<section class="hero">
+  <div class="wrap hero__inner">
+    <p class="eyebrow eyebrow--light">{{ $a.name }}</p>
+    <h1 class="hero__title">{{ $a.chapter }}</h1>
+    <p class="hero__lede">Imo State University graduates living and working across Ebonyi State: {{ $a.covers }}.</p>
+    <div class="hero__actions">
+      <button type="button" class="btn btn--light" data-tour>Get started</button>
+      <a class="btn btn--outline-light" href="{{ "join/" | relURL }}" data-show="guest">How to join</a>
     </div>
-    <p class="muted">The easiest way in is the stories below. The bar at the top also lets you switch the option (A, B, C), see the site as a visitor, member or officer, and see it as a chapter site or a multi-chapter site.</p>
-  </section>
+  </div>
+</section>
 
-  <section id="try" class="landing__section" aria-labelledby="try-heading">
-    <p class="eyebrow">Step 2</p>
-    <h2 id="try-heading">Try the options</h2>
-    <p>Each option has three short stories. Tap one: the demo opens at the right place, tells you what to look at, and takes you to the next story.</p>
-    <p class="note">The story guide is only for this review. It would not be part of the real chapter website.</p>
-
-    <ul class="compare">
-      <li class="compare__card">
-        <p class="compare__tag">Option A</p>
-        <h3>Lean</h3>
-        <p class="compare__line">A clear public site for the chapter. No member logins, no member data.</p>
-        <ul class="stories">
-          {{- range where hugo.Data.stories "option" "A" }}
-          <li><a href="{{ partial "story-url.html" . }}">{{ .title }}</a></li>
-          {{- end }}
-        </ul>
-        <a class="button" href="{{ "abakaliki/" | relURL }}?dir=A&amp;as=visitor">Explore option A</a>
-      </li>
-      <li class="compare__card">
-        <p class="compare__tag">Option B</p>
-        <h3>Members area</h3>
-        <p class="compare__line">A, plus a private area where members find each other and members' businesses.</p>
-        <ul class="stories">
-          {{- range where hugo.Data.stories "option" "B" }}
-          <li><a href="{{ partial "story-url.html" . }}">{{ .title }}</a></li>
-          {{- end }}
-        </ul>
-        <a class="button" href="{{ "members/" | relURL }}?dir=B&amp;as=member">Explore option B</a>
-      </li>
-      <li class="compare__card">
-        <p class="compare__tag">Option C</p>
-        <h3>Community portal</h3>
-        <p class="compare__line">B, plus news from members, RSVPs and event photo galleries.</p>
-        <ul class="stories">
-          {{- range where hugo.Data.stories "option" "C" }}
-          <li><a href="{{ partial "story-url.html" . }}">{{ .title }}</a></li>
-          {{- end }}
-        </ul>
-        <a class="button" href="{{ "community/" | relURL }}?dir=C&amp;as=member">Explore option C</a>
-      </li>
+<div class="wrap stack">
+  <section class="welcome" data-show="member admin" aria-labelledby="welcome-heading">
+    <h2 id="welcome-heading">Welcome back, <span data-account-first></span></h2>
+    <ul class="quick">
+      <li><a href="{{ "members/" | relURL }}">{{ partial "icon.html" "people" }}<span>Member directory</span></a></li>
+      <li><a href="{{ "members/businesses/" | relURL }}">{{ partial "icon.html" "work" }}<span>Members' businesses</span></a></li>
+      <li><a href="{{ "members/profile/" | relURL }}">{{ partial "icon.html" "user" }}<span>My profile</span></a></li>
+      <li data-show="admin"><a href="{{ "manage/" | relURL }}">{{ partial "icon.html" "manage" }}<span>Manage <small data-pending-count></small></span></a></li>
     </ul>
-
-    <div class="panel panel--wide">
-      <h3>If other GIMSUGA chapters join</h3>
-      <p>Any option can run for Abakaliki alone, or grow to include other chapters without rebuilding. See <a href="{{ $u }}?dir=B&amp;as=visitor&amp;chapters=multi">GIMSUGA with its chapters</a>, or <a href="{{ "members/" | relURL }}?dir=B&amp;as=member&amp;chapters=multi">search members across chapters</a>.</p>
-    </div>
   </section>
 
-  <section id="tell" class="landing__section" aria-labelledby="tell-heading">
-    <p class="eyebrow">Step 3</p>
-    <h2 id="tell-heading">Tell us what you think</h2>
-    <p>A short questionnaire for chapter members, about 5 minutes. You will be asked to sign in to Google so each member answers once, but your email address is not recorded.</p>
-    <p class="placeholder">The questionnaire link goes here once the chapter executive has approved the questions.</p>
+  <section class="card card--feature" id="next-meeting" aria-labelledby="next-heading" data-next-event>
+    <h2 id="next-heading" class="eyebrow">Next meeting</h2>
+    {{- range $events }}
+    <div class="next__item" data-event-date="{{ .date }}" hidden>
+      <p class="next__title">{{ .title }}</p>
+      <p class="next__when"><time datetime="{{ .date }}">{{ (time .date).Format "Monday 2 January 2006" }}</time> · {{ .time }}</p>
+      <p class="muted">{{ .venue }}</p>
+    </div>
+    {{- end }}
+    <p class="muted next__none" hidden>No meeting scheduled yet.</p>
+    <a class="link-arrow" href="{{ "events/" | relURL }}">All events</a>
+  </section>
+
+  <section aria-labelledby="about-heading" class="stack stack--tight">
+    <h2 id="about-heading">About the chapter</h2>
+    <p>The Ebonyi State chapter brings together graduates of Imo State University across the state. {{ $a.meets }}.</p>
+    <p>Membership of GIMSUGA comes through a chapter. New members are introduced by an existing member.</p>
+  </section>
+
+  <section aria-labelledby="work-heading" class="stack stack--tight">
+    <h2 id="work-heading">Our work</h2>
+    <ul class="list-cards">
+      {{- range first 2 hugo.Data.events.work }}
+      <li class="card">
+        <p class="card__kicker">{{ (time (printf "%s-01" .date)).Format "January 2006" }}</p>
+        <p class="card__title">{{ .title }}</p>
+        <p class="muted">{{ .where }}</p>
+      </li>
+      {{- end }}
+    </ul>
+    <a class="link-arrow" href="{{ "our-work/" | relURL }}">The chapter's work</a>
+  </section>
+
+  <section class="card card--quiet" data-show="guest" aria-labelledby="join-heading">
+    <h2 id="join-heading">IMSU graduate in Ebonyi State?</h2>
+    <p>New members join through introduction by an existing member. Don't know one yet? The chapter will put you in touch.</p>
+    <a class="btn" href="{{ "join/" | relURL }}">How to join</a>
   </section>
 </div>
 {{ end }}

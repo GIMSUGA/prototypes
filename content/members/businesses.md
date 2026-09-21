@@ -1,5 +1,4 @@
 ---
-title: Business directory
+title: Members' businesses
 view: businesses
-memberpage: true
 ---

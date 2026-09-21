@@ -1,4 +1,0 @@
----
-title: GIMSUGA
-view: gimsuga
----

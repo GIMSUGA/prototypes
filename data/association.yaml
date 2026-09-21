@@ -1,32 +1,17 @@
-# One source of truth for association and chapter facts (Phase 3, section 5.1).
-# Chapter names are GIMSUGA's. Every person, business and event in this prototype is fictional (G-012, G-036).
-# The demo bar's "Chapters" switch shows mode: single (Abakaliki only) or multi (all GIMSUGA).
-mode: multi
+# One source of truth for chapter facts (Phase 3, section 5.1; G-041).
+# Every person, business and event in this prototype is made up.
 name: GIMSUGA
-description: >-
-  The global alumni association of Imo State University graduates, organised in chapters.
-chapters:
-  - id: abakaliki
-    name: Abakaliki
-    state: Ebonyi State
-    page: true
-    meets: Quarterly general meetings, usually on a Saturday
-  - id: lagos
-    name: Lagos
-    state: Lagos State
-    page: false
-  - id: abuja
-    name: Abuja
-    state: Federal Capital Territory
-    page: false
-  - id: enugu
-    name: Enugu
-    state: Enugu State
-    page: false
-  - id: rivers
-    name: Rivers
-    state: Rivers State
-    page: false
-modules:
-  members:
-    enabled: false
+chapter: Ebonyi State chapter
+covers: Abakaliki, Afikpo, Onueke, Ikwo, Ezza and the rest of Ebonyi State
+meets: Quarterly general meetings, usually on a Saturday in Abakaliki
+contact:
+  whatsapp_label: Message the chapter on WhatsApp
+  email_label: Email the chapter
+# Demo accounts offered by "Sign in" (no passwords).
+accounts:
+  member:
+    name: Adaobi Onwuchekwa
+    role: Member
+  admin:
+    name: Chukwuemeka Ofoma
+    role: Secretary · admin

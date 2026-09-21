@@ -1,58 +1,42 @@
-{{- $chapters := dict -}}
-{{- range hugo.Data.association.chapters }}{{ $chapters = merge $chapters (dict .id .name) }}{{ end -}}
 {{- $p := hugo.Data.people -}}
 <div class="wrap page">
-  {{ partial "member-gate.html" (dict "title" "Member directory") }}
-  <div data-dirs="B C" data-views="member officer">
-    <p class="eyebrow">Members only</p>
-    <h1>Member directory</h1>
-    <p class="lede">Members who chose to appear. Each person decides what is shown, who can see it, and how, if at all, other members can reach them.</p>
-    <nav class="subnav" aria-label="Member area">
-      <a href="{{ "members/" | relURL }}" aria-current="page">Directory</a>
-      <a href="{{ "members/businesses/" | relURL }}">Business directory</a>
-      <a href="{{ "members/profile/" | relURL }}">My profile</a>
-    </nav>
-    {{ partial "chapter-scope.html" (dict "list" "member-list" "id" "member-scope") }}
-    <label class="search" for="member-search">Search by name, department, town or work</label>
-    <input class="search__input" id="member-search" type="search" data-filter-list="member-list" autocomplete="off">
+  {{ partial "members-gate.html" (dict "who" "members" "title" "Member directory") }}
+  <div class="stack" data-show="member admin">
+    <h1>Members</h1>
+    {{ partial "members-tabs.html" "directory" }}
+    <label class="label" for="member-search">Search by name, department, town or work</label>
+    <input class="input" id="member-search" type="search" data-filter-list="member-list" autocomplete="off">
     <ul class="cards" id="member-list">
       {{- range $p.members }}
       {{- $name := .name }}
-      <li class="card" data-chapter="{{ .chapter }}" data-filter-text="{{ lower (printf "%s %s %s %s" .name .department .town .work) }}">
+      {{- $first := index (split .name " ") 0 }}
+      <li class="card card--person" data-filter-text="{{ lower (printf "%s %s %s %s" .name .department .town .work) }}">
         <div class="card__head">
           <span class="avatar" aria-hidden="true">{{ substr .name 0 1 }}</span>
           <div>
-            <p class="card__title">{{ .name }} <span class="fictional">Fictional</span></p>
-            <p class="muted">{{ .department }}, class of {{ .year }}</p>
-            <p class="card__chapter" data-scopes="multi">{{ index $chapters .chapter }} chapter</p>
+            <p class="card__title">{{ .name }}</p>
+            <p class="muted">{{ .department }}, {{ .year }}</p>
           </div>
         </div>
-        <dl class="card__facts">
-          <div><dt>Town</dt><dd>{{ .town }}</dd></div>
-          <div><dt>Work</dt><dd>{{ .work }}</dd></div>
-        </dl>
-        <div class="contact">
+        <p class="muted">{{ .work }} · {{ .town }}</p>
+        <div class="card__actions">
           {{- if not .contact }}
-          <p class="muted contact__none">Not taking contact through the directory</p>
+          <p class="muted small">Not taking contact through the directory</p>
+          {{- else if and (in .contact "connect") (not (in .contact "whatsapp")) (not (in .contact "email")) }}
+          <button type="button" class="btn btn--small" data-connect data-toast-text="{{ printf "Request sent. %s will get an email with your name and how to reach you." $first }}">Ask to connect</button>
           {{- else }}
-          <div class="button-row">
-            {{- if and (in .contact "connect") (not (in .contact "whatsapp")) (not (in .contact "email")) }}
-            <button type="button" class="button button--small" data-connect data-explain="{{ printf "Request sent. %s has been emailed your name and how to reach you, and can choose whether to reply. Their details stay private. (Demo: nothing was actually sent.)" $name }}">Ask to connect</button>
-            {{- end }}
-            {{- if in .contact "whatsapp" }}
-            <button type="button" class="button button--small" data-explain="{{ printf "Demo: this would open a WhatsApp chat with %s. The number is not printed on the page, but it can be found in the page code, so only members who choose it get this button." $name }}">WhatsApp</button>
-            {{- end }}
-            {{- if in .contact "email" }}
-            <button type="button" class="button button--small button--quiet" data-explain="{{ printf "Demo: %s chose to show an email address to signed-in members. It is hidden in this demo." $name }}">Email</button>
-            {{- end }}
-          </div>
-          <p class="contact__explain" role="status" data-explain-out hidden></p>
+          {{- if in .contact "whatsapp" }}
+          <button type="button" class="btn btn--small" data-toast-text="{{ printf "This opens a WhatsApp chat with %s." $first }}">WhatsApp</button>
+          {{- end }}
+          {{- if in .contact "email" }}
+          <button type="button" class="btn btn--small btn--quiet" data-toast-text="{{ printf "This opens an email to %s." $first }}">Email</button>
+          {{- end }}
           {{- end }}
         </div>
       </li>
       {{- end }}
     </ul>
     <p class="muted" data-filter-empty="member-list" hidden>No members match that search.</p>
-    <p class="note">No phone numbers are printed in the directory. It is never visible to search engines or to anyone who is not signed in.</p>
+    <p class="muted small">Only members who chose to appear are listed. The directory is visible to signed-in members only.</p>
   </div>
 </div>

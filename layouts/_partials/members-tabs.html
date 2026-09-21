@@ -1,0 +1,7 @@
+{{- $tabs := slice (dict "id" "directory" "href" "members/" "label" "Directory") (dict "id" "businesses" "href" "members/businesses/" "label" "Businesses") (dict "id" "profile" "href" "members/profile/" "label" "My profile") -}}
+{{- $current := . -}}
+<nav class="tabs" aria-label="Members">
+  {{- range $tabs }}
+  <a href="{{ .href | relURL }}"{{ if eq .id $current }} aria-current="page"{{ end }}>{{ .label }}</a>
+  {{- end }}
+</nav>
