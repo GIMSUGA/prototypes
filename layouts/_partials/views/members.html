@@ -2,7 +2,7 @@
 <div class="wrap page">
   {{ partial "members-gate.html" (dict "who" "members" "title" "Member directory") }}
   <div class="stack" data-show="member admin">
-    <h1>Members</h1>
+    <h1>Member directory</h1>
     {{ partial "members-tabs.html" "directory" }}
     <label class="label" for="member-search">Search by name, department, town or work</label>
     <input class="input" id="member-search" type="search" data-filter-list="member-list" autocomplete="off">
@@ -10,7 +10,7 @@
       {{- range $p.members }}
       {{- $name := .name }}
       {{- $first := index (split .name " ") 0 }}
-      <li class="card card--person" data-filter-text="{{ lower (printf "%s %s %s %s" .name .department .town .work) }}">
+      <li class="card card--person" data-person-card="{{ .name }}" data-filter-text="{{ lower (printf "%s %s %s %s" .name .department .town .work) }}">
         <div class="card__head">
           <span class="avatar" aria-hidden="true">{{ substr .name 0 1 }}</span>
           <div>

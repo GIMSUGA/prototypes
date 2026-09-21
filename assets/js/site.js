@@ -30,11 +30,31 @@
     document.querySelectorAll("[data-account-first]").forEach(function (el) { el.textContent = who ? who.name.split(" ")[0] : ""; });
     document.querySelectorAll("[data-account-initial]").forEach(function (el) { el.textContent = who ? who.name.charAt(0) : ""; });
     document.querySelectorAll("[data-account-role]").forEach(function (el) { el.textContent = who ? who.role : ""; });
+    var btn = document.getElementById("account-button");
+    if (btn) btn.setAttribute("aria-label", who ? "Your account, " + who.name : "Your account");
+    markYou(who);
     var count = document.querySelector("[data-pending-count]");
     if (count) {
       var n = drafts().filter(function (d) { return !d.published && d.by !== "me"; }).length;
       count.textContent = n ? "· " + n + " waiting" : "";
     }
+  }
+
+  // The signed-in member's own card says so, with no contact buttons to themselves
+  function markYou(who) {
+    document.querySelectorAll("[data-you]").forEach(function (el) { el.remove(); });
+    document.querySelectorAll("[data-person-card]").forEach(function (card) {
+      var actions = card.querySelector(".card__actions");
+      var mine = who && card.getAttribute("data-person-card") === who.name;
+      if (actions) actions.hidden = !!mine;
+      if (mine) {
+        var badge = document.createElement("span");
+        badge.className = "you-badge";
+        badge.setAttribute("data-you", "");
+        badge.textContent = "You";
+        card.querySelector(".card__title").append(" ", badge);
+      }
+    });
   }
 
   // Toast
@@ -150,11 +170,15 @@
       toast("Your data has been downloaded.");
     });
     var del = document.querySelector("[data-profile-delete]");
-    if (del) del.addEventListener("click", function () {
+    if (del) del.addEventListener("click", function () { openSheet("confirm-delete"); });
+    var confirmDel = document.querySelector("[data-confirm-delete]");
+    if (confirmDel) confirmDel.addEventListener("click", function () {
       remove(KEYP);
       form.reset();
       syncMode();
+      closeSheets();
       toast("Your profile has been deleted.");
+      del.focus();
     });
   }
 
@@ -166,13 +190,23 @@
   ];
   function drafts() { return load(KEYD, SEED); }
 
+  function niceDate(iso) {
+    if (!iso) return "";
+    var d = new Date(iso + "T12:00:00");
+    return isNaN(d) ? iso : d.toLocaleDateString("en-NG", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+  }
+
   function setupDrafts() {
     var list = document.querySelector("[data-draft-list]");
     if (!list) return;
     var empty = document.querySelector("[data-draft-empty]");
+    var pubList = document.querySelector("[data-published-list]");
+    var pubSection = document.querySelector("[data-published-section]");
     function render() {
       var all = drafts();
       list.innerHTML = "";
+      if (pubList) pubList.innerHTML = "";
+      var waiting = 0, published = 0;
       all.forEach(function (d, i) {
         var li = document.createElement("li");
         li.className = "queue__item";
@@ -186,7 +220,13 @@
         meta.className = "muted small";
         meta.textContent = d.meta;
         li.append(badge, title, meta);
-        if (!d.published && d.by !== "me") {
+        if (d.published) {
+          published++;
+          if (pubList) pubList.append(li);
+          return;
+        }
+        waiting++;
+        if (d.by !== "me") {
           var btn = document.createElement("button");
           btn.type = "button";
           btn.className = "btn btn--small";
@@ -202,7 +242,8 @@
         }
         list.append(li);
       });
-      empty.hidden = all.length > 0;
+      empty.hidden = waiting > 0;
+      if (pubSection) pubSection.hidden = published === 0;
     }
     render();
 
@@ -228,7 +269,7 @@
       var hasPhoto = photo.files && photo.files[0];
       var chosen = form.querySelector('input[name="consent"]:checked');
       if (hasPhoto && !chosen) { toast("Choose one of the photo statements before saving."); return; }
-      var parts = [form.elements.date.value, form.elements.venue.value];
+      var parts = [niceDate(form.elements.date.value), form.elements.venue.value];
       if (hasPhoto) parts.push(chosen.value === "agreed" ? "photo, consent recorded" : "photo, no people in it");
       var all = drafts();
       all.unshift({ title: form.elements.title.value, meta: parts.filter(Boolean).join(" · "), by: "me", published: false });
@@ -255,7 +296,7 @@
     var wide = window.matchMedia("(min-width: 900px)").matches;
     var signedIn = auth() !== "guest";
     var steps = [
-      { popover: { title: "Welcome", description: "This is the website of the GIMSUGA Ebonyi State chapter. Here is a quick look around." } },
+      { popover: { title: "Welcome", description: "This is the website of the GIMSUGA Ebonyi State chapter. Here is a quick look around.", showButtons: ["next", "close"] } },
       { element: "#next-meeting", popover: { title: "The next meeting", description: "The date, time and place of the next chapter meeting. It moves on by itself once a meeting has passed.", side: "bottom" } },
       { element: wide ? ".topnav" : "#bottom-nav", popover: { title: "Finding your way", description: signedIn ? "Events, the member directory, your profile" + (auth() === "admin" ? ", and Manage for admins." : ".") : "Events, the chapter's work, its officers, and how to join.", side: wide ? "bottom" : "top" } },
       signedIn
@@ -271,7 +312,11 @@
       nextBtnText: "Next",
       prevBtnText: "Back",
       doneBtnText: "Done",
-      steps: steps
+      steps: steps,
+      onDestroyed: function () {
+        var start = document.querySelector("[data-tour]");
+        if (start) start.focus();
+      }
     });
     tour.drive();
   }
