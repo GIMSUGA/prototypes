@@ -1,30 +1,35 @@
-{{- $events := sort hugo.Data.events.events "date" "asc" -}}
+{{- $meetings := sort hugo.Data.meetings "date" "asc" -}}
 <div class="wrap page">
-  <h1>Events</h1>
-  <p class="lede">Chapter meetings and get-togethers. Past events keep a short report.</p>
+  <h1>Meetings</h1>
+  <p class="lede">Chapter meetings and get-togethers. Each past meeting keeps its report.</p>
 
   <section aria-labelledby="upcoming-heading" class="stack stack--tight">
     <h2 id="upcoming-heading">Upcoming</h2>
     <ul class="events" data-events-upcoming>
-      {{- range $events }}
+      {{- range $meetings }}
       <li class="event card" data-event-date="{{ .date }}">
         <div class="event__date" aria-hidden="true">
           <span class="event__day">{{ (time .date).Format "2" }}</span>
           <span class="event__month">{{ (time .date).Format "Jan" }}</span>
         </div>
         <div class="event__body">
-          <p class="card__title">{{ .title }}</p>
+          <h3 class="card__title">{{ .title }}</h3>
           <p class="muted"><time datetime="{{ .date }}">{{ (time .date).Format "Mon 2 Jan 2006" }}</time> · {{ .time }}</p>
           <p class="muted">{{ .venue }}</p>
-          <p>{{ .summary }}</p>
+          {{- /* Which of these shows depends on the list the browser sorts the meeting into. */}}
+          {{- with .agenda }}
+          <details class="event__more" data-when="upcoming"><summary>Agenda</summary><p class="agenda">{{ . }}</p></details>
+          {{- end }}
           {{- with .report }}
-          <details class="event__report"><summary>Report</summary><p>{{ . }}</p></details>
+          <details class="event__more" data-when="past"><summary>Report</summary><p>{{ . }}</p></details>
+          {{- else }}
+          <p class="muted" data-when="past">Report to come.</p>
           {{- end }}
         </div>
       </li>
       {{- end }}
     </ul>
-    <p class="muted" data-events-none hidden>No upcoming events yet.</p>
+    <p class="muted" data-events-none hidden>No upcoming meetings yet.</p>
   </section>
 
   <section aria-labelledby="past-heading" class="stack stack--tight">

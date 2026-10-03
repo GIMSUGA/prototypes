@@ -1,0 +1,15 @@
+<div class="wrap page">
+  <h1>Businesses</h1>
+  <p class="lede">Businesses run by members of the chapter who chose to list them publicly.</p>
+  <p class="muted small">Each listing is written by the member who runs the business. The chapter does not endorse or guarantee them.</p>
+  {{- $pub := where hugo.Data.people.businesses "public" true }}
+  {{- if $pub }}
+  <ul class="list-cards">
+    {{- range sort $pub "name" }}
+    {{ partial "business-card.html" (dict "b" . "owner" .owner_shown "link" true) }}
+    {{- end }}
+  </ul>
+  {{- else }}
+  <p class="muted">None listed publicly yet.</p>
+  {{- end }}
+</div>

@@ -12,9 +12,12 @@
     try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch (e) { return false; }
   }
   function remove(key) { try { localStorage.removeItem(key); } catch (e) {} }
+  function readJSON(id, fallback) {
+    var el = document.getElementById(id);
+    try { return el ? JSON.parse(el.textContent) : fallback; } catch (e) { return fallback; }
+  }
 
-  var accounts = {};
-  try { accounts = JSON.parse(document.getElementById("accounts-data").textContent); } catch (e) {}
+  var accounts = readJSON("accounts-data", {});
 
   function auth() { return root.getAttribute("data-auth") || "guest"; }
 
@@ -22,40 +25,39 @@
     root.setAttribute("data-auth", value);
     try { localStorage.setItem(AUTH, value); } catch (e) {}
     renderAccount();
+    setupProfile();
+    setupMyBusinesses();
+  }
+
+  // The signed-in account's name, as the member last saved it on My profile
+  function me() {
+    var who = accounts[auth()];
+    if (!who) return null;
+    var saved = load("gimsuga-profile-" + auth(), null) || {};
+    var first = saved.first || who.first;
+    var title = "title" in saved ? saved.title : who.title;
+    var surname = saved.surname || who.surname;
+    return {
+      first: first,
+      greet: (title ? title + " " : "") + first,
+      name: [title, first, surname].filter(Boolean).join(" "),
+      owner: who.name,
+      role: who.role
+    };
   }
 
   function renderAccount() {
-    var who = accounts[auth()];
+    var who = me();
     document.querySelectorAll("[data-account-name]").forEach(function (el) { el.textContent = who ? who.name : ""; });
-    document.querySelectorAll("[data-account-first]").forEach(function (el) { el.textContent = who ? who.name.split(" ")[0] : ""; });
-    document.querySelectorAll("[data-account-initial]").forEach(function (el) { el.textContent = who ? who.name.charAt(0) : ""; });
+    document.querySelectorAll("[data-account-first]").forEach(function (el) { el.textContent = who ? who.first : ""; });
+    document.querySelectorAll("[data-account-greet]").forEach(function (el) { el.textContent = who ? who.greet : ""; });
+    document.querySelectorAll("[data-account-initial]").forEach(function (el) { el.textContent = who ? who.first.charAt(0) : ""; });
     document.querySelectorAll("[data-account-role]").forEach(function (el) { el.textContent = who ? who.role : ""; });
     var btn = document.getElementById("account-button");
-    if (btn) btn.setAttribute("aria-label", who ? "Your account, " + who.name : "Your account");
-    markYou(who);
-    var count = document.querySelector("[data-pending-count]");
-    if (count) {
-      var n = drafts().filter(function (d) { return !d.published && d.by !== "me"; }).length +
-        applications().filter(function (a) { return !a.status; }).length;
-      count.textContent = n ? "· " + n + " waiting" : "";
-    }
-  }
-
-  // The signed-in member's own card says so, with no contact buttons to themselves
-  function markYou(who) {
-    document.querySelectorAll("[data-you]").forEach(function (el) { el.remove(); });
-    document.querySelectorAll("[data-person-card]").forEach(function (card) {
-      var actions = card.querySelector(".card__actions");
-      var mine = who && card.getAttribute("data-person-card") === who.name;
-      if (actions) actions.hidden = !!mine;
-      if (mine) {
-        var badge = document.createElement("span");
-        badge.className = "you-badge";
-        badge.setAttribute("data-you", "");
-        badge.textContent = "You";
-        card.querySelector(".card__title").append(" ", badge);
-      }
-    });
+    if (btn) btn.setAttribute("aria-label", who ? who.first + ": account menu" : "Account menu");
+    var n = applications().filter(function (a) { return !a.status; }).length;
+    document.querySelectorAll("[data-pending-count]").forEach(function (el) { el.textContent = n ? "· " + n + " waiting" : ""; });
+    document.querySelectorAll("[data-apps-waiting]").forEach(function (el) { el.textContent = String(n); });
   }
 
   // Toast
@@ -66,7 +68,7 @@
     el.textContent = text;
     el.hidden = false;
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { el.hidden = true; }, 4200);
+    toastTimer = setTimeout(function () { el.hidden = true; }, 5200);
   }
 
   // Sheets
@@ -78,12 +80,12 @@
     document.querySelectorAll("dialog[open]").forEach(function (d) { d.close(); });
   }
 
-  // Events: upcoming or past is decided here from the date, so nothing goes stale (Phase 3, 5.4)
+  // Meetings: upcoming or past is decided here from the date, so nothing goes stale (Phase 3, 5.4)
   function today() {
     var d = new Date();
     return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
   }
-  function sortEvents() {
+  function sortMeetings() {
     var now = today();
     var upcoming = document.querySelector("[data-events-upcoming]");
     var past = document.querySelector("[data-events-past]");
@@ -107,61 +109,71 @@
     });
   }
 
-  // Directory search
-  function setupFilters() {
-    document.querySelectorAll("[data-filter-list]").forEach(function (input) {
-      var listId = input.getAttribute("data-filter-list");
-      var list = document.getElementById(listId);
-      var empty = document.querySelector('[data-filter-empty="' + listId + '"]');
-      if (!list) return;
-      input.addEventListener("input", function () {
-        var q = input.value.trim().toLowerCase();
-        var shown = 0;
-        list.querySelectorAll("[data-filter-text]").forEach(function (li) {
-          var match = !q || li.getAttribute("data-filter-text").indexOf(q) >= 0;
-          li.hidden = !match;
-          if (match) shown++;
-        });
-        if (empty) empty.hidden = shown > 0;
-      });
+  function formValues(form) {
+    var out = {};
+    Array.prototype.forEach.call(form.elements, function (el) {
+      if (!el.name || el.type === "file" || el.type === "password") return;
+      if (el.type === "radio") { if (el.checked) out[el.name] = el.value; return; }
+      out[el.name] = el.type === "checkbox" ? el.checked : el.value;
+    });
+    return out;
+  }
+  function fillForm(form, data) {
+    Array.prototype.forEach.call(form.elements, function (el) {
+      if (!el.name || el.type === "file") return;
+      var has = data && el.name in data && data[el.name] !== null && data[el.name] !== undefined;
+      if (el.type === "checkbox") el.checked = has ? !!data[el.name] : false;
+      else if (el.type === "radio") el.checked = has ? el.value === String(data[el.name]) : el.defaultChecked;
+      else el.value = has ? data[el.name] : "";
     });
   }
 
-  // Profile
+  // Shrinks a chosen image so it fits in the browser's storage, and shows it
+  function imagePicker(input, preview, alt) {
+    var state = { dataUrl: "" };
+    input.addEventListener("change", function () {
+      var f = input.files && input.files[0];
+      preview.innerHTML = "";
+      preview.hidden = !f;
+      state.dataUrl = "";
+      if (!f) return;
+      var img = new Image();
+      img.onload = function () {
+        var scale = Math.min(1, 900 / Math.max(img.width, img.height));
+        var c = document.createElement("canvas");
+        c.width = Math.round(img.width * scale);
+        c.height = Math.round(img.height * scale);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        state.dataUrl = c.toDataURL("image/jpeg", 0.8);
+        var shown = document.createElement("img");
+        shown.alt = alt;
+        shown.src = state.dataUrl;
+        preview.append(shown);
+        URL.revokeObjectURL(img.src);
+      };
+      img.src = URL.createObjectURL(f);
+    });
+    return state;
+  }
+
+  // My profile: each detail has its own "who can see it". Kept per demo account.
+  var profileBound = false;
   function setupProfile() {
     var form = document.querySelector("[data-profile-form]");
-    if (!form) return;
-    var KEYP = "gimsuga-profile";
-    var direct = form.querySelector("[data-contact-direct]");
-    function syncMode() {
-      var mode = form.querySelector('input[name="contact_mode"]:checked');
-      if (direct) direct.hidden = !mode || mode.value !== "direct";
-    }
-    function fill(data) {
-      Array.prototype.forEach.call(form.elements, function (el) {
-        if (!el.name || !(el.name in data)) return;
-        if (el.type === "checkbox") el.checked = !!data[el.name];
-        else if (el.type === "radio") el.checked = el.value === data[el.name];
-        else el.value = data[el.name];
-      });
-    }
-    var who = accounts[auth()];
-    fill(load(KEYP, null) || (who ? { name: who.name } : {}));
-    syncMode();
-    form.addEventListener("change", syncMode);
+    if (!form || auth() === "guest") return;
+    var key = "gimsuga-profile-" + auth();
+    var defaults = readJSON("profile-defaults", {})[auth()] || {};
+    fillForm(form, Object.assign({}, defaults, load(key, {})));
+    if (profileBound) return;
+    profileBound = true;
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var out = {};
-      Array.prototype.forEach.call(form.elements, function (el) {
-        if (!el.name) return;
-        if (el.type === "radio") { if (el.checked) out[el.name] = el.value; return; }
-        out[el.name] = el.type === "checkbox" ? el.checked : el.value;
-      });
-      toast(save(KEYP, out) ? "Profile saved." : "Your browser blocked saving.");
+      toast(save("gimsuga-profile-" + auth(), formValues(form)) ? "Saved." : "Your browser blocked saving.");
+      renderAccount();
     });
     var exp = document.querySelector("[data-profile-export]");
     if (exp) exp.addEventListener("click", function () {
-      var blob = new Blob([JSON.stringify({ profile: load(KEYP, {}) }, null, 2)], { type: "application/json" });
+      var blob = new Blob([JSON.stringify({ profile: formValues(form) }, null, 2)], { type: "application/json" });
       var a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = "my-gimsuga-data.json";
@@ -174,16 +186,84 @@
     if (del) del.addEventListener("click", function () { openSheet("confirm-delete"); });
     var confirmDel = document.querySelector("[data-confirm-delete]");
     if (confirmDel) confirmDel.addEventListener("click", function () {
-      remove(KEYP);
-      form.reset();
-      syncMode();
+      remove("gimsuga-profile-" + auth());
       closeSheets();
-      toast("Your profile has been deleted.");
-      del.focus();
+      setAuth("guest");
+      toast("Your account has been deleted. (In this demo, you can sign in again.)");
     });
   }
 
-  // Drafts and approvals. Drafts from another admin can be approved; your own wait for someone else.
+  // My businesses: the signed-in member's own businesses, with a form to add or edit one
+  var bizBound = false;
+  function setupMyBusinesses() {
+    var wrap = document.querySelector("[data-my-businesses]");
+    if (!wrap) return;
+    var who = me();
+    var list = wrap.querySelector("[data-my-list]");
+    var section = wrap.querySelector("[data-biz-form-section]");
+    var form = wrap.querySelector("[data-biz-form]");
+    var heading = wrap.querySelector("[data-biz-form-heading]");
+    var addRow = wrap.querySelector("[data-biz-add-row]");
+    var none = wrap.querySelector("[data-my-none]");
+    var editing = null;
+
+    function mine() {
+      return Array.prototype.filter.call(list.children, function (li) { return who && li.getAttribute("data-owner") === who.owner; });
+    }
+    function showList() {
+      Array.prototype.forEach.call(list.children, function (li) { li.hidden = !who || li.getAttribute("data-owner") !== who.owner; });
+      var count = mine().length;
+      none.hidden = count > 0;
+      addRow.querySelector("button").textContent = count ? "Add another business" : "Add a business";
+    }
+    function openForm(li) {
+      editing = li;
+      var data = li ? JSON.parse(li.getAttribute("data-business")) : {};
+      heading.textContent = li ? "Edit " + data.name : "Add a business";
+      fillForm(form, data);
+      section.hidden = false;
+      addRow.hidden = true;
+      form.elements.name.focus();
+    }
+    function closeForm() {
+      section.hidden = true;
+      addRow.hidden = false;
+      editing = null;
+    }
+    showList();
+    closeForm();
+    if (bizBound) return;
+    bizBound = true;
+
+    wrap.addEventListener("click", function (e) {
+      var edit = e.target.closest("[data-biz-edit]");
+      if (edit) { openForm(edit.closest("li")); return; }
+      if (e.target.closest("[data-biz-add]")) { openForm(null); return; }
+      if (e.target.closest("[data-biz-cancel]")) { var back = editing; closeForm(); (back ? back.querySelector("[data-biz-edit]") : addRow.querySelector("button")).focus(); }
+    });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var data = formValues(form);
+      var li = editing;
+      if (!li) {
+        li = document.createElement("li");
+        li.className = "card";
+        li.setAttribute("data-owner", who.owner);
+        li.innerHTML = '<p class="card__title" data-biz-name></p><p class="muted small" data-biz-seen></p>' +
+          '<div class="card__actions"><button type="button" class="btn btn--small btn--quiet" data-biz-edit>Edit</button></div>';
+        list.append(li);
+      }
+      li.setAttribute("data-business", JSON.stringify(data));
+      li.querySelector("[data-biz-name]").textContent = data.name;
+      li.querySelector("[data-biz-seen]").textContent = "Visible to: " + (data.public ? "Members and the public" : "Members only");
+      closeForm();
+      showList();
+      li.querySelector("[data-biz-edit]").focus();
+      toast(data.public ? "Saved. It has its own public page you can share." : "Saved. Signed-in members can see it.");
+    });
+  }
+
+  // Drafts and approvals. Drafts from another officer can be approved; your own wait for someone else.
   var KEYD = "gimsuga-drafts";
   var SEED = [
     { title: "Report: mid-year general meeting", meta: "Added by Amarachi Nwosu-Kalu, PRO", by: "other", published: false,
@@ -231,6 +311,11 @@
     var d = new Date(iso + "T12:00:00");
     return isNaN(d) ? iso : d.toLocaleDateString("en-NG", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
   }
+  function niceTime(hhmm) {
+    if (!hhmm) return "";
+    var p = hhmm.split(":"), h = +p[0];
+    return (h % 12 || 12) + ":" + p[1] + (h < 12 ? " am" : " pm");
+  }
 
   function setupDrafts() {
     var list = document.querySelector("[data-draft-list]");
@@ -248,7 +333,7 @@
         li.className = "queue__item";
         var badge = document.createElement("span");
         badge.className = "queue__status" + (d.published ? " queue__status--published" : "");
-        badge.textContent = d.published ? "Published" : (d.by === "me" ? "Waiting for another admin" : "Waiting for you");
+        badge.textContent = d.published ? "Published" : (d.by === "me" ? "Waiting for another officer" : "Waiting for you");
         var title = document.createElement("p");
         title.className = "card__title";
         title.textContent = d.title;
@@ -266,7 +351,6 @@
           all[i].published = true;
           save(KEYD, all);
           render();
-          renderAccount();
           toast("Published.");
         }
         var row = document.createElement("div");
@@ -277,8 +361,9 @@
         view.textContent = "View";
         view.addEventListener("click", function () {
           var text = document.createElement("p");
-          text.textContent = d.body || "An event draft: " + d.title + (d.meta ? " (" + d.meta + ")." : ".");
-          showDetail(d.title, [["Status", d.by === "me" ? "Waiting for another admin" : "Waiting for you"], ["Details", d.meta]], text,
+          text.className = "agenda";
+          text.textContent = d.body || "A meeting draft: " + d.title + (d.meta ? " (" + d.meta + ")." : ".");
+          showDetail(d.title, [["Status", d.by === "me" ? "Waiting for another officer" : "Waiting for you"], ["Details", d.meta]], text,
             d.by === "me" ? [] : [{ label: "Approve and publish", run: approve }]);
         });
         row.append(view);
@@ -320,95 +405,101 @@
       var hasPhoto = photo.files && photo.files[0];
       var chosen = form.querySelector('input[name="consent"]:checked');
       if (hasPhoto && !chosen) { toast("Choose one of the photo statements before saving."); return; }
-      var parts = [niceDate(form.elements.date.value), form.elements.venue.value];
+      var parts = [niceDate(form.elements.date.value), niceTime(form.elements.time.value), form.elements.venue.value];
       if (hasPhoto) parts.push(chosen.value === "agreed" ? "photo, consent recorded" : "photo, no people in it");
+      var agenda = form.elements.agenda.value.trim();
       var all = drafts();
       all.unshift({ title: form.elements.title.value, meta: parts.filter(Boolean).join(" · "), by: "me", published: false,
-        body: "Event: " + form.elements.title.value + ". " + parts.filter(Boolean).join(", ") + "." });
+        body: "Meeting: " + form.elements.title.value + ". " + parts.filter(Boolean).join(", ") + "." + (agenda ? "\n\nAgenda:\n" + agenda : "") });
       save(KEYD, all);
       form.reset();
       preview.hidden = true;
       consent.hidden = true;
       render();
-      toast("Draft saved. Another admin will check it before it goes live.");
+      toast("Draft saved. Another officer will check it before it goes live.");
     });
+  }
 
-    var invite = document.querySelector("[data-invite-form]");
-    if (invite) invite.addEventListener("submit", function (e) {
+  // Personal registration links. Seeded ones are in the page; new ones are kept in this browser.
+  function setupInvites() {
+    var form = document.querySelector("[data-invite-form]");
+    if (!form) return;
+    var list = document.querySelector("[data-invite-list]");
+    var result = document.querySelector("[data-invite-result]");
+    var link = document.querySelector("[data-invite-link]");
+    var KEYI = "gimsuga-invites";
+    function row(inv) {
+      var li = document.createElement("li");
+      li.className = "queue__item";
+      var badge = document.createElement("span");
+      badge.className = "queue__status";
+      badge.textContent = "Waiting";
+      var title = document.createElement("p");
+      title.className = "card__title";
+      title.textContent = inv.name;
+      var meta = document.createElement("p");
+      meta.className = "muted small";
+      meta.textContent = (inv.kind === "new" ? "New member" : "Existing member") + " · created " + niceDate(inv.created);
+      li.append(badge, title, meta);
+      return li;
+    }
+    load(KEYI, []).forEach(function (inv) { list.prepend(row(inv)); });
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var name = invite.elements.name.value.split(" ")[0];
-      invite.reset();
-      toast("Invitation sent. " + name + " will get an email to sign in.");
+      var inv = { name: form.elements.name.value.trim(), kind: form.elements.kind.value, created: today() };
+      var all = load(KEYI, []);
+      all.push(inv);
+      save(KEYI, all);
+      list.prepend(row(inv));
+      var token = "demo" + Math.random().toString(36).slice(2, 12);
+      link.value = "https://example.com/register/?invite=" + token;
+      document.querySelector("[data-invite-for]").textContent = inv.name;
+      result.hidden = false;
+      form.reset();
+      result.focus();
+    });
+    document.querySelector("[data-invite-copy]").addEventListener("click", function () {
+      var done = function () { toast("Link copied. Paste it into a WhatsApp chat or an email."); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(link.value).then(done, function () { link.select(); done(); });
+      else { link.select(); done(); }
     });
   }
 
-  // Membership applications with a receipt (G-042). Seeded ones come from the page; new ones from Join.
+  // Registrations with a dues receipt (G-042, G-053). Seeded ones come from the page; new ones from Register.
   var KEYA = "gimsuga-applications";
-  function seededApplications() {
-    var el = document.getElementById("applications-data");
-    try { return el ? JSON.parse(el.textContent) : []; } catch (e) { return []; }
-  }
+  var KEYMINE = "gimsuga-my-registrations";
   function applications() {
     var state = load(KEYA, {});
-    var mine = load("gimsuga-my-applications", []);
-    return seededApplications().concat(mine).map(function (a) {
+    return readJSON("applications-data", []).concat(load(KEYMINE, [])).map(function (a) {
       var s = state[a.id] || {};
       return Object.assign({}, a, { status: s.status || "" });
     });
   }
+  function fullName(a) { return [a.title, a.first, a.surname].filter(Boolean).join(" "); }
   function setStatus(id, status) {
     var state = load(KEYA, {});
     state[id] = { status: status };
     save(KEYA, state);
   }
 
-  function setupApply() {
-    var form = document.querySelector("[data-apply-form]");
+  function setupRegister() {
+    var form = document.querySelector("[data-register-form]");
     if (!form) return;
-    var file = form.querySelector("[data-apply-receipt]");
-    var preview = form.querySelector("[data-apply-preview]");
-    var dataUrl = "";
-    file.addEventListener("change", function () {
-      var f = file.files && file.files[0];
-      preview.innerHTML = "";
-      preview.hidden = !f;
-      dataUrl = "";
-      if (!f) return;
-      var img = new Image();
-      img.onload = function () {
-        // Shrink the image so it fits in the browser's storage
-        var scale = Math.min(1, 900 / Math.max(img.width, img.height));
-        var c = document.createElement("canvas");
-        c.width = Math.round(img.width * scale);
-        c.height = Math.round(img.height * scale);
-        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-        dataUrl = c.toDataURL("image/jpeg", 0.8);
-        var shown = document.createElement("img");
-        shown.alt = "Your receipt";
-        shown.src = dataUrl;
-        preview.append(shown);
-        URL.revokeObjectURL(img.src);
-      };
-      img.src = URL.createObjectURL(f);
-    });
+    var picked = imagePicker(form.querySelector("[data-register-receipt]"), form.querySelector("[data-register-preview]"), "Your receipt");
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var mine = load("gimsuga-my-applications", []);
+      var v = formValues(form);
+      var mine = load(KEYMINE, []);
       mine.push({
-        id: "mine-" + Date.now(),
-        name: form.elements.name.value,
-        email: form.elements.email.value,
-        introduced_by: form.elements.introduced_by.value,
-        submitted: new Date().toISOString().slice(0, 10),
-        receipt_data: dataUrl
+        id: "mine-" + Date.now(), first: v.first, surname: v.surname, title: v.title, email: v.email,
+        year: v.year, department: v.department, whatsapp: v.whatsapp, introduced_by: v.introduced_by,
+        submitted: today(), receipt_data: picked.dataUrl
       });
-      if (!save("gimsuga-my-applications", mine)) {
-        toast("Your browser blocked saving the application.");
-        return;
-      }
+      if (!save(KEYMINE, mine)) { toast("Your browser blocked saving the registration."); return; }
       form.reset();
-      preview.hidden = true;
-      toast("Application sent. An admin will check it and contact you by email.");
+      form.querySelector("[data-register-preview]").hidden = true;
+      toast("Sent. An officer will check it and approve your account.");
+      renderAccount();
     });
   }
 
@@ -420,55 +511,63 @@
     function render() {
       var all = applications();
       list.innerHTML = "";
+      var waiting = 0;
       all.forEach(function (a) {
+        var name = fullName(a);
+        var first = a.first;
+        if (!a.status) waiting++;
         var li = document.createElement("li");
         li.className = "queue__item";
         var badge = document.createElement("span");
         badge.className = "queue__status" + (a.status === "approved" ? " queue__status--published" : a.status === "declined" ? " queue__status--declined" : "");
-        badge.textContent = a.status === "approved" ? "Approved · invitation sent" : a.status === "declined" ? "Declined" : "Receipt to check";
+        badge.textContent = a.status === "approved" ? "Approved" : a.status === "declined" ? "Declined and deleted" : "Receipt to check";
         var title = document.createElement("p");
         title.className = "card__title";
-        title.textContent = a.name;
+        title.textContent = name;
         var meta = document.createElement("p");
         meta.className = "muted small";
-        meta.textContent = "Introduced by " + a.introduced_by + " · sent " + niceDate(a.submitted);
-        var row = document.createElement("div");
-        row.className = "queue__row";
-        var view = document.createElement("button");
-        view.type = "button";
-        view.className = "btn btn--small" + (a.status ? " btn--quiet" : "");
-        view.textContent = a.status ? "View" : "View and check";
-        view.addEventListener("click", function () {
-          var extra = null;
-          if (!a.status) {
-            var src = a.receipt_data || (a.receipt ? base + a.receipt : "");
-            if (src) {
-              extra = document.createElement("img");
-              extra.className = "receipt";
-              extra.alt = "Payment receipt sent by " + a.name;
-              extra.src = src;
+        meta.textContent = a.status === "declined" ? "Details deleted" : "Introduced by " + a.introduced_by + " · registered " + niceDate(a.submitted);
+        li.append(badge, title, meta);
+        if (a.status !== "declined") {
+          var row = document.createElement("div");
+          row.className = "queue__row";
+          var view = document.createElement("button");
+          view.type = "button";
+          view.className = "btn btn--small" + (a.status ? " btn--quiet" : "");
+          view.textContent = a.status ? "View" : "View and check";
+          view.addEventListener("click", function () {
+            var extra;
+            if (!a.status) {
+              var src = a.receipt_data || (a.receipt ? base + a.receipt : "");
+              if (src) {
+                extra = document.createElement("img");
+                extra.className = "receipt";
+                extra.alt = "Dues receipt sent by " + name;
+                extra.src = src;
+              }
+            } else {
+              extra = document.createElement("p");
+              extra.className = "muted";
+              extra.textContent = "Approved. Their account is open and the receipt has been deleted.";
             }
-          } else {
-            extra = document.createElement("p");
-            extra.className = "muted";
-            extra.textContent = a.status === "approved"
-              ? "Approved. An invitation to sign in was sent, and the receipt has been deleted."
-              : "Declined. The applicant was told, and their details have been deleted.";
-          }
-          showDetail(a.name, [
-            ["Email", a.email],
-            ["Introduced by", a.introduced_by],
-            ["Sent", niceDate(a.submitted)]
-          ], extra, a.status ? [] : [
-            { label: "Approve", run: function () { setStatus(a.id, "approved"); render(); renderAccount(); toast("Approved. " + a.name.split(" ")[0] + " will get an email to sign in."); } },
-            { label: "Decline", kind: "danger", run: function () { setStatus(a.id, "declined"); render(); renderAccount(); toast("Declined. " + a.name.split(" ")[0] + " will be told by email."); } }
-          ]);
-        });
-        row.append(view);
-        li.append(badge, title, meta, row);
+            showDetail(name, [
+              ["Email", a.email],
+              ["Year you graduated", String(a.year || "")],
+              ["Department", a.department],
+              ["WhatsApp number", a.whatsapp],
+              ["Introduced by", a.introduced_by],
+              ["Registered", niceDate(a.submitted)]
+            ], extra, a.status ? [] : [
+              { label: "Approve", run: function () { setStatus(a.id, "approved"); render(); renderAccount(); toast(name + " approved. Their receipt has been deleted. Remember to add them to the WhatsApp group and tell them their account is ready."); } },
+              { label: "Decline and delete", kind: "danger", run: function () { setStatus(a.id, "declined"); render(); renderAccount(); toast(first + "'s registration was declined and deleted."); } }
+            ]);
+          });
+          row.append(view);
+          li.append(row);
+        }
         list.append(li);
       });
-      empty.hidden = all.length > 0;
+      empty.hidden = waiting > 0;
     }
     render();
   }
@@ -481,12 +580,15 @@
     var steps = [
       { popover: { title: "Welcome", description: "This is the website of the GIMSUGA Ebonyi State chapter. Here is a quick look around.", showButtons: ["next", "close"] } },
       { element: "#next-meeting", popover: { title: "The next meeting", description: "The date, time and place of the next chapter meeting. It moves on by itself once a meeting has passed.", side: "bottom" } },
-      { element: wide ? ".topnav" : "#bottom-nav", popover: { title: "Finding your way", description: signedIn ? "Events, the member directory, your profile" + (auth() === "admin" ? ", and Manage for admins." : ".") : "Events, the chapter's work, its officers, and how to join.", side: wide ? "bottom" : "top" } },
+      { element: wide ? ".topnav" : "#bottom-nav", popover: { title: "Finding your way", description: signedIn ? "Meetings, the chapter's work, its officers, and the businesses members run." : "Meetings, the chapter's work, its officers, and how to join.", side: wide ? "bottom" : "top" } },
       signedIn
-        ? { element: "#account-button", popover: { title: "Your account", description: "Your profile and how members can reach you. Sign out from here too.", side: "bottom", align: "end" } }
-        : { element: "#signin-button", popover: { title: "For members", description: "Members sign in to find each other and members' businesses. Visitors don't see those pages.", side: "bottom", align: "end" } },
+        ? { element: "#welcome", popover: { title: "Your things", description: "Your profile, where you choose who sees each detail, and your businesses" + (auth() === "admin" ? ". Officers also get Manage." : "."), side: "bottom" } }
+        : null,
+      signedIn
+        ? { element: "#account-button", popover: { title: "Your account", description: "The same links are under your name, and Sign out too.", side: "bottom", align: "end" } }
+        : { element: "#signin-button", popover: { title: "For members", description: "Members sign in to see the businesses members run and to keep their profile. Visitors don't see those pages.", side: "bottom", align: "end" } },
       { popover: { title: signedIn ? "That's it" : "Try it", description: signedIn ? "Explore at your own pace." : "Tap Sign in at the top to see the site as a member or an admin." } }
-    ];
+    ].filter(Boolean);
     var tour = window.driver.js.driver({
       showProgress: true,
       allowClose: true,
@@ -519,7 +621,7 @@
       if (signin) {
         setAuth(signin.getAttribute("data-signin"));
         closeSheets();
-        toast("Signed in as " + accounts[auth()].name + ".");
+        toast("Signed in as " + me().name + ".");
         return;
       }
       if (t.closest("[data-signout]")) {
@@ -528,12 +630,17 @@
         toast("Signed out.");
         return;
       }
-      var said = t.closest("[data-toast-text]");
-      if (said) {
-        toast(said.getAttribute("data-toast-text"));
-        if (said.hasAttribute("data-connect")) { said.textContent = "Request sent"; said.disabled = true; }
+      var down = t.closest("[data-takedown]");
+      if (down) {
+        var item = down.closest("li");
+        down.disabled = true;
+        down.textContent = "Taken down";
+        item.classList.add("is-down");
+        toast(down.getAttribute("data-takedown") + " was taken down. It no longer shows to members or the public.");
         return;
       }
+      var said = t.closest("[data-toast-text]");
+      if (said) { toast(said.getAttribute("data-toast-text")); return; }
       if (t.closest("[data-tour]")) { startTour(); }
     });
 
@@ -542,11 +649,12 @@
       d.addEventListener("click", function (e) { if (e.target === d) d.close(); });
     });
 
-    sortEvents();
-    setupFilters();
+    sortMeetings();
     setupProfile();
+    setupMyBusinesses();
     setupDrafts();
-    setupApply();
+    setupInvites();
+    setupRegister();
     setupApplications();
     renderAccount();
   });

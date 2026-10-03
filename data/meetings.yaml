@@ -1,0 +1,32 @@
+# Made-up meetings. The page sorts them into upcoming and past in the visitor's browser (Phase 3, 5.4).
+# Upcoming meetings show their agenda; past meetings show their report.
+- date: "2026-12-12"
+  title: End-of-year get-together
+  time: "2:00 pm"
+  venue: Chapter meeting venue, Abakaliki (to be confirmed)
+  agenda: |-
+    1. Welcome and opening prayer
+    2. A look back at the chapter's year
+    3. Dues for next year
+    4. Social afternoon with members and their families
+- date: "2026-10-10"
+  title: Quarterly general meeting
+  time: "11:00 am"
+  venue: Chapter meeting venue, Abakaliki
+  agenda: |-
+    1. Opening prayer and apologies
+    2. Minutes of the mid-year general meeting
+    3. Reports from the executive and the treasurer
+    4. The chapter website: what members will see
+    5. Planning the end-of-year get-together
+    6. Any other business
+- date: "2026-07-11"
+  title: Mid-year general meeting
+  time: "11:00 am"
+  venue: Chapter meeting venue, Abakaliki
+  report: The executive presented the half-year report and members agreed to hold the end-of-year get-together in December.
+- date: "2026-03-14"
+  title: Annual general meeting
+  time: "11:00 am"
+  venue: Chapter meeting venue, Abakaliki
+  report: The executive presented the annual report. Members agreed the chapter's plans for the year.

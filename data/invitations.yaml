@@ -1,0 +1,27 @@
+# Made-up personal registration links created by officers. Status: Waiting, Used or Expired.
+- name: Kosisochukwu Nwafor
+  kind: new
+  status: Used
+  used_by: Kosisochukwu Nwafor
+  used_email: kosi.nwafor@example.com
+  created: "2026-09-16"
+- name: Obiora Mgbada
+  kind: new
+  status: Used
+  used_by: Engr. Obiora Mgbada
+  used_email: obiora.m@example.com
+  created: "2026-09-12"
+- name: Tochukwu Anyanwu
+  kind: existing
+  status: Used
+  used_by: Engr. Tochukwu Anyanwu
+  used_email: tochukwu.a@example.com
+  created: "2026-09-08"
+- name: Ifeyinwa Agbo
+  kind: existing
+  status: Waiting
+  created: "2026-09-29"
+- name: Emeka Nwachukwu-Ali
+  kind: existing
+  status: Expired
+  created: "2026-08-20"

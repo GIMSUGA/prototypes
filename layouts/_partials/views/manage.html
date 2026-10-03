@@ -1,14 +1,71 @@
+{{- $a := hugo.Data.association -}}
+{{- $p := hugo.Data.people -}}
 <div class="wrap page">
   {{ partial "members-gate.html" (dict "who" "admins" "title" "Manage") }}
   <div class="stack" data-show="admin">
     <h1>Manage</h1>
-    <p class="muted">Changes are saved as drafts. A second admin checks and publishes them, so nothing goes live on one person's say-so.</p>
+    <p class="muted">For the chapter's officers. Meetings and reports are saved as drafts, and a second officer checks and publishes them, so nothing goes live on one person's say-so.</p>
+
+    <section class="card stack stack--tight" aria-labelledby="overview-heading">
+      <h2 id="overview-heading">Chapter overview</h2>
+      <dl class="facts">
+        <div><dt>Members with an active account</dt><dd>{{ len $p.members }}</dd></div>
+        <div><dt>Registrations waiting to be checked</dt><dd data-apps-waiting>{{ len hugo.Data.applications }}</dd></div>
+        <div><dt>Meetings published</dt><dd>{{ len hugo.Data.meetings }}</dd></div>
+        <div><dt>Our work items published</dt><dd>{{ len hugo.Data.work }}</dd></div>
+        <div><dt>Member directory</dt><dd>{{ if $a.directory }}On{{ else }}Off{{ end }}</dd></div>
+      </dl>
+    </section>
+
+    <section class="card stack stack--tight" aria-labelledby="invite-heading">
+      <h2 id="invite-heading">Invite a member</h2>
+      <p class="muted">Creates a personal link that works once and expires after {{ $a.invite_days }} days. You send it yourself, by WhatsApp or email. The site does not send it.</p>
+      <div class="invite-link" data-invite-result hidden tabindex="-1">
+        <p><strong>Link created.</strong> Copy it now: it is shown only once.</p>
+        <label class="label" for="inv-link">Personal link for <span data-invite-for></span></label>
+        <input class="input input--mono" id="inv-link" type="text" readonly data-invite-link>
+        <div class="btn-row">
+          <button type="button" class="btn btn--small" data-invite-copy>Copy link</button>
+          <button type="button" class="btn btn--small btn--quiet" data-toast-text="In the real site this opens WhatsApp with the link and a short message typed out. You choose the chat to send it to.">Send on WhatsApp</button>
+          <button type="button" class="btn btn--small btn--quiet" data-toast-text="In the real site this opens your email app with the link and a short message typed out.">Send by email</button>
+        </div>
+      </div>
+      <form class="form" data-invite-form>
+        <label class="label" for="inv-name">Name</label>
+        <input class="input" id="inv-name" name="name" type="text" required autocomplete="off">
+        <label class="label" for="inv-contact">WhatsApp number or email <span class="optional">(if you enter an email, they must register with that email)</span></label>
+        <input class="input" id="inv-contact" name="contact" type="text" autocomplete="off">
+        <fieldset class="form__group">
+          <legend>Who is this?</legend>
+          <label class="check check--block"><input type="radio" name="kind" value="existing" checked> <span><strong>Existing member:</strong> claims their account straight away</span></label>
+          <label class="check check--block"><input type="radio" name="kind" value="new"> <span><strong>New member:</strong> uploads a dues receipt, then waits for an officer to approve</span></label>
+        </fieldset>
+        <div class="form__actions">
+          <button type="submit" class="btn">Create link</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card stack stack--tight" aria-labelledby="invites-heading">
+      <h2 id="invites-heading">Invitations</h2>
+      <ul class="queue" data-invite-list>
+        {{- range hugo.Data.invitations }}
+        {{- $inv := . }}
+        <li class="queue__item">
+          <span class="queue__status{{ if eq .status "Used" }} queue__status--published{{ else if eq .status "Expired" }} queue__status--declined{{ end }}">{{ .status }}</span>
+          <p class="card__title">{{ .name }}</p>
+          <p class="muted small">{{ if eq .kind "new" }}New member{{ else }}Existing member{{ end }} · created {{ (time .created).Format "2 Jan 2006" }}</p>
+          {{- with .used_by }}<p class="small">Used by {{ . }} ({{ $inv.used_email }})</p>{{ end }}
+        </li>
+        {{- end }}
+      </ul>
+    </section>
 
     <section class="card stack stack--tight" aria-labelledby="apps-heading">
-      <h2 id="apps-heading">Membership applications</h2>
+      <h2 id="apps-heading">Registrations to check</h2>
       <p class="muted small">Check each receipt against the chapter's account before approving. Receipts are deleted once checked.</p>
       <ul class="queue" data-app-list data-receipt-base="{{ "images/receipts/" | relURL }}"></ul>
-      <p class="muted" data-app-empty hidden>No applications waiting.</p>
+      <p class="muted" data-app-empty hidden>Nothing waiting.</p>
     </section>
 
     <section class="card stack stack--tight" aria-labelledby="queue-heading">
@@ -23,15 +80,19 @@
     </section>
 
     <section class="card stack stack--tight" aria-labelledby="draft-heading">
-      <h2 id="draft-heading">Add an event</h2>
+      <h2 id="draft-heading">Add a meeting</h2>
       <form class="form" data-draft-form>
-        <label class="label" for="dr-title">Event name</label>
+        <label class="label" for="dr-title">Title</label>
         <input class="input" id="dr-title" name="title" type="text" required autocomplete="off">
         <label class="label" for="dr-date">Date</label>
         <input class="input" id="dr-date" name="date" type="date" required>
+        <label class="label" for="dr-time">Time</label>
+        <input class="input" id="dr-time" name="time" type="time">
         <label class="label" for="dr-venue">Venue</label>
         <input class="input" id="dr-venue" name="venue" type="text" autocomplete="off">
-        <label class="label" for="dr-photo">Photo <span class="optional">optional</span></label>
+        <label class="label" for="dr-agenda">Agenda <span class="optional">(optional, one item per line)</span></label>
+        <textarea class="input" id="dr-agenda" name="agenda" rows="4"></textarea>
+        <label class="label" for="dr-photo">Photo <span class="optional">(optional)</span></label>
         <input class="input" id="dr-photo" name="photo" type="file" accept="image/*" data-draft-photo>
         <p class="photo-preview" data-photo-preview hidden></p>
         <fieldset class="form__group" data-photo-consent hidden>
@@ -46,18 +107,18 @@
       </form>
     </section>
 
-    <section class="card stack stack--tight" aria-labelledby="invite-heading">
-      <h2 id="invite-heading">Add a member</h2>
-      <p class="muted">After a new member has been introduced and welcomed by the executive, invite them to sign in.</p>
-      <form class="form" data-invite-form>
-        <label class="label" for="inv-name">Name</label>
-        <input class="input" id="inv-name" name="name" type="text" required autocomplete="off">
-        <label class="label" for="inv-email">Email</label>
-        <input class="input" id="inv-email" name="email" type="email" required autocomplete="off">
-        <div class="form__actions">
-          <button type="submit" class="btn">Send invitation</button>
-        </div>
-      </form>
+    <section class="card stack stack--tight" aria-labelledby="biz-heading">
+      <h2 id="biz-heading">Businesses</h2>
+      <p class="muted small">Members write and edit their own businesses. Officers cannot edit them; they can only take one down.</p>
+      <ul class="queue">
+        {{- range sort $p.businesses "name" }}
+        <li class="queue__item">
+          <p class="card__title">{{ .name }}</p>
+          <p class="muted small">Run by {{ partial "person-name.html" .owner }} · Public: {{ if .public }}Yes{{ else }}Members only{{ end }}</p>
+          <div class="queue__row"><button type="button" class="btn btn--small btn--danger" data-takedown="{{ .name }}">Take down</button></div>
+        </li>
+        {{- end }}
+      </ul>
     </section>
   </div>
 </div>
