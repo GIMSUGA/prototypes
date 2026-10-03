@@ -9,7 +9,7 @@ view: text
 
 **Registering.** New members register from a personal link an officer sends them. The officers see what you give to check your registration. The photo of your dues receipt is deleted once it has been checked. This website never shows payment details and never takes payments.
 
-**If you are a member.** Your profile holds only what you choose to add. For each detail you choose who can see it: only you (and the officers), or signed-in members. There is no member directory. You can change, download or delete your details at any time from your profile. Member details are stored in Nigeria and are never shown to people who are not signed in, or to search engines.
+**If you are a member.** Your profile holds only what you choose to add. For each detail you choose who can see it: only you (and the officers), or signed-in members. There is no member directory. You can change, download or delete your details at any time from your profile. Profile details are never shown to people who are not signed in, or to search engines. The chapter intends to keep member details on a server in Nigeria; this will be confirmed before launch. A business you choose to show publicly is the only thing visitors can see.
 
 **Your businesses.** Signed-in members see the businesses members list, with who runs them. A business is shown to the public, with its own page that search engines can find, only if the member who runs it chooses that. Your name appears on that public page only if you choose it too.
 
