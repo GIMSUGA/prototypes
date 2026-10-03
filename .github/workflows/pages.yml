@@ -40,7 +40,7 @@ jobs:
       - name: Check the build
         run: |
           test -f public/index.html
-          for page in events our-work officers join privacy members members/businesses members/profile manage; do
+          for page in meetings our-work officers join register privacy members members/businesses members/my-businesses members/profile manage businesses businesses/onwuchekwa-accountants; do
             test -f "public/$page/index.html" || { echo "Missing page: $page"; exit 1; }
           done
           if grep -rIl --include='*.html' -E 'wa\.me/|chat\.whatsapp\.com' public; then echo "WhatsApp link found"; exit 1; fi

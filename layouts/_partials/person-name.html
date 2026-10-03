@@ -1,0 +1,4 @@
+{{- /* A member's name with their title, if they gave one. Context: the plain name. */ -}}
+{{- $name := . -}}
+{{- range first 1 (where hugo.Data.people.members "name" .) }}{{ with .title }}{{ $name = printf "%s %s" . $name }}{{ end }}{{ end -}}
+{{- return $name -}}

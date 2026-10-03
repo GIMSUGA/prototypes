@@ -1,6 +1,4 @@
 # Every person and business here is made up. Any resemblance to a real person is accidental.
-# contact: how each member chose to be reached (G-035, G-040). One mode: [] (not through the directory),
-# [connect] (ask to connect, details private), or direct: [whatsapp], [email] or [whatsapp, email].
 term:
   label: "2025–2027"
   ends: "2027-06-30"
@@ -18,110 +16,137 @@ officers:
   - role: Technical Officer
     name: Kelechi Obiorah
 
+# Members with an account. The member directory is switched off (G-048), so this list is not shown;
+# it fills the demo member's profile and gives business owners their titles.
 members:
   - name: Adaobi Onwuchekwa
     year: 2009
     department: Accountancy
     town: Abakaliki
     work: Chartered accountant
-    contact: [email]
   - name: Tochukwu Anyanwu
+    title: Engr.
     year: 2012
     department: Civil Engineering
     town: Afikpo
     work: Site engineer
-    contact: [whatsapp]
   - name: Chiamaka Ezeanya
     year: 2015
     department: Nursing Science
     town: Abakaliki
     work: Nurse, public hospital
-    contact: [connect]
   - name: Emeka Nwachukwu-Ali
+    title: Barr.
     year: 2004
     department: Law
     town: Onueke
     work: Legal practitioner
-    contact: []
   - name: Uchenna Okorie
     year: 2018
     department: Computer Science
     town: Abakaliki
     work: Software developer
-    contact: [whatsapp, email]
   - name: Nkechi Mbanefo
+    title: Chief
     year: 2010
     department: Agricultural Economics
     town: Ikwo
     work: Rice farm manager
-    contact: [whatsapp]
   - name: Ikenna Duru-Oha
     year: 2007
     department: Mass Communication
     town: Abakaliki
     work: Radio producer
-    contact: [connect]
   - name: Chinwe Igboanugo
     year: 2016
     department: Microbiology
     town: Ezza
     work: Laboratory scientist
-    contact: [email]
   - name: Ifeyinwa Agbo
     year: 2012
     department: Education
     town: Afikpo
     work: Secondary school teacher
-    contact: [connect]
   - name: Nnamdi Ugwu-Oke
     year: 2009
     department: Marketing
     town: Abakaliki
     work: Sales manager
-    contact: [whatsapp]
 
-# Business listings are detached from the person (G-035): the business carries its own contact,
-# and the owner's name appears only if owner_shown is true.
+# Businesses run by members. Signed-in members see every one, with who runs it.
+# public: true gives the business its own public page at businesses/<slug>/; the owner's name shows
+# there only if owner_shown is true. Lines starting with "- " in the description become a list.
+# Contacts are made up: example.com addresses and an obviously fake number.
 businesses:
-  - name: Ikwo Valley Rice Mill
-    owner: Nkechi Mbanefo
-    owner_shown: true
-    category: Agriculture and food
-    town: Ikwo
-    offer: Parboiled and destoned local rice, sold in 25 kg and 50 kg bags.
-    reach: [phone, whatsapp]
-  - name: Onwuchekwa & Partners
+  - name: Onwuchekwa & Co. Accountants
+    slug: onwuchekwa-accountants
     owner: Adaobi Onwuchekwa
-    owner_shown: true
-    category: Accounting
+    public: true
+    owner_shown: false
     town: Abakaliki
-    offer: Bookkeeping and annual returns for small businesses.
-    reach: [email, website]
+    picture: onwuchekwa.svg
+    picture_alt: The firm's sign, reading O & Co., Accountants, Abakaliki
+    description: |-
+      We offer:
+      - Bookkeeping
+      - Tax returns
+      - Audits for small businesses and churches
+    whatsapp: "2340000000000"
+    email: accounts@example.com
+  - name: Saturday bookkeeping classes
+    slug: saturday-bookkeeping
+    owner: Adaobi Onwuchekwa
+    public: false
+    owner_shown: false
+    town: Abakaliki
+    description: Small-group classes for traders who want to keep their own books. Saturday mornings, four weeks.
+    whatsapp: "2340000000000"
+  - name: Ikwo Valley Rice Mill
+    slug: ikwo-valley-rice
+    owner: Nkechi Mbanefo
+    public: true
+    owner_shown: true
+    town: Ikwo
+    picture: rice-mill.svg
+    picture_alt: Drawing of a rice sack marked Ikwo Valley
+    description: |-
+      Parboiled and destoned local rice.
+
+      - 25 kg bags
+      - 50 kg bags
+      - Delivery within Ebonyi State
+    whatsapp: "2340000000000"
   - name: Clearline Tech Services
+    slug: clearline-tech
     owner: Uchenna Okorie
+    public: false
     owner_shown: false
-    category: Technology
     town: Abakaliki
-    offer: Websites and computer repairs for schools and small offices.
-    reach: [phone, email, website]
-  - name: Anyanwu Build & Survey
+    description: Websites and computer repairs for schools and small offices.
+    email: hello@example.com
+    website: https://example.com/
+  - name: Anyanwu Site Works
+    slug: anyanwu-site-works
     owner: Tochukwu Anyanwu
+    public: false
     owner_shown: false
-    category: Construction
     town: Afikpo
-    offer: Building plans, site supervision and land survey.
-    reach: [phone]
+    description: Building supervision and site surveys across Ebonyi State.
+    email: sites@example.com
   - name: Ezza Diagnostic Lab
+    slug: ezza-diagnostic-lab
     owner: Chinwe Igboanugo
+    public: true
     owner_shown: true
-    category: Health
     town: Ezza
-    offer: Routine laboratory tests, open Monday to Saturday.
-    reach: [phone, whatsapp]
+    description: Routine laboratory tests, open Monday to Saturday.
+    whatsapp: "2340000000000"
+    email: lab@example.com
   - name: Ugwu-Oke Sales Training
+    slug: ugwu-oke-sales-training
     owner: Nnamdi Ugwu-Oke
+    public: false
     owner_shown: false
-    category: Training
     town: Abakaliki
-    offer: Sales and customer-service training for small teams.
-    reach: [phone]
+    description: Sales and customer-service training for small teams.
+    whatsapp: "2340000000000"

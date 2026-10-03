@@ -1,5 +1,5 @@
 # One source of truth for chapter facts (Phase 3, section 5.1; G-041).
-# Every person, business and event in this prototype is made up.
+# Every person, business and meeting in this prototype is made up.
 name: GIMSUGA
 chapter: Ebonyi State chapter
 covers: Abakaliki, Afikpo, Onueke, Ikwo, Ezza and the rest of Ebonyi State
@@ -7,11 +7,22 @@ meets: Quarterly general meetings, usually on a Saturday in Abakaliki
 contact:
   whatsapp_label: Message the chapter on WhatsApp
   email_label: Email the chapter
-# Demo accounts offered by "Sign in" (no passwords).
+# Personal registration links expire after this many days.
+invite_days: 7
+# The member directory is switched off (G-048). Shown on Manage's overview.
+directory: false
+# Demo accounts offered by "Sign in" (no passwords). The header shows the first name only;
+# the home page greets with the title and first name.
 accounts:
   member:
     name: Adaobi Onwuchekwa
+    first: Adaobi
+    surname: Onwuchekwa
+    title: ""
     role: Member
   admin:
     name: Chukwuemeka Ofoma
+    first: Chukwuemeka
+    surname: Ofoma
+    title: Engr.
     role: Secretary · admin

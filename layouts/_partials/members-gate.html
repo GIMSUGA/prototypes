@@ -2,7 +2,7 @@
 {{- if eq .who "admins" }}
 <section class="gate card" data-show="guest member">
   <h1>{{ .title }}</h1>
-  <p>This page is for chapter admins.</p>
+  <p>This page is for the chapter's officers.</p>
   <button type="button" class="btn" data-show="guest" data-open="signin">Sign in</button>
   <a class="btn btn--quiet" data-show="member" href="{{ "" | relURL }}">Back to Home</a>
 </section>

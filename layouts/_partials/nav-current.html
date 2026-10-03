@@ -1,0 +1,4 @@
+{{- /* True when the nav item (context: dict "item" "here") is the current page or one it covers. */ -}}
+{{- $cur := eq .here (.item.href | relURL) -}}
+{{- range .item.match }}{{ if eq $.here (. | relURL) }}{{ $cur = true }}{{ end }}{{ end -}}
+{{- return $cur -}}

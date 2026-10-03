@@ -1,30 +1,13 @@
-{{- $p := hugo.Data.people -}}
-{{- $labels := dict "phone" "Call" "whatsapp" "WhatsApp" "email" "Email" "website" "Website" -}}
 <div class="wrap page">
-  {{ partial "members-gate.html" (dict "who" "members" "title" "Members' businesses") }}
+  {{ partial "members-gate.html" (dict "who" "members" "title" "Businesses") }}
   <div class="stack" data-show="member admin">
-    <h1>Members' businesses</h1>
-    {{ partial "members-tabs.html" "businesses" }}
-    <p class="muted">Businesses owned or run by members. Each has its own business contact, separate from the person.</p>
-    <label class="label" for="business-search">Search by business, category or town</label>
-    <input class="input" id="business-search" type="search" data-filter-list="business-list" autocomplete="off">
-    <ul class="cards" id="business-list">
-      {{- range $p.businesses }}
-      {{- $biz := .name }}
-      <li class="card" data-filter-text="{{ lower (printf "%s %s %s %s" .name .category .town .offer) }}">
-        <p class="card__kicker">{{ .category }}</p>
-        <p class="card__title">{{ .name }}</p>
-        <p>{{ .offer }}</p>
-        <p class="muted small">{{ .town }} · Run by {{ if .owner_shown }}{{ .owner }}{{ else }}a chapter member{{ end }}</p>
-        <div class="card__actions">
-          {{- range .reach }}
-          <button type="button" class="btn btn--small{{ if ne . "phone" }} btn--quiet{{ end }}" data-toast-text="{{ printf "This contacts %s through its business %s." $biz (lower (index $labels .)) }}">{{ index $labels . }}</button>
-          {{- end }}
-        </div>
-      </li>
+    <h1>Businesses</h1>
+    <p class="lede">Businesses and services run by chapter members.</p>
+    <p><a class="btn btn--quiet btn--small" href="{{ "members/my-businesses/" | relURL }}">Add or edit your business</a></p>
+    <ul class="list-cards">
+      {{- range sort hugo.Data.people.businesses "name" }}
+      {{ partial "business-card.html" (dict "b" . "owner" true) }}
       {{- end }}
     </ul>
-    <p class="muted" data-filter-empty="business-list" hidden>No businesses match that search.</p>
-    <p class="muted small">Only businesses owned or run by members can be listed. Listings are free and are not endorsements by the chapter.</p>
   </div>
 </div>

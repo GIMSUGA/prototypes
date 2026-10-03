@@ -1,13 +1,24 @@
-# Made-up membership applications with made-up receipts (G-042). Emails use example.com, which is reserved.
+# Made-up registrations waiting for an officer to check (G-042, G-053). Each came from a personal link.
+# Emails use example.com, which is reserved; the WhatsApp numbers are obviously not real.
 - id: app-1
-  name: Kosisochukwu Nwafor
+  first: Kosisochukwu
+  surname: Nwafor
+  title: ""
   email: kosi.nwafor@example.com
+  year: 2019
+  department: Pharmacy
+  whatsapp: "2340000000000"
   introduced_by: Chiamaka Ezeanya
   submitted: "2026-09-18"
   receipt: receipt-1.svg
 - id: app-2
-  name: Obiora Mgbada
+  first: Obiora
+  surname: Mgbada
+  title: Engr.
   email: obiora.m@example.com
+  year: 2011
+  department: Mechanical Engineering
+  whatsapp: "2340000000000"
   introduced_by: Ikenna Duru-Oha
   submitted: "2026-09-15"
   receipt: receipt-2.svg

@@ -1,32 +1,32 @@
 {{ define "main" }}
 {{- $a := hugo.Data.association -}}
-{{- $events := sort hugo.Data.events.events "date" "asc" -}}
+{{- $meetings := sort hugo.Data.meetings "date" "asc" -}}
 <section class="hero">
   <div class="wrap hero__inner">
     <p class="eyebrow eyebrow--light">{{ $a.name }}</p>
     <h1 class="hero__title">{{ $a.chapter }}</h1>
     <p class="hero__lede">Imo State University graduates living and working across Ebonyi State: {{ $a.covers }}.</p>
     <div class="hero__actions">
-      <button type="button" class="btn btn--light" data-tour>Get started</button>
+      <a class="btn btn--light" href="{{ "meetings/" | relURL }}">Meetings</a>
       <a class="btn btn--outline-light" href="{{ "join/" | relURL }}" data-show="guest">How to join</a>
+      <button type="button" class="btn btn--outline-light" data-tour>Get started</button>
     </div>
   </div>
 </section>
 
 <div class="wrap stack home-body">
-  <section class="welcome" data-show="member admin" aria-labelledby="welcome-heading">
-    <h2 id="welcome-heading">Welcome back, <span data-account-first></span></h2>
+  <section class="welcome" data-show="member admin" aria-labelledby="welcome-heading" id="welcome">
+    <h2 id="welcome-heading">Welcome back, <span data-account-greet></span></h2>
     <ul class="quick">
-      <li><a href="{{ "members/" | relURL }}">{{ partial "icon.html" "people" }}<span>Member directory</span></a></li>
-      <li><a href="{{ "members/businesses/" | relURL }}">{{ partial "icon.html" "work" }}<span>Members' businesses</span></a></li>
       <li><a href="{{ "members/profile/" | relURL }}">{{ partial "icon.html" "user" }}<span>My profile</span></a></li>
-      <li data-show="admin"><a href="{{ "manage/" | relURL }}">{{ partial "icon.html" "manage" }}<span>Manage <small data-pending-count></small></span></a></li>
+      <li><a href="{{ "members/my-businesses/" | relURL }}">{{ partial "icon.html" "manage" }}<span>My businesses</span></a></li>
+      <li data-show="admin"><a href="{{ "manage/" | relURL }}">{{ partial "icon.html" "people" }}<span>Manage <small data-pending-count></small></span></a></li>
     </ul>
   </section>
 
   <section class="card card--feature" id="next-meeting" aria-labelledby="next-heading" data-next-event>
     <h2 id="next-heading" class="eyebrow">Next meeting</h2>
-    {{- range $events }}
+    {{- range $meetings }}
     <div class="next__item" data-event-date="{{ .date }}" hidden>
       <p class="next__title">{{ .title }}</p>
       <p class="next__when"><time datetime="{{ .date }}">{{ (time .date).Format "Monday 2 January 2006" }}</time> · {{ .time }}</p>
@@ -34,7 +34,7 @@
     </div>
     {{- end }}
     <p class="muted next__none" hidden>No meeting scheduled yet.</p>
-    <a class="link-arrow" href="{{ "events/" | relURL }}">All events</a>
+    <a class="link-arrow" href="{{ "meetings/" | relURL }}">All meetings</a>
   </section>
 
   <section aria-labelledby="about-heading" class="stack stack--tight">
@@ -46,7 +46,7 @@
   <section aria-labelledby="work-heading" class="stack stack--tight">
     <h2 id="work-heading">Our work</h2>
     <ul class="list-cards">
-      {{- range first 2 hugo.Data.events.work }}
+      {{- range first 2 hugo.Data.work }}
       <li class="card">
         <p class="card__kicker">{{ with .date }}{{ (time (printf "%s-01" .)).Format "January 2006" }}{{ else }}Date to be confirmed{{ end }}</p>
         <p class="card__title">{{ .title }}</p>

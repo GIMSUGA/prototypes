@@ -4,35 +4,23 @@
   <p class="lede">If you graduated from Imo State University and live in Ebonyi State, you are welcome in the chapter. Membership of GIMSUGA comes through a chapter.</p>
   <ol class="steps">
     <li><strong>Talk to a member you know.</strong> New members are introduced to the chapter by an existing member.</li>
-    <li><strong>Don't know a member yet?</strong> Contact the chapter below and an officer will put you in touch.</li>
-    <li><strong>The executive takes it from there.</strong> They explain what membership involves and welcome you into the chapter.</li>
+    <li><strong>Don't know a member yet?</strong> Message or email the chapter below. An officer will talk with you and put you in touch.</li>
+    <li><strong>The executive takes it from there.</strong> They explain what membership involves and how to pay your dues, then send you a personal link to register on this site. <a href="{{ "register/" | relURL }}">See what registering looks like</a></li>
   </ol>
+  <p>This website never shows payment details and never takes payments. If anyone sends you a payment link claiming to be from the chapter, check with the executive first.</p>
   <section class="card stack stack--tight" aria-labelledby="contact-heading">
     <h2 id="contact-heading">Contact the chapter</h2>
-    <p class="muted">These reach the chapter's own number and email, looked after by a chapter office.</p>
+    <p class="muted">This reaches the chapter's own contact, looked after by a chapter office. The button starts a message for you.</p>
+    <p>Whichever way you get in touch, please include:</p>
+    <ul class="bullets">
+      <li>your name</li>
+      <li>the year you graduated, and your department</li>
+      <li>the town where you live</li>
+      <li>a member you know, if any</li>
+    </ul>
     <div class="btn-row">
-      <button type="button" class="btn" data-toast-text="This will open WhatsApp with the chapter's own number and a message ready to send.">{{ $a.contact.whatsapp_label }}</button>
-      <button type="button" class="btn btn--quiet" data-toast-text="This will open your email app, addressed to the chapter's membership address.">{{ $a.contact.email_label }}</button>
+      <button type="button" class="btn" data-toast-text="In the real site this opens WhatsApp with a message to the chapter already typed out, with a line for each of these details.">{{ $a.contact.whatsapp_label }}</button>
+      <button type="button" class="btn btn--quiet" data-toast-text="In the real site this opens your email app with a message to the chapter already typed out, with a line for each of these details.">{{ $a.contact.email_label }}</button>
     </div>
   </section>
-  <section class="card stack stack--tight" aria-labelledby="apply-heading" id="apply">
-    <h2 id="apply-heading">Already introduced? Apply for membership</h2>
-    <p class="muted">After your introduction, the executive will tell you how to pay your dues. Then send your application here with a photo or screenshot of your payment receipt.</p>
-    <form class="form" data-apply-form>
-      <label class="label" for="ap-name">Full name</label>
-      <input class="input" id="ap-name" name="name" type="text" required autocomplete="name">
-      <label class="label" for="ap-email">Email</label>
-      <input class="input" id="ap-email" name="email" type="email" required autocomplete="email">
-      <label class="label" for="ap-intro">Who introduced you?</label>
-      <input class="input" id="ap-intro" name="introduced_by" type="text" required autocomplete="off">
-      <label class="label" for="ap-receipt">Payment receipt</label>
-      <input class="input" id="ap-receipt" name="receipt" type="file" accept="image/*" required data-apply-receipt>
-      <p class="photo-preview" data-apply-preview hidden></p>
-      <label class="check check--block"><input type="checkbox" name="consent" id="ap-consent" required> <span>I agree that the chapter's admins can see these details and my receipt to check my application. The receipt is deleted once it has been checked.</span></label>
-      <div class="form__actions">
-        <button type="submit" class="btn">Send application</button>
-      </div>
-    </form>
-  </section>
-  <p class="muted">This website never shows payment details and never takes payments. If anyone sends you a payment link claiming to be from the chapter, check with the executive first.</p>
 </div>

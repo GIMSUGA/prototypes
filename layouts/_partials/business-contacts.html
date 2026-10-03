@@ -1,0 +1,7 @@
+{{- /* Contact buttons for a business. They pretend: each shows what the real site would open. Context: dict "b" "small". */ -}}
+{{- $b := .b -}}
+{{- $size := cond .small " btn--small" "" -}}
+{{- $first := true -}}
+{{- with $b.whatsapp }}<button type="button" class="btn{{ $size }}" data-toast-text="{{ printf "In the real site this opens a WhatsApp chat with %s." $b.name }}">WhatsApp</button>{{ $first = false }}{{ end }}
+{{- with $b.email }}<button type="button" class="btn{{ $size }}{{ if not $first }} btn--quiet{{ end }}" data-toast-text="{{ printf "In the real site this opens your email app, addressed to %s." $b.name }}">Email</button>{{ $first = false }}{{ end }}
+{{- with $b.website }}<button type="button" class="btn{{ $size }}{{ if not $first }} btn--quiet{{ end }}" data-toast-text="{{ printf "In the real site this opens the website of %s." $b.name }}">Website</button>{{ end }}

@@ -1,0 +1,15 @@
+{{- /* Text a member wrote: lines starting with "- " become a list, other lines paragraphs. Everything is escaped. */ -}}
+{{- $out := "" -}}
+{{- $inList := false -}}
+{{- range split (replace . "\r" "") "\n" -}}
+  {{- $l := trim . " " -}}
+  {{- if hasPrefix $l "- " -}}
+    {{- if not $inList }}{{ $out = print $out "<ul>" }}{{ $inList = true }}{{ end -}}
+    {{- $out = print $out "<li>" (strings.TrimPrefix "- " $l | htmlEscape) "</li>" -}}
+  {{- else -}}
+    {{- if $inList }}{{ $out = print $out "</ul>" }}{{ $inList = false }}{{ end -}}
+    {{- with $l }}{{ $out = print $out "<p>" (htmlEscape .) "</p>" }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- if $inList }}{{ $out = print $out "</ul>" }}{{ end -}}
+<div class="simple-text">{{ $out | safeHTML }}</div>

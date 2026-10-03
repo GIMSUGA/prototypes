@@ -1,0 +1,46 @@
+{{- $acc := hugo.Data.association.accounts -}}
+<div class="wrap page">
+  {{ partial "members-gate.html" (dict "who" "members" "title" "My businesses") }}
+  <div class="stack" data-show="member admin" data-my-businesses>
+    <h1>My businesses</h1>
+    <p class="lede">The businesses and services you run. Signed-in members see them in the business directory.</p>
+    <ul class="list-cards" data-my-list>
+      {{- range sort hugo.Data.people.businesses "name" }}
+      <li class="card" data-owner="{{ .owner }}" data-business="{{ dict "name" .name "description" .description "town" .town "phone" .whatsapp "email" .email "website" .website "public" .public "owner_shown" .owner_shown | jsonify }}">
+        <p class="card__title" data-biz-name>{{ .name }}</p>
+        <p class="muted small" data-biz-seen>Visible to: {{ if .public }}Members and the public{{ else }}Members only{{ end }}</p>
+        <div class="card__actions"><button type="button" class="btn btn--small btn--quiet" data-biz-edit>Edit</button></div>
+      </li>
+      {{- end }}
+    </ul>
+    <p class="muted" data-my-none hidden>You have not added a business yet.</p>
+    <p data-biz-add-row><button type="button" class="btn" data-biz-add>Add another business</button></p>
+
+    <section class="card stack" aria-labelledby="biz-form-heading" data-biz-form-section hidden>
+      <h2 id="biz-form-heading" data-biz-form-heading>Add a business</h2>
+      <form class="form" data-biz-form>
+        <label class="label" for="bz-name">Business name</label>
+        <input class="input" id="bz-name" name="name" type="text" required autocomplete="organization">
+        <label class="label" for="bz-desc">What you offer</label>
+        <p class="muted small" id="bz-desc-help">Start a line with a dash (-) to make a list. Leave a blank line between paragraphs.</p>
+        <textarea class="input" id="bz-desc" name="description" rows="6" aria-describedby="bz-desc-help"></textarea>
+        <label class="label" for="bz-town">Town <span class="optional">(optional)</span></label>
+        <input class="input" id="bz-town" name="town" type="text" autocomplete="address-level2">
+        <label class="label" for="bz-phone">Business phone or WhatsApp <span class="optional">(optional)</span></label>
+        <input class="input" id="bz-phone" name="phone" type="tel" autocomplete="off">
+        <label class="label" for="bz-email">Business email <span class="optional">(optional)</span></label>
+        <input class="input" id="bz-email" name="email" type="email" autocomplete="off">
+        <label class="label" for="bz-website">Website <span class="optional">(optional)</span></label>
+        <input class="input" id="bz-website" name="website" type="url" autocomplete="off">
+        <label class="label" for="bz-picture">Picture <span class="optional">(optional: your logo or a photo of your work)</span></label>
+        <input class="input" id="bz-picture" name="picture" type="file" accept="image/jpeg,image/png,image/webp">
+        <label class="check check--block"><input type="checkbox" name="public" id="bz-public"> <span>Also show this business to the public, with its own page you can share. Search engines such as Google can find it.</span></label>
+        <label class="check check--block"><input type="checkbox" name="owner_shown" id="bz-owner"> <span>Show my name on the public page. (Members always see it.)</span></label>
+        <div class="form__actions">
+          <button type="submit" class="btn">Save</button>
+          <button type="button" class="btn btn--plain" data-biz-cancel>Cancel</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>

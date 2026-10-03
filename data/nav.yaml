@@ -1,37 +1,28 @@
 # One source of truth for navigation (STANDARDS 4). "show" lists who sees the item: guest, member, admin.
-# "bottom" puts it in the phone tab bar (at most five for any one person).
+# Every item is in both the top menu and the phone tab bar (five for anyone). Manage is in the account menu.
 - href: ""
   label: Home
   icon: home
   show: guest member admin
-  bottom: true
-- href: events/
-  label: Events
+- href: meetings/
+  label: Meetings
   icon: calendar
   show: guest member admin
-  bottom: true
 - href: our-work/
   label: Our work
   icon: work
   show: guest member admin
-  bottom: guest
 - href: officers/
   label: Officers
   icon: people
   show: guest member admin
-  bottom: guest
 - href: join/
   label: Join
   icon: join
   show: guest
-  bottom: guest
-- href: members/
-  label: Members
-  icon: people
+- href: members/businesses/
+  label: Businesses
+  icon: shop
   show: member admin
-  bottom: member admin
-- href: manage/
-  label: Manage
-  icon: manage
-  show: admin
-  bottom: admin
+  # Also marks the tab as current on these pages
+  match: [members/my-businesses/]

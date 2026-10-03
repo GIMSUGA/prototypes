@@ -2,7 +2,7 @@
   <h1>Our work</h1>
   <p class="lede">A dated record of what the chapter has done: what, where and when, with photographs of the work itself.</p>
   <ul class="list-cards">
-    {{- range hugo.Data.events.work }}
+    {{- range hugo.Data.work }}
     {{- $w := . }}
     <li class="card">
       <p class="card__kicker">{{ with .date }}{{ (time (printf "%s-01" .)).Format "January 2006" }}{{ else }}Date to be confirmed{{ end }}</p>

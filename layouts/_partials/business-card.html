@@ -1,0 +1,16 @@
+{{- /* One business as a card. Context: dict "b" (business) "owner" (show who runs it) "link" (link to its public page). */ -}}
+{{- $b := .b -}}
+<li class="card biz">
+  {{- with $b.picture }}
+  <img class="biz__pic" src="{{ printf "images/businesses/%s" . | relURL }}" alt="" width="720" height="400" loading="lazy" decoding="async">
+  {{- end }}
+  <p class="card__title">{{ if .link }}<a href="{{ printf "businesses/%s/" $b.slug | relURL }}">{{ $b.name }}</a>{{ else }}{{ $b.name }}{{ end }}</p>
+  {{- if .owner }}
+  <p class="muted small">Run by {{ partial "person-name.html" $b.owner }}</p>
+  {{- end }}
+  {{- with $b.town }}<p class="muted">{{ . }}</p>{{ end }}
+  {{- with $b.description }}{{ partial "simple-text.html" . }}{{ end }}
+  {{- if or $b.whatsapp $b.email $b.website }}
+  <div class="card__actions">{{ partial "business-contacts.html" (dict "b" $b "small" true) }}</div>
+  {{- end }}
+</li>

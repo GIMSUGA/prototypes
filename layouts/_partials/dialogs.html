@@ -2,14 +2,14 @@
 <dialog class="sheet" id="signin" aria-labelledby="signin-title">
   <form method="dialog" class="sheet__body">
     <h2 id="signin-title">Sign in</h2>
-    <p class="muted">Members sign in with a one-time code sent to their email. There is no password to remember.</p>
+    <p class="muted">Members sign in with their email and password. In this demo, choose an account instead: no password needed.</p>
     <div class="sheet__choices">
       <button type="button" class="choice" data-signin="member">
-        <span class="avatar" aria-hidden="true">{{ substr $acc.member.name 0 1 }}</span>
+        <span class="avatar" aria-hidden="true">{{ substr $acc.member.first 0 1 }}</span>
         <span><strong>Continue as a member</strong><small>{{ $acc.member.name }}</small></span>
       </button>
       <button type="button" class="choice" data-signin="admin">
-        <span class="avatar" aria-hidden="true">{{ substr $acc.admin.name 0 1 }}</span>
+        <span class="avatar" aria-hidden="true">{{ substr $acc.admin.first 0 1 }}</span>
         <span><strong>Continue as an admin</strong><small>{{ $acc.admin.name }}, {{ $acc.admin.role }}</small></span>
       </button>
     </div>
@@ -28,9 +28,10 @@
     </div>
     <ul class="sheet__links">
       <li><a href="{{ "members/profile/" | relURL }}">My profile</a></li>
+      <li><a href="{{ "members/my-businesses/" | relURL }}">My businesses</a></li>
       <li data-show="admin"><a href="{{ "manage/" | relURL }}">Manage</a></li>
+      <li><button type="button" class="sheet__link-btn" data-signout>Sign out</button></li>
     </ul>
-    <button type="button" class="btn btn--quiet" data-signout>Sign out</button>
     <button class="btn btn--plain" value="close">Close</button>
   </form>
 </dialog>
@@ -45,10 +46,10 @@
 
 <dialog class="sheet" id="confirm-delete" aria-labelledby="confirm-delete-title">
   <form method="dialog" class="sheet__body">
-    <h2 id="confirm-delete-title">Delete your profile?</h2>
-    <p class="muted">Your details will be removed from the member directory and from the chapter's records. This cannot be undone.</p>
+    <h2 id="confirm-delete-title">Delete your account?</h2>
+    <p class="muted">Your profile and your businesses are removed for good. This cannot be undone.</p>
     <div class="btn-row">
-      <button type="button" class="btn btn--danger" data-confirm-delete>Delete my profile</button>
+      <button type="button" class="btn btn--danger" data-confirm-delete>Delete my account</button>
       <button class="btn btn--quiet" value="cancel">Keep it</button>
     </div>
   </form>

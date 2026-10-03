@@ -1,0 +1,21 @@
+{{- $b := index (where hugo.Data.people.businesses "slug" .Params.business) 0 -}}
+<div class="wrap page">
+  <article class="stack">
+    <p class="eyebrow">Business run by a chapter member</p>
+    <h1>{{ $b.name }}</h1>
+    {{- $bits := slice }}
+    {{- with $b.town }}{{ $bits = $bits | append . }}{{ end }}
+    {{- if $b.owner_shown }}{{ $bits = $bits | append (printf "Run by %s" (partial "person-name.html" $b.owner)) }}{{ end }}
+    {{- with $bits }}<p class="lede">{{ delimit . " · " }}</p>{{ end }}
+    {{- with $b.picture }}
+    <img class="biz__pic biz__pic--large" src="{{ printf "images/businesses/%s" . | relURL }}" alt="{{ $b.picture_alt }}" width="720" height="400">
+    {{- end }}
+    {{- with $b.description }}<div class="prose">{{ partial "simple-text.html" . }}</div>{{ end }}
+    {{- if or $b.whatsapp $b.email $b.website }}
+    <div class="btn-row">{{ partial "business-contacts.html" (dict "b" $b "small" false) }}</div>
+    {{- end }}
+    <p><button type="button" class="btn btn--small btn--quiet" data-toast-text="In the real site this opens WhatsApp with this page's link typed out. You choose the chat to send it to.">Share on WhatsApp</button></p>
+    <p class="muted small">This listing is written by the member who runs the business. The chapter does not endorse or guarantee it.</p>
+    <a class="link-arrow" href="{{ "businesses/" | relURL }}">All businesses</a>
+  </article>
+</div>

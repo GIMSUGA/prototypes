@@ -1,63 +1,63 @@
+{{- $acc := hugo.Data.association.accounts -}}
+{{- $fields := slice
+  (dict "key" "year" "label" "Year you graduated" "type" "number" "why" "Helps members recognise classmates.")
+  (dict "key" "department" "label" "Department" "type" "text" "why" "Helps members recognise classmates.")
+  (dict "key" "town" "label" "Town" "type" "text" "why" "So members near you can find you.")
+  (dict "key" "work" "label" "What you do" "type" "text" "why" "For professional connections between members.")
+  (dict "key" "whatsapp" "label" "WhatsApp number" "type" "tel" "why" "So members can message you, if you choose to show it.")
+-}}
+{{- /* What each demo account starts with: its name, and its member record if it has one. */ -}}
+{{- $defaults := dict -}}
+{{- range $role, $a := $acc }}
+  {{- $d := dict "first" $a.first "surname" $a.surname "title" $a.title -}}
+  {{- range first 1 (where hugo.Data.people.members "name" $a.name) }}
+    {{- $d = merge $d (dict "year" (string .year) "department" .department "town" .town "work" .work "whatsapp" "2340000000000") -}}
+  {{- end }}
+  {{- $defaults = merge $defaults (dict $role $d) -}}
+{{- end }}
 <div class="wrap page">
   {{ partial "members-gate.html" (dict "who" "members" "title" "My profile") }}
   <div class="stack" data-show="member admin">
     <h1>My profile</h1>
-    {{ partial "members-tabs.html" "profile" }}
-    <p class="muted">You decide what is in your profile and how other members can reach you. Only your name is required.</p>
+    <p class="lede">Fill in only what you want. For each detail, choose who can see it. Officers can always see your details.</p>
 
     <form class="form" data-profile-form>
       <fieldset class="form__group">
-        <legend>About you</legend>
-        <label class="label" for="pf-name">Name</label>
-        <input class="input" id="pf-name" name="name" type="text" required autocomplete="name">
-        <label class="label" for="pf-year">Year of graduation <span class="optional">optional</span></label>
-        <input class="input" id="pf-year" name="year" type="text" inputmode="numeric" autocomplete="off">
-        <label class="label" for="pf-dept">Department <span class="optional">optional</span></label>
-        <input class="input" id="pf-dept" name="department" type="text" autocomplete="off">
-        <label class="label" for="pf-town">Town <span class="optional">optional</span></label>
-        <input class="input" id="pf-town" name="town" type="text" autocomplete="address-level2">
-        <label class="label" for="pf-work">Work <span class="optional">optional</span></label>
-        <input class="input" id="pf-work" name="work" type="text" autocomplete="organization-title">
-        <label class="check"><input type="checkbox" name="listed" id="pf-listed" checked> Show me in the member directory</label>
+        <legend>Your name</legend>
+        <p class="muted small">Signed-in members see your name, with your title if you add one.</p>
+        <label class="label" for="pf-first">First name</label>
+        <input class="input" id="pf-first" name="first" type="text" required autocomplete="given-name">
+        <label class="label" for="pf-surname">Surname</label>
+        <input class="input" id="pf-surname" name="surname" type="text" required autocomplete="family-name">
+        <label class="label" for="pf-title">Title <span class="optional">(optional, for example Engr., Dr., Barr., Chief)</span></label>
+        <input class="input" id="pf-title" name="title" type="text" maxlength="20" autocomplete="honorific-prefix">
       </fieldset>
 
+      {{- range $fields }}
       <fieldset class="form__group">
-        <legend>How members can reach you</legend>
-        <label class="check check--block"><input type="radio" name="contact_mode" value="none" id="pf-mode-none" checked> <span><strong>Not through the directory</strong></span></label>
-        <label class="check check--block"><input type="radio" name="contact_mode" value="connect" id="pf-mode-connect"> <span><strong>Ask to connect.</strong> Members send a request. You get an email with their details and decide whether to reply. Your details are never shown.</span></label>
-        <label class="check check--block"><input type="radio" name="contact_mode" value="direct" id="pf-mode-direct"> <span><strong>Direct.</strong> Members can reach you straight away.</span></label>
-        <div class="form__sub" data-contact-direct hidden>
-          <label class="check"><input type="checkbox" name="contact_whatsapp" id="pf-contact-whatsapp"> WhatsApp button (your number is not shown on the page)</label>
-          <label class="label" for="pf-phone">WhatsApp number</label>
-          <input class="input" id="pf-phone" name="phone" type="tel" autocomplete="tel">
-          <label class="check"><input type="checkbox" name="contact_email" id="pf-contact-email"> Show my email to signed-in members</label>
+        <legend id="pf-{{ .key }}-legend">{{ .label }}</legend>
+        <input class="input" id="pf-{{ .key }}" name="{{ .key }}" type="{{ .type }}" aria-labelledby="pf-{{ .key }}-legend" aria-describedby="pf-{{ .key }}-help"{{ if eq .type "tel" }} autocomplete="tel"{{ else }} autocomplete="off"{{ end }}>
+        <p class="muted small" id="pf-{{ .key }}-help">{{ .why }}</p>
+        <div class="form__sub" role="radiogroup" aria-label="Who can see your {{ lower .label }}">
+          <label class="check"><input type="radio" name="{{ .key }}_vis" value="private" checked> <span>Only me (and the officers)</span></label>
+          <label class="check"><input type="radio" name="{{ .key }}_vis" value="members"> <span>Signed-in members</span></label>
         </div>
       </fieldset>
-
-      <fieldset class="form__group">
-        <legend>Your business <span class="optional">optional</span></legend>
-        <p class="muted small">A business listing has its own contact details, separate from you.</p>
-        <label class="label" for="pf-biz-name">Business name</label>
-        <input class="input" id="pf-biz-name" name="business_name" type="text" autocomplete="organization">
-        <label class="label" for="pf-biz-offer">What it offers</label>
-        <textarea class="input" id="pf-biz-offer" name="business_offer" rows="2"></textarea>
-        <label class="label" for="pf-biz-contact">Business phone, email or website</label>
-        <input class="input" id="pf-biz-contact" name="business_contact" type="text" autocomplete="off">
-        <label class="check"><input type="checkbox" name="business_owner_shown" id="pf-biz-owner"> Show my name on the listing</label>
-      </fieldset>
+      {{- end }}
 
       <div class="form__actions">
-        <button type="submit" class="btn">Save profile</button>
+        <button type="submit" class="btn">Save</button>
       </div>
     </form>
 
     <section class="card stack stack--tight" aria-labelledby="rights-heading">
       <h2 id="rights-heading">Your data</h2>
-      <p class="muted">See, download or delete everything the chapter holds about you, at any time.</p>
+      <p>Download everything the site holds about you, or delete your account. Deleting removes your profile and your business pages for good.</p>
       <div class="btn-row">
         <button type="button" class="btn btn--quiet" data-profile-export>Download my data</button>
-        <button type="button" class="btn btn--danger" data-profile-delete>Delete my profile</button>
+        <button type="button" class="btn btn--danger" data-profile-delete>Delete my account</button>
       </div>
     </section>
   </div>
 </div>
+<script type="application/json" id="profile-defaults">{{ $defaults | jsonify | safeJS }}</script>

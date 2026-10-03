@@ -1,0 +1,11 @@
+{{- /* One public page per business whose owner chose to show it to the public. Data: data/people.yaml. */ -}}
+{{- range hugo.Data.people.businesses }}
+  {{- if .public }}
+    {{- $.AddPage (dict
+      "path" .slug
+      "title" .name
+      "kind" "page"
+      "params" (dict "view" "business" "business" .slug)
+    ) }}
+  {{- end }}
+{{- end }}

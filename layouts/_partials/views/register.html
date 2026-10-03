@@ -1,0 +1,43 @@
+<div class="wrap page">
+  <h1>Register as a member</h1>
+  <p class="callout"><strong>In the real site this page only opens from a personal link an officer sends you.</strong> This is a demo of what it looks like.</p>
+  <p class="lede">Fill this in once you have paid your dues. An officer checks it before your account opens.</p>
+  <p class="muted">Already a member? The officers send existing members a link to claim their account instead: you just set a password, and fill in your profile afterwards.</p>
+
+  <form class="form" data-register-form>
+    <label class="label" for="rg-first">First name</label>
+    <input class="input" id="rg-first" name="first" type="text" required autocomplete="given-name">
+    <label class="label" for="rg-surname">Surname</label>
+    <input class="input" id="rg-surname" name="surname" type="text" required autocomplete="family-name">
+    <label class="label" for="rg-title">Title <span class="optional">(optional, for example Engr., Dr., Barr., Chief)</span></label>
+    <input class="input" id="rg-title" name="title" type="text" maxlength="20" autocomplete="honorific-prefix">
+    <label class="label" for="rg-email">Email <span class="optional">(you sign in with it)</span></label>
+    <input class="input" id="rg-email" name="email" type="email" required autocomplete="email">
+    <label class="label" for="rg-password">Password <span class="optional">(at least 12 characters)</span></label>
+    <input class="input" id="rg-password" name="password" type="password" required minlength="12" autocomplete="new-password">
+
+    <fieldset class="form__group">
+      <legend>For the officers to check</legend>
+      <label class="label" for="rg-year">Year you graduated</label>
+      <input class="input" id="rg-year" name="year" type="number" min="1985" max="{{ now.Format "2006" }}" required aria-describedby="rg-year-help">
+      <p class="muted small" id="rg-year-help">Helps the officers confirm you are an IMSU graduate.</p>
+      <label class="label" for="rg-dept">Department</label>
+      <input class="input" id="rg-dept" name="department" type="text" required aria-describedby="rg-dept-help">
+      <p class="muted small" id="rg-dept-help">Helps the officers confirm you are an IMSU graduate.</p>
+      <label class="label" for="rg-whatsapp">WhatsApp number</label>
+      <input class="input" id="rg-whatsapp" name="whatsapp" type="tel" required autocomplete="tel" aria-describedby="rg-whatsapp-help">
+      <p class="muted small" id="rg-whatsapp-help">So an officer can reach you about your registration.</p>
+      <label class="label" for="rg-intro">Who introduced you?</label>
+      <input class="input" id="rg-intro" name="introduced_by" type="text" required autocomplete="off">
+      <label class="label" for="rg-receipt">Photo or screenshot of your dues receipt</label>
+      <input class="input" id="rg-receipt" name="receipt" type="file" accept="image/jpeg,image/png,image/webp" required data-register-receipt>
+      <p class="photo-preview" data-register-preview hidden></p>
+    </fieldset>
+
+    <label class="check check--block"><input type="checkbox" name="consent" id="rg-consent" required> <span>I agree that the chapter keeps the details I give here to run my membership account. Officers can see them. Other members see only what I choose to show. I can change or delete them at any time from my profile. Officers will see my receipt to check my registration; it is deleted once checked.</span></label>
+    <div class="form__actions">
+      <button type="submit" class="btn">Send registration</button>
+    </div>
+  </form>
+  <p class="muted small">This website never shows payment details and never takes payments.</p>
+</div>
