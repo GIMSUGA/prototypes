@@ -1,5 +1,11 @@
 # GIMSUGA Ebonyi State chapter: website prototype
 
+> **Retired 1 November 2026.** The demo is no longer published. Every address under
+> https://gimsuga.github.io/prototypes/, old links included, now sends visitors to the chapter's own site
+> (`redirect/`, published by `.github/workflows/pages.yml`). The demo's source below is kept so it can be
+> rebuilt if the chapter ever looks at the paid version again: restore the Hugo build steps from the
+> workflow's history.
+
 A clickable prototype of the chapter website, shown to the chapter executive and members. It follows the
 real site: visitors see Meetings, Our work, Officers, How to join and the businesses members chose to show
 the public (each with its own page). Members sign in to see every member's business, keep their profile
